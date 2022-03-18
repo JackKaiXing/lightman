@@ -12,8 +12,8 @@ namespace lightman
         class Ray
         {
         public:
-            Point m_Point;
-            Vector m_Vector;
+            Point m_point;
+            Vector m_vector;
         };
     } // namespace geometry
     

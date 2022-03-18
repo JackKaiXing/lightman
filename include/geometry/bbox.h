@@ -11,7 +11,7 @@ namespace lightman
         class BBox
         {
         public:
-            Point m_PMin, m_PMax;
+            Point m_pMin, m_pMax;
         };
     } // namespace geometry
     

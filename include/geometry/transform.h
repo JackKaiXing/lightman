@@ -1,18 +1,15 @@
-#ifndef _LIGHTMAN_TRIANGLE_H
-#define _LIGHTMAN_TRIANGLE_H
-
+#ifndef _LIGHTMAN_TRANSFORM_H
+#define _LIGHTMAN_TRANSFORM_H
 namespace lightman
 {
     namespace geometry
     {
         // ----------------------------------------------------------------------------
-        class Triangle
+        class Transform
         {
-        public:
-            unsigned int m_vertex[3];
+        
         };
     } // namespace geometry
     
 } // namespace lightman
-
-#endif // #ifndef _LIGHTMAN_TRIANGLE_H
+#endif  // _LIGHTMAN_TRANSFORM_H

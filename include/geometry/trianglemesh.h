@@ -15,14 +15,14 @@ namespace lightman
         class TriangleMesh : public Mesh
         {
         public:
-            std::vector<Triangle> m_Tris;
-            std::vector<Point> m_Points;
-            BBox m_BBox;
+            std::vector<Triangle> m_tris;
+            std::vector<Point> m_points;
+            BBox m_bBox;
         public:
             virtual ~TriangleMesh()
             {
-                m_Tris.clear();
-                m_Points.clear();
+                m_tris.clear();
+                m_points.clear();
             }
         };
     } // namespace geometry
