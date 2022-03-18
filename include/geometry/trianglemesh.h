@@ -16,6 +16,7 @@ namespace lightman
         {
         public:
             std::vector<Triangle> m_tris;
+            // model space positions
             std::vector<Point> m_points;
             BBox m_bBox;
         public:
