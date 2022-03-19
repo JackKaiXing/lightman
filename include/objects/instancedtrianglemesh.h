@@ -3,22 +3,24 @@
 
 #include "math/transform.h"
 #include "geometry/trianglemesh.h"
+#include "objects/instancedobject.h"
 
 using namespace lightman::math;
+using namespace lightman::geometry;
 
 namespace lightman
 {
-    namespace geometry
+    namespace objects
     {
         // ----------------------------------------------------------------------------
-        class InstancedTriangleMesh
+        class InstancedTriangleMesh : public InstancedObject
         {
         public:
             // tranfrom from model space to world space
             Transform m_transform;
             TriangleMesh * m_triMesh;
         };
-    } // namespace geometry
+    } // namespace objects
     
 } // namespace lightman
 

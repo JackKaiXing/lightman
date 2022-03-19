@@ -6,6 +6,13 @@
 #include "geometry/triangle.h"
 #include "geometry/point.h"
 #include "geometry/mesh.h"
+#include "geometry/bbox.h"
+#include "geometry/normal.h"
+#include "geometry/uv.h"
+
+#include "color/color.h"
+
+using namespace lightman::color;
 
 namespace lightman
 {
@@ -16,8 +23,12 @@ namespace lightman
         {
         public:
             std::vector<Triangle> m_tris;
-            // model space positions
-            std::vector<Point> m_points;
+            std::vector<Point> m_points; // model space position
+            std::vector<Normal> m_normals; // vertex normal
+            std::vector<Normal> m_triNormals; // triangle normal
+            std::vector<UV> m_UVs; // vertex uv
+            std::vector<float> m_alphs; // vertex alpha
+            std::vector<Color> m_vColors; // vertex color
             BBox m_bBox;
         public:
             virtual ~TriangleMesh()
