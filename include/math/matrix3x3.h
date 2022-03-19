@@ -11,7 +11,7 @@ namespace lightman
         {
             static constexpr size_t SIZE = 3;
         public:
-            T m[SIZE][SIZE];
+            T m_value[SIZE][SIZE];
         };
         // ----------------------------------------------------------------------------
         using Matrix3X3 = TMatrix3X3<float>;
