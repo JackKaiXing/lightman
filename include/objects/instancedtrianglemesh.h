@@ -16,6 +16,8 @@ namespace lightman
         class InstancedTriangleMesh : public InstancedObject
         {
         public:
+            Transform& getTransform();
+        private:
             // tranfrom from model space to world space
             Transform m_transform;
             TriangleMesh * m_triMesh;

@@ -11,8 +11,12 @@ namespace lightman
         class Transform
         {
         public:
+            void setMatrix4(const Matrix4X4& mat);
+        private:
             Matrix4X4 m_Mat, m_invMat;
         };
+        // ----------------------------------------------------------------------------
+        
     } // namespace math
     
 } // namespace lightman

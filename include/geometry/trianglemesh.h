@@ -9,10 +9,11 @@
 #include "geometry/bbox.h"
 #include "geometry/normal.h"
 #include "geometry/uv.h"
-
+#include "math/transform.h"
 #include "color/color.h"
 
 using namespace lightman::color;
+using namespace lightman::math;
 
 namespace lightman
 {
@@ -30,6 +31,7 @@ namespace lightman
             std::vector<float> m_alphs; // vertex alpha
             std::vector<Color> m_vColors; // vertex color
             BBox m_bBox;
+            Transform m_transform;
         public:
             virtual ~TriangleMesh()
             {
