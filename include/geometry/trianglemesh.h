@@ -35,6 +35,11 @@ namespace lightman
             {
                 m_tris.clear();
                 m_points.clear();
+                m_normals.clear();
+                m_triNormals.clear();
+                m_UVs.clear();
+                m_alphs.clear();
+                m_vColors.clear();
             }
         };
     } // namespace geometry
