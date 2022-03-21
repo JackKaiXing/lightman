@@ -4,9 +4,12 @@ project(LightMan)
 
 # include
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/)
 
 # src
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} TESTSRC)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/ PLYSRC)
+
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/scene SRCSCENE)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/math SRCMATH)
@@ -23,6 +26,7 @@ CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 # add_library(${PROJECT_NAME} ${Src})
 add_executable(${PROJECT_NAME}
     ${TESTSRC} 
+    ${PLYSRC}
     ${SRC}
     ${SRCSCENE}
     ${SRCMATH}
