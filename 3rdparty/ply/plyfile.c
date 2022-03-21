@@ -798,7 +798,7 @@ Exit:
 ******************************************************************************/
 
 PlyFile *ply_open_for_reading(
-  char *filename,
+  const char *filename,
   int *nelems,
   char ***elem_names,
   int *file_type,
