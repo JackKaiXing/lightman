@@ -37,7 +37,7 @@ namespace lightman
         template<typename T>
         TMatrix4X4<T>::TMatrix4X4(const T mat[TMatrix4X4::SIZE][TMatrix4X4::SIZE])
         {
-
+            memcpy(m_value, mat, TMatrix4X4::SIZE * TMatrix4X4::SIZE * sizeof (T));
         }
         // ----------------------------------------------------------------------------
         using Matrix4X4 = TMatrix4X4<float>;
