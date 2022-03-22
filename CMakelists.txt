@@ -13,6 +13,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/ PLYSRC)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/scene SRCSCENE)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/math SRCMATH)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/geometry SRCGEOMETRY)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects SRCOBJECTS)
 
 # flags
@@ -30,5 +31,6 @@ add_executable(${PROJECT_NAME}
     ${SRC}
     ${SRCSCENE}
     ${SRCMATH}
+    ${SRCGEOMETRY}
     ${SRCOBJECTS}
 )
