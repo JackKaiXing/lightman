@@ -38,6 +38,8 @@ namespace lightman
                 m_alphs.clear();
                 m_vColors.clear();
             }
+            bool hasNormal() {return m_normals.size() > 0;};
+            bool hasUV() {return m_UVs.size() > 0;};
         private:
             std::vector<Triangle> m_tris;
             std::vector<Point> m_points; // model space position
@@ -48,9 +50,6 @@ namespace lightman
             std::vector<Color> m_vColors; // vertex color
             BBox m_bBox;
             Transform m_transform;
-
-            bool hasVertexNormal = false;
-            bool hasUV = false;
         };
     } // namespace geometry
     
