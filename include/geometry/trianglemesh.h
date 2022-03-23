@@ -21,8 +21,8 @@ namespace lightman
     namespace geometry
     {
         // ----------------------------------------------------------------------------
-        // TODO： virtual public？
-        class TriangleMesh : public Mesh
+        // https://en.wikipedia.org/wiki/Virtual_inheritance 
+        class TriangleMesh : virtual public Mesh
         {
         public:
             TriangleMesh(const std::vector<Point> & points, const std::vector<Triangle> & tris);
