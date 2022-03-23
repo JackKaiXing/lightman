@@ -8,7 +8,8 @@ namespace lightman
         // ----------------------------------------------------------------------------
         class Mesh
         {
-
+        public:
+        virtual ~Mesh(){};
         };
     } // namespace geometry
     
