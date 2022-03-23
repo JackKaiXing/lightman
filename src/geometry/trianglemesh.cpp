@@ -8,27 +8,23 @@ namespace lightman
 namespace geometry
 {
 // ----------------------------------------------------------------------------
-TriangleMesh::TriangleMesh(const std::vector<Point> & points, const std::vector<Triangle> & tris)
+TriangleMesh::TriangleMesh(std::vector<Point> & points, std::vector<Triangle> & tris)
 {
     assert(points.size() > 3 && tris.size() > 0);
 
-    // TODO, better memeory Cut-Paste
-    copy(points.begin(), points.end(), back_inserter(m_points));
-    copy(tris.begin(), tris.end(), back_inserter(m_tris));
+    // fast copy, https://en.cppreference.com/w/cpp/utility/move
+    m_points = std::move(points);
+    m_tris = std::move(tris);
 }
-void TriangleMesh::InitNormals(const std::vector<Normal> &normals)
+void TriangleMesh::InitNormals(std::vector<Normal> &normals)
 {
     assert(normals.size() == m_points.size());
-
-    // TODO, better memeory Cut-Paste
-    copy(normals.begin(), normals.end(), back_inserter(m_normals));
+    m_normals = std::move(normals);
 }
-void TriangleMesh::InitUVs(const std::vector<UV> &uvs)
+void TriangleMesh::InitUVs(std::vector<UV> &uvs)
 {
     assert(uvs.size() == m_points.size());
-
-    // TODO, better memeory Cut-Paste
-    copy(uvs.begin(), uvs.end(), back_inserter(m_UVs));
+    m_UVs = std::move(uvs);
 }
 } // namespace geometry
 } // namespace lightman
