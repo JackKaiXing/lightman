@@ -25,7 +25,9 @@ namespace lightman
         class TriangleMesh : public Mesh
         {
         public:
-            TriangleMesh(const std::vector<Point> &p, std::vector<Triangle> &m_tris);
+            TriangleMesh(const std::vector<Point> & points, const std::vector<Triangle> & tris);
+            void InitNormals(const std::vector<Normal> &normals);
+            void InitUVs(const std::vector<UV> &uvs);
             virtual ~TriangleMesh()
             {
                 m_tris.clear();
