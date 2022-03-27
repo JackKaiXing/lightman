@@ -15,6 +15,13 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/scene SRCSCENE)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/math SRCMATH)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/geometry SRCGEOMETRY)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects SRCOBJECTS)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/engine SRCENGINE)
+
+# Cross-Platform
+set(SRCPLATFORM "")
+if(APPLE)
+    aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/macos SRCPLATFORM)
+endif()
 
 # flags
 set(CMAKE_CXX_STANDARD 11)
@@ -33,4 +40,6 @@ add_executable(${PROJECT_NAME}
     ${SRCMATH}
     ${SRCGEOMETRY}
     ${SRCOBJECTS}
+    ${SRCENGINE}
+    ${SRCPLATFORM}
 )
