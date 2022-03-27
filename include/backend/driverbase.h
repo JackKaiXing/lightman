@@ -58,6 +58,14 @@ namespace lightman
         // https://www.khronos.org/registry/OpenGL-Refpages/es3/html/glGet.xhtml
         static constexpr size_t MAX_VERTEX_ATTRIBUTE_COUNT = 16;
 
+        // Driver
+        enum class BackendType : uint8_t
+        {
+            OPENGL = 0, // also default
+            METAL,
+            VULKAN,
+        };
+
         // ----------------------------------------------------------------------------
         // 
         // ----------------------------------------------------------------------------

@@ -19,7 +19,9 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/engine SRCENGINE)
 
 # Cross-Platform
 set(SRCPLATFORM "")
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend SRCPLATFORM)
 if(APPLE)
+    # add platform files
     aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/macos SRCPLATFORM)
 endif()
 

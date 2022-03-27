@@ -7,10 +7,12 @@ namespace lightman
 {
     namespace backend
     {
-        class CocoaOpenglPlatform : public OpenglPlatform
+        class CocoaOpenglPlatform final : public OpenglPlatform
         {
         public:
             void testcocoa();
+            backend::Driver* CreateDriver() noexcept override;
+
         };
     }
 }

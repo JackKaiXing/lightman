@@ -7,13 +7,21 @@ namespace lightman
     {
         Engine * g_engine = nullptr;
 
-        Engine * Engine::Create()
+        Engine * Engine::Create(backend::BackendType backend)
         {
             if (g_engine)
             {
                return g_engine;
             }
-            return new Engine();
+            return new Engine(backend);
+        }
+
+        Engine::Engine(backend::BackendType backend) noexcept
+        {
+            m_platform = backend::Platform::Create(backend);
+            if (m_platform==nullptr)
+                assert(0);
+            m_driver = m_platform->CreateDriver();
         }
     }
 }

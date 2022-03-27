@@ -4,19 +4,18 @@
 #include <cstdint>
 #include <array>
 
-#include "backend/platform.h"
 #include "backend/driverbase.h"
+#include "backend/platform.h"
 #include "renderer/renderer.h"
 
 namespace lightman
 {
     namespace engine
     {
-        
         class Engine
         {
         public:
-            static Engine* Create();
+            static Engine* Create(backend::BackendType backend = backend::BackendType::OPENGL); //  TODO: be removed out of this file
 
             Engine(Engine const&) = delete;
             Engine(Engine&&) = delete;
@@ -24,8 +23,8 @@ namespace lightman
             Engine& operator=(Engine&&) = delete;
         
         protected:
-        Engine() noexcept = default;
-        ~Engine() = default;
+            Engine(backend::BackendType backend) noexcept;
+            ~Engine() = default;
 
         private:
             backend::Platform * m_platform;
