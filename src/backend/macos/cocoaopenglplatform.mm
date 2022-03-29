@@ -11,10 +11,11 @@ namespace lightman
     namespace backend
     {
         // ----------------------------------------------------------------------------
-        // 
+        // mixing compile C++ and ObjectC
         // https://stackoverflow.com/questions/4714698/mixing-objective-c-m-mm-c-cpp-files
         struct CocoaOpenGLPlatformImpl
         {
+            // TODO: METAL
             NSOpenGLContext* m_openGLContext = nullptr;
         };   
         // ----------------------------------------------------------------------------
@@ -27,7 +28,28 @@ namespace lightman
         }
         backend::Driver* CocoaOpenglPlatform::CreateDriver() noexcept
         {
-            return nullptr;
+            // https://developer.apple.com/documentation/appkit/nsopenglpixelformat/1436219-initwithattributes?language=objc
+            // https://developer.apple.com/documentation/appkit/1436213-opengl_pixel_format_attributes/nsopenglpfaaccelerated
+            // https://developer.apple.com/documentation/appkit/nsopenglpfanorecovery
+            // NSOpenGLPFAColorSize: when unspecified, a format that matches the screen is preferred
+            NSOpenGLPixelFormatAttribute pixelFormatAttributes[] = {
+                    NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+                    NSOpenGLPFADepthSize,    (NSOpenGLPixelFormatAttribute) 24,
+                    NSOpenGLPFADoubleBuffer, (NSOpenGLPixelFormatAttribute) true,
+                    NSOpenGLPFAAccelerated,  (NSOpenGLPixelFormatAttribute) true,
+                    NSOpenGLPFANoRecovery,   (NSOpenGLPixelFormatAttribute) true,
+                    0, 0,
+            };
+            
+            NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
+            NSOpenGLContext* nsOpenGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nullptr];
+            
+            // https://developer.apple.com/documentation/appkit/nsopenglcpswapinterval
+            GLint interval = 0;
+            [nsOpenGLContext makeCurrentContext];
+            [nsOpenGLContext setValues:&interval forParameter:NSOpenGLCPSwapInterval];
+
+
         }
     }
 }

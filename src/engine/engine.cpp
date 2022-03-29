@@ -18,6 +18,7 @@ namespace lightman
 
         Engine::Engine(backend::BackendType backend) noexcept
         {
+            // TODO: multi-threading for rendering context
             m_platform = backend::Platform::Create(backend);
             if (m_platform==nullptr)
                 assert(0);
