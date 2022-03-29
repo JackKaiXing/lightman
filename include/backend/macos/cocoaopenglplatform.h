@@ -10,9 +10,9 @@ namespace lightman
         class CocoaOpenglPlatform final : public OpenglPlatform
         {
         public:
-            void testcocoa();
             backend::Driver* CreateDriver() noexcept override;
-
+            CocoaOpenglPlatform();
+            ~CocoaOpenglPlatform(){};
         };
     }
 }

@@ -1,5 +1,6 @@
 
 #include "backend/platform.h"
+#include "backend/macos/cocoaopenglplatform.h"
 
 namespace lightman
 {
@@ -7,7 +8,13 @@ namespace lightman
     {
         Platform* Platform::Create(BackendType backend)
         {
-            return nullptr; // TODO
+            #if defined(WIN32)
+                return nullptr;
+            #elif defined(__APPLE__)
+                return new CocoaOpenglPlatform();
+            #endif
+            
+            return nullptr;
         }
     }
 }

@@ -7,9 +7,14 @@ namespace lightman
 {
     namespace backend
     {
-        void CocoaOpenglPlatform::testcocoa()
+        CocoaOpenglPlatform::CocoaOpenglPlatform()
         {
-            printf("hello/n");
+            printf("hello cocoa\n");
+        }
+
+        backend::Driver* CocoaOpenglPlatform::CreateDriver() noexcept
+        {
+            return nullptr;
         }
     }
 }
