@@ -24,6 +24,10 @@ https://github.com/tashaxing/imgui_cmake_starter
 https://github.com/ocornut/imgui/issues/984
 https://github.com/morizotter/imgui-practice/blob/master/ImguiPractice/ImguiPractice/main.cpp
 
+>>**MacOS**
+https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaFundamentals/WhatIsCocoa/WhatIsCocoa.html
+https://en.wikipedia.org/wiki/Cocoa_(API)
+
 >>**MacOS OPENGL**
 https://developer.apple.com/documentation/appkit/nsopenglcontext
 https://developer.apple.com/documentation/appkit/nsopenglcontext/1436212-makecurrentcontext
