@@ -4,26 +4,31 @@ project(LightMan)
 
 # include
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/include)
 
 # src
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} TESTSRC)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/ PLYSRC)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/src SRC_PLY)
 
+# Shared Sources
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/scene SRCSCENE)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/math SRCMATH)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/geometry SRCGEOMETRY)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects SRCOBJECTS)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/engine SRCENGINE)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/scene SRC_SCENE)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/math SRC_MATH)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/geometry SRC_GEOMETRY)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects SRC_OBJECTS)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/engine SRC_ENGINE)
 
-# Cross-Platform
-set(SRCPLATFORM "")
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend SRCPLATFORM)
+# Cross-Platform:: Platform
+set(SRC_PLATFORM "")
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend SRC_PLATFORM)
 if(APPLE)
     # add platform files
-    aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/macos SRCPLATFORM)
+    aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/macos SRC_PLATFORM)
 endif()
+
+# Cross-Platform:: OpenGLAPI
+set(SRC_OPENGAPI "")
 
 # flags
 set(CMAKE_CXX_STANDARD 11)
@@ -35,15 +40,15 @@ CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 # target
 # add_library(${PROJECT_NAME} ${Src})
 add_executable(${PROJECT_NAME}
-    ${TESTSRC} 
-    ${PLYSRC}
+    ${SRC_TEST} 
+    ${SRC_PLY}
     ${SRC}
-    ${SRCSCENE}
-    ${SRCMATH}
-    ${SRCGEOMETRY}
-    ${SRCOBJECTS}
-    ${SRCENGINE}
-    ${SRCPLATFORM}
+    ${SRC_SCENE}
+    ${SRC_MATH}
+    ${SRC_GEOMETRY}
+    ${SRC_OBJECTS}
+    ${SRC_ENGINE}
+    ${SRC_PLATFORM}
 )
 
 if(APPLE)

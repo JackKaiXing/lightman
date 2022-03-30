@@ -15,7 +15,7 @@ namespace lightman
         // https://stackoverflow.com/questions/4714698/mixing-objective-c-m-mm-c-cpp-files
         struct CocoaOpenGLPlatformImpl
         {
-            // TODO: METAL
+            // TODO: METAL, OpenGL is deprecatingn
             NSOpenGLContext* m_openGLContext = nullptr;
         };   
         // ----------------------------------------------------------------------------
@@ -32,6 +32,7 @@ namespace lightman
             // https://developer.apple.com/documentation/appkit/1436213-opengl_pixel_format_attributes/nsopenglpfaaccelerated
             // https://developer.apple.com/documentation/appkit/nsopenglpfanorecovery
             // NSOpenGLPFAColorSize: when unspecified, a format that matches the screen is preferred
+            // unlike windows, no need for device context for creating render context
             NSOpenGLPixelFormatAttribute pixelFormatAttributes[] = {
                     NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
                     NSOpenGLPFADepthSize,    (NSOpenGLPixelFormatAttribute) 24,
@@ -49,6 +50,7 @@ namespace lightman
             [nsOpenGLContext makeCurrentContext];
             [nsOpenGLContext setValues:&interval forParameter:NSOpenGLCPSwapInterval];
 
+            m_cocoaImpl->m_openGLContext = nsOpenGLContext;
 
         }
     }
