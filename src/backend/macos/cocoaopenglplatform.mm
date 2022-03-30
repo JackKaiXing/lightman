@@ -1,7 +1,8 @@
 
-#include <stdio.h>
-
 #include "backend/macos/cocoaopenglplatform.h"
+
+#include <stdio.h>
+#include <bluegl/BlueGL.h>
 
 #include <OpenGL/OpenGL.h>
 #include <Cocoa/Cocoa.h>
@@ -52,6 +53,9 @@ namespace lightman
 
             m_cocoaImpl->m_openGLContext = nsOpenGLContext;
 
+            // https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
+            int result = bluegl::bind();
+            assert(!result);
         }
     }
 }
