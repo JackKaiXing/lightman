@@ -28,12 +28,12 @@ if(APPLE AND NOT IOS)
     aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/macos SRC_PLATFORM)
 endif()
 
-# Cross-Platform:: OpenGLAPI
-set(SRC_OPENGAPI ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGL.cpp)
+# Cross-Platform:: Using BLUE Load OpenGL APIs
+set(SRC_BLOPENGLAPI ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGL.cpp)
 if(APPLE AND NOT IOS)
     # add platform files
-    set(SRC_OPENGAPI ${SRC_OPENGAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLDarwin.cpp)
-    set(SRC_OPENGAPI ${SRC_OPENGAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLCoreDarwinUniversalImpl.S)
+    set(SRC_OPENGAPI ${SRC_BLOPENGLAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLDarwin.cpp)
+    set(SRC_OPENGAPI ${SRC_BLOPENGLAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLCoreDarwinUniversalImpl.S)
 endif()
 
 # flags
@@ -56,7 +56,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_OBJECTS}
     ${SRC_ENGINE}
     ${SRC_PLATFORM}
-    ${SRC_OPENGAPI}
+    ${SRC_BLOPENGLAPI}
 )
 
 if(APPLE)
