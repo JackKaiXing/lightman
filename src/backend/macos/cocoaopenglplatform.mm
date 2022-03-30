@@ -20,14 +20,14 @@ namespace lightman
             NSOpenGLContext* m_openGLContext = nullptr;
         };   
         // ----------------------------------------------------------------------------
-        CocoaOpenglPlatform::CocoaOpenglPlatform() : m_cocoaImpl(new CocoaOpenGLPlatformImpl())
+        CocoaOpenGLPlatform::CocoaOpenGLPlatform() : m_cocoaImpl(new CocoaOpenGLPlatformImpl())
         {
         }
-        CocoaOpenglPlatform::~CocoaOpenglPlatform()
+        CocoaOpenGLPlatform::~CocoaOpenGLPlatform()
         {
             delete m_cocoaImpl;
         }
-        backend::Driver* CocoaOpenglPlatform::CreateDriver() noexcept
+        backend::Driver* CocoaOpenGLPlatform::CreateDriver() noexcept
         {
             // https://developer.apple.com/documentation/appkit/nsopenglpixelformat/1436219-initwithattributes?language=objc
             // https://developer.apple.com/documentation/appkit/1436213-opengl_pixel_format_attributes/nsopenglpfaaccelerated

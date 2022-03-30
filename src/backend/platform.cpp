@@ -13,7 +13,7 @@ namespace lightman
                 #if defined(WIN32)
                     return nullptr;
                 #elif defined(__APPLE__)
-                    return new CocoaOpenglPlatform();
+                    return new CocoaOpenGLPlatform();
                 #endif
             }
             return nullptr;

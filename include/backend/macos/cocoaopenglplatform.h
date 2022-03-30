@@ -9,12 +9,12 @@ namespace lightman
     {
         struct CocoaOpenGLPlatformImpl;
         // ----------------------------------------------------------------------------
-        class CocoaOpenglPlatform final : public OpenglPlatform
+        class CocoaOpenGLPlatform final : public OpenGLPlatform
         {
         public:
             backend::Driver* CreateDriver() noexcept override;
-            CocoaOpenglPlatform();
-            ~CocoaOpenglPlatform();
+            CocoaOpenGLPlatform();
+            ~CocoaOpenGLPlatform();
         private:
             CocoaOpenGLPlatformImpl * m_cocoaImpl;
         };

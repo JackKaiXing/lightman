@@ -7,7 +7,7 @@ namespace lightman
 {
     namespace backend
     {
-        class OpenglPlatform : public Platform
+        class OpenGLPlatform : public Platform
         {
         public:
             
