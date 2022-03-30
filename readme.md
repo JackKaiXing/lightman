@@ -32,9 +32,43 @@ https://en.wikipedia.org/wiki/Cocoa_(API)
 https://developer.apple.com/documentation/appkit/nsopenglcontext
 https://developer.apple.com/documentation/appkit/nsopenglcontext/1436212-makecurrentcontext
 https://developer.apple.com/documentation/appkit/nsopenglcpswapinterval
+https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
+https://sodocumentation.net/opengl
+https://stackoverflow.com/questions/3933027/how-to-get-the-gl-library-headers
+MultiViewPort:https://stackoverflow.com/questions/726379/how-to-use-multiple-viewports-in-opengl
+RenderContext: https://docs.microsoft.com/en-us/windows/win32/opengl/rendering-contexts
+MultiWindow: https://discourse.glfw.org/t/how-to-create-multiple-window/1398
+Macos_GLUpdate: https://developer.apple.com/documentation/appkit/nsopenglcontext/1436135-update
+Macos_Context: https://developer.apple.com/documentation/appkit/nsopenglcontext
+Macos_Thread(with update): https://developer.apple.com/documentation/dispatch/1452870-dispatch_sync
+Macos_NTThread: https://blog.actorsfit.com/a?ID=01350-0c68a681-1abd-4d9d-adda-38872bee9dac
+
 
 >>**Win OPENGL**
 https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
 https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-wglgetprocaddress
 https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress
 https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowa
+CreateWindow: https://baike.baidu.com/item/CreateWindow/5076220, https://cpp.hotexamples.com/examples/-/-/CreateWindowA/cpp-createwindowa-function-examples.html
+LoadOpenGLMunually:https://www.khronos.org/opengl/wiki/OpenGL_Loading_Library, https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions, https://community.khronos.org/t/how-do-i-use-getprocaddress-wglgetprocaddress-without-type-cast/45020
+WhyLoadOpenGlmanually?: https://github.com/google/filament/issues/652, \https://apoorvaj.io/loading-opengl-without-glew/
+Why GLEXT for GLCOREAARB?: https://stackoverflow.com/questions/54913829/where-is-glcorearb-h-supposed-to-come-from-and-where-is-it-supposed-to-live-in
+Sync: https://www.khronos.org/opengl/wiki/Sync_Object
+SwapBuffers: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-swapbuffers
+
+>>**Android OPENGL ES**
+External_Texture: https://source.android.google.cn/devices/graphics/arch-st?hl=zh-cn
+Fence: https://juejin.cn/post/6844903893965651981
+
+>>**C++**
+Memorry Fragment:https://stackoverflow.com/questions/3770457/what-is-memory-fragmentation
+Placement New:https://en.cppreference.com/w/cpp/language/new#Placement_new, https://stackoverflow.com/questions/1554774/create-new-c-object-at-specific-memory-address
+Right Value:https://juejin.cn/post/6844903497075294216
+ParameterPack: https://en.cppreference.com/w/cpp/language/parameter_pack
+Mutable: https://en.cppreference.com/w/cpp/language/cv
+
+>>**ASM**
+Introduction:http://c.biancheng.net/asm/
+
+>>**3rdLib**
+TinyFileDialog: https://github.com/native-toolkit/tinyfiledialogs
