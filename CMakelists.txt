@@ -6,7 +6,6 @@ project(LightMan)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src) # TODO
 
 # src
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
@@ -35,6 +34,7 @@ if(LIGHTMAN_OPENGL)
         add_definitions(-DLIGHTMAN_OPENGL)
         # Using BLUE Load APIS
         set(SRC_OPENGLAPI ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGL.cpp)
+        set(SRC_OPENGLAPI ${SRC_OPENGLAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/private_BlueGL.h)
         if(APPLE)
             set(SRC_OPENGLAPI ${SRC_OPENGLAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLDarwin.cpp)
             set(SRC_OPENGLAPI ${SRC_OPENGLAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLCoreDarwinUniversalImpl.S)
