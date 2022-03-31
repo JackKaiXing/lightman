@@ -31,6 +31,7 @@ endif()
 # Cross-Platform::OpenGL APIs
 if(LIGHTMAN_OPENGL)
     if(APPLE OR WIN32 AND NOT IOS)
+        add_definitions(-DLIGHTMAN_OPENGL)
         # Using BLUE Load APIS
         set(SRC_OPENGLAPI ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGL.cpp)
         if(APPLE)

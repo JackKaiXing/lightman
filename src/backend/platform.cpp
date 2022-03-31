@@ -1,4 +1,6 @@
 
+#include <assert.h>
+
 #include "backend/platform.h"
 #include "backend/macos/cocoaopenglplatform.h"
 
@@ -10,6 +12,11 @@ namespace lightman
         {
             if (backend == BackendType::OPENGL)
             {
+                // check
+                #ifndef LIGHTMAN_OPENGL
+                    assert(0);
+                #endif
+                
                 #if defined(WIN32)
                     return nullptr;
                 #elif defined(__APPLE__)
