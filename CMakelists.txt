@@ -6,7 +6,7 @@ project(LightMan)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src) # TODO
 
 # src
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
@@ -19,6 +19,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/math SRC_MATH)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/geometry SRC_GEOMETRY)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects SRC_OBJECTS)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/engine SRC_ENGINE)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/view SRC_VIEW)
 
 # Cross-Platform:: Platform
 set(SRC_PLATFORM "")
@@ -69,6 +70,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_ENGINE}
     ${SRC_PLATFORM}
     ${SRC_OPENGLAPI}
+    ${SRC_VIEW}
 )
 
 if(APPLE)
