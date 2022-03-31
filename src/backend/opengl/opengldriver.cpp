@@ -6,7 +6,7 @@ namespace lightman
     namespace backend
     {
         // ----------------------------------------------------------------------------
-        backend::Driver* OpengGLDriver::create(backend::OpenGLPlatform* platform, void* sharedGLContext = nullptr) noexcept
+        backend::Driver* OpengGLDriver::create(backend::OpenGLPlatform* platform, void* sharedGLContext) noexcept
         {
             return nullptr;
         }
