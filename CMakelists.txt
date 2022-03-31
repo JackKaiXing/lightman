@@ -19,6 +19,8 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/geometry SRC_GEOMETRY)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects SRC_OBJECTS)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/engine SRC_ENGINE)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/view SRC_VIEW)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils SRC_UTILS)
+
 
 # Cross-Platform:: Platform
 set(SRC_PLATFORM "")
@@ -71,6 +73,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_PLATFORM}
     ${SRC_OPENGLAPI}
     ${SRC_VIEW}
+    ${SRC_UTILS}
 )
 
 if(APPLE)

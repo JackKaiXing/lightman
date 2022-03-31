@@ -13,6 +13,7 @@ namespace lightman
         public:
             View();
             virtual ~View();
+            void SetScene(Scene * targetScene);
         private:
             Scene * m_scene;
         };

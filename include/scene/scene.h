@@ -8,16 +8,19 @@
 #include "objects/instancedtrianglemesh.h"
 #include "materials/material.h"
 
+#include "utils/ref.h"
+
 using namespace std;
 using namespace lightman::objects;
 using namespace lightman::materials;
+using namespace lightman::utils;
 
 namespace lightman
 {
     // ----------------------------------------------------------------------------
     namespace scene
     {
-        class Scene
+        class Scene : public Ref
         {
         public:
             void Parse(const string& file);

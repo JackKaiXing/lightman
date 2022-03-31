@@ -1,5 +1,7 @@
 #include "utils/ref.h"
 
+#include <assert.h>
+
 namespace lightman
 {
     namespace utils
@@ -11,7 +13,7 @@ namespace lightman
         Ref::~Ref()
         {
             m_refCount--;
-            assert(m_refCount!=0);
+            assert(m_refCount==0);
         }
         void Ref::Increase()
         {
@@ -19,6 +21,7 @@ namespace lightman
         }
         void Ref::Release()
         {
+            assert(!(m_refCount==1));
             m_refCount--;
         }
         uint32_t Ref::GetRefCount()
