@@ -3,8 +3,11 @@
 
 #include <array>
 
+#include "GL/glcorearb.h"
+
 #include "backend/driverbase.h"
 #include "backend/program.h"
+#include "backend/opengl/openglplatform.h"
 #include "backend/opengl/openglcontext.h"
 
 namespace lightman
@@ -19,7 +22,7 @@ namespace lightman
         {
             struct
             {   
-                std::array<Gluint, MAX_VERTEX_ATTRIBUTE_COUNT> buffer{}; // OpenGL VertexBuffer target, i.e. generated from glGenBuffer()
+                std::array<GLuint, MAX_VERTEX_ATTRIBUTE_COUNT> buffer{}; // OpenGL VertexBuffer target, i.e. generated from glGenBuffer()
             }gl;  
         };
 
@@ -47,8 +50,9 @@ namespace lightman
 
         class OpengGLDriver : public Driver
         {
-            
-        }
+        public:
+            static backend::Driver* create(backend::OpenGLPlatform* platform, void* sharedGLContext = nullptr) noexcept;
+        };
     }
 }
 #endif // _LIGHTMAN_OPENGLDRIVERBASE_H
