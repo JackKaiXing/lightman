@@ -4,12 +4,13 @@ project(LightMan)
 
 # include
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/include)
 
-# src
+# src TODO remove to be another porject
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/src SRC_PLY)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/platform/)
 
 # Shared Sources
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
@@ -52,6 +53,12 @@ if(LIGHTMAN_OPENGL)
     endif()
 endif()
 
+# Cross-Platform::PlatformHandle
+if(APPLE AND NOT IOS)
+    # add platform files
+    set(SRC_PLATFORMHANDLE ${CMAKE_CURRENT_SOURCE_DIR}/platform/cocoaplatformhandle.mm)
+endif()
+
 # flags
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD 14)
@@ -76,6 +83,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_VIEW}
     ${SRC_UTILS}
     ${SRC_CAMERA}
+    ${SRC_PLATFORMHANDLE}
 )
 
 if(APPLE)
