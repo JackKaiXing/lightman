@@ -13,6 +13,8 @@ namespace lightman
         {
             if(m_scene)
                 m_scene->Release();
+            if(m_camera)
+                m_camera->Release();
         }
         void View::SetScene(Scene * targetScene)
         {
@@ -24,8 +26,16 @@ namespace lightman
             {
                 targetScene->Increase();
             }
-            
             m_scene = targetScene;
         }
+        void View::SetCamera(Camera * camera)
+        {
+            if(m_camera)
+                m_camera->Release();
+            if(camera)
+                camera->Increase();
+            m_camera = camera;    
+        }
+
     }
 }

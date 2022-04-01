@@ -2,8 +2,12 @@
 #define _LIGHTMAN_VIEW_H
 
 #include "scene/scene.h"
+#include "view/viewport.h"
+#include "camera/camera.h"
 
 using namespace lightman::scene;
+using namespace lightman::camera;
+
 namespace lightman
 {
     namespace view
@@ -14,8 +18,11 @@ namespace lightman
             View();
             virtual ~View();
             void SetScene(Scene * targetScene);
+            void SetCamera(Camera * camera);
         private:
-            Scene * m_scene;
+            Scene * m_scene = nullptr;
+            Viewport m_viewport;
+            Camera * m_camera = nullptr;
         };
     }
 }

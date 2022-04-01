@@ -11,7 +11,7 @@ namespace lightman
         {
         public:
             Ref();
-            ~Ref();
+            virtual ~Ref();
             void Release();
             uint32_t GetRefCount();
             void Increase();
