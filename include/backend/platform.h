@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_PLATFORM_H
 #define _LIGHTMAN_PLATFORM_H
 
-#include "backend/driverbase.h"
+#include "backend/driverenum.h"
 
 namespace lightman 
 {
@@ -11,6 +11,7 @@ namespace lightman
         class Platform
         {
         public:
+            struct SwapChain {};
             static Platform* Create(backend::BackendType backend);
             virtual backend::Driver* CreateDriver() noexcept = 0;
             virtual ~Platform() noexcept{};

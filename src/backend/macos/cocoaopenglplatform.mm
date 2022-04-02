@@ -14,6 +14,10 @@ namespace lightman
     namespace backend
     {
         // ----------------------------------------------------------------------------
+        struct CocoaGLSwapChain : public Platform::SwapChain
+        {
+        };
+        // ----------------------------------------------------------------------------
         // mixing compile C++ and ObjectC
         // https://stackoverflow.com/questions/4714698/mixing-objective-c-m-mm-c-cpp-files
         struct CocoaOpenGLPlatformImpl
