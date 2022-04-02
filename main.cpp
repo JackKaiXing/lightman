@@ -25,13 +25,13 @@ void Setup()
 
     myCamera = new lightman::camera::Camera();
     myView->SetCamera(myCamera);
-    
-    void* temp = nullptr;
-    
-    temp = lightman::GetNativeWindow();
-    
-    int xingkai = 1;
+        
+    void* nativeWindow = lightman::GetNativeWindow();
+}
 
+void Render()
+{
+    printf("HELLO\n");
 }
 
 void destory()
@@ -43,6 +43,6 @@ void destory()
 
 int main(int argc, const char* argv[])
 {
-    lightman::MainWindow(argc, argv, Setup);
+    lightman::MainWindow(argc, argv, Setup, Render);
     return 0;
 }
