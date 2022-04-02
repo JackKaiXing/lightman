@@ -2,56 +2,68 @@
 #include "platformhandle.h"
 
 #import <Cocoa/Cocoa.h>
-#import <OpenGL/gl.h> // to be removed
-#import <OpenGL/glu.h> // to be removed
+#import <OpenGL/gl.h> // TODO tobe removed
+#import <OpenGL/glu.h> // TODO tobe removed
+
+// ----------------------------------------------------------------------------
+// VIEW AND CONTEXT
+// ----------------------------------------------------------------------------
 
 @interface AppView : NSOpenGLView
 {
-    NSTimer*    animationTimer;
+    NSTimer* animationTimer;
+    float accumulator;
 }
 @end
 
 @implementation AppView
 
+-(float)accumulator
+{
+    return 0.0f;
+}
+
 -(void)prepareOpenGL
 {
     [super prepareOpenGL];
 
-#ifndef DEBUG
-    GLint swapInterval = 1;
+    GLint swapInterval = 0;
     [[self openGLContext] setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
-    if (swapInterval == 0)
-        NSLog(@"Error: Cannot set swap interval.");
-#endif
 }
 
--(void)updateAndDrawDemoView
+-(void)updateView
 {
     [[self openGLContext] makeCurrentContext];
-    glClearColor(1.0, 0.0, 0.0, 1.0);
+    accumulator = (accumulator+0.01) > 1.0 ? 0.0 : (accumulator+0.01);
+    glClearColor(1.0 * accumulator, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Present
+    // https://developer.apple.com/documentation/appkit/nsopenglcontext/1436211-flushbuffer
     [[self openGLContext] flushBuffer];
 
     if (!animationTimer)
         animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.017 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES];
 }
 
--(void)reshape                              { [super reshape]; [[self openGLContext] update]; [self updateAndDrawDemoView]; }
--(void)drawRect:(NSRect)bounds              { [self updateAndDrawDemoView]; }
+// https://developer.apple.com/documentation/appkit/nsopenglview/1414948-reshape
+-(void)reshape                              { [super reshape]; [[self openGLContext] update]; [self updateView]; }
+// https://developer.apple.com/documentation/uikit/uiview/1622529-drawrect
+-(void)drawRect:(NSRect)bounds              { [self updateView]; }
 -(void)animationTimerFired:(NSTimer*)timer  { [self setNeedsDisplay:YES]; }
 -(void)dealloc                              { animationTimer = nil; }
 
 @end
 
-
+// ----------------------------------------------------------------------------
+// WINDOW
+// ----------------------------------------------------------------------------
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 @property (nonatomic, readonly) NSWindow* window;
 @end
 
 @implementation AppDelegate
 @synthesize window = _window;
+
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 {
     return YES;
@@ -84,31 +96,33 @@
     ProcessSerialNumber psn = {0, kCurrentProcess};
     TransformProcessType(&psn, kProcessTransformToForegroundApplication);
     
-    
     NSOpenGLPixelFormatAttribute attrs[] =
-        {
-            NSOpenGLPFADoubleBuffer,
-            NSOpenGLPFADepthSize, 32,
-            0
-        };
+    {
+        NSOpenGLPFADoubleBuffer,
+        NSOpenGLPFADepthSize, 32,
+        0
+    };
 
-        NSOpenGLPixelFormat* format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-        AppView* view = [[AppView alloc] initWithFrame:self.window.frame pixelFormat:format];
-        format = nil;
+    NSOpenGLPixelFormat* format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
+    AppView* view = [[AppView alloc] initWithFrame:self.window.frame pixelFormat:format];
+    format = nil;
+
     #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
         if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_6)
             [view setWantsBestResolutionOpenGLSurface:YES];
     #endif // MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-        [self.window setContentView:view];
 
-        if ([view openGLContext] == nil)
-            NSLog(@"No OpenGL Context!");
-
-        [view initialize];
+    [self.window setContentView:view];
+    if ([view openGLContext] == nil)
+        NSLog(@"No OpenGL Context!");
+    [view initialize];
 }
 
 @end
 
+// ----------------------------------------------------------------------------
+// RETRY INTERFACE
+// ----------------------------------------------------------------------------
 namespace lightman
 {
     AppDelegate* delegate = nullptr;
