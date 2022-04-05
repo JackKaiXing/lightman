@@ -52,6 +52,13 @@ namespace lightman
         {
         public:
             static backend::Driver* create(backend::OpenGLPlatform* platform, void* sharedGLContext = nullptr) noexcept;
+        public:
+            #define DECL_DRIVER_API_RETURN(RetType, methodName, paramsDecl, params) RetType methodName(paramsDecl) override;
+            #include "backend/driverapi.inc"
+        protected:
+            OpengGLDriver(backend::OpenGLPlatform* platform, void* sharedGLContext = nullptr);
+        private:
+            OpenGLPlatform * m_platfrom = nullptr;
         };
     }
 }

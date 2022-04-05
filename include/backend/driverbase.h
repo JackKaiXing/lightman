@@ -101,7 +101,9 @@ namespace lightman
         // ----------------------------------------------------------------------------
         class Driver
         {
-
+        public:
+            #define DECL_DRIVER_API_RETURN(RetType, methodName, paramsDecl, params) virtual RetType methodName(paramsDecl) = 0;
+            #include "backend/driverapi.inc"
         };
     }
 }
