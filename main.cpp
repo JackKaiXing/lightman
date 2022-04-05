@@ -25,8 +25,9 @@ void Setup()
 
     myCamera = new lightman::camera::Camera();
     myView->SetCamera(myCamera);
-        
+    
     void* nativeWindow = lightman::GetNativeWindow();
+    myEngine->createSwapChain(nativeWindow);
 }
 
 void Render()
