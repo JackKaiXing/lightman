@@ -62,7 +62,7 @@ namespace lightman
             // https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
             int result = bluegl::bind();
             assert(!result);
-            OpengGLDriver::create(this, nullptr);
+            return OpengGLDriver::create(this, nullptr);
         }
     }
 }
