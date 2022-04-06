@@ -6,26 +6,31 @@ namespace lightman
     namespace renderer
     {
         //----------------------------------------------------------------------------
-        Renderer::Renderer(Engine * engine)
-        {
-            m_engine = engine;
-        }
         Renderer::~Renderer()
         {
-            m_engine = nullptr;
+            m_swapChain = nullptr;
         }
         //----------------------------------------------------------------------------
-        GPURenderer::GPURenderer(Engine * engine) : Renderer(engine)
+        GPURenderer::GPURenderer()
         {
-
         }
-        bool GPURenderer::BeginFrame(SwapChain *SwapChain)
+        bool GPURenderer::BeginFrame(SwapChain *swapChain)
         {
-            SwapChain->makeCurrent();
+            if (swapChain)
+            {
+                swapChain->makeCurrent();
+                m_swapChain = swapChain;
+                return true;
+            }
+            return false;
         }
         void GPURenderer::EndFrame()
         {
-
+            if(m_swapChain)
+            {
+                // TODO
+                m_swapChain = nullptr;
+            }
         }
     }
 }

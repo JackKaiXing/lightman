@@ -22,22 +22,21 @@ namespace lightman
         class Renderer
         {
         public:
-            Renderer(Engine * engine);
-            ~Renderer();
             virtual RenderType GetType() = 0;
-            Engine * getEngine() {return m_engine;};
             virtual bool BeginFrame(SwapChain *SwapChain) = 0;
             virtual void EndFrame() = 0;
-        private:
-            Engine * m_engine = nullptr;
+        protected:
+            Renderer() = default;
+            virtual ~Renderer();
+            SwapChain * m_swapChain = nullptr;
         };
         //----------------------------------------------------------------------------
         class GPURenderer : public Renderer
         {
         public:
-            GPURenderer(Engine * engine);
+            GPURenderer();
             RenderType GetType() override {return RenderType::RASTER_GPU;};
-            bool BeginFrame(SwapChain *SwapChain) override;
+            bool BeginFrame(SwapChain *swapChain) override;
             void EndFrame() override;
         };
     }

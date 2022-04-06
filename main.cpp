@@ -32,7 +32,7 @@ void Setup()
     void* nativeWindow = lightman::GetNativeWindow();
     mySwapChain = myEngine->CreateSwapChain(nativeWindow);
 
-    myRenderer = new lightman::renderer::GPURenderer(myEngine);
+    myRenderer = new lightman::renderer::GPURenderer();
 }
 
 void Render()
