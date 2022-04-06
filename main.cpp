@@ -7,12 +7,14 @@
 #include "engine/engine.h"
 #include "view/view.h"
 #include "camera/camera.h"
+#include "renderer/renderer.h"
 
 lightman::scene::Scene* myScene;
 lightman::engine::Engine* myEngine;
 lightman::view::View *myView;
 lightman::camera::Camera * myCamera;
 lightman::engine::SwapChain * mySwapChain;
+lightman::renderer::Renderer *myRenderer;
 
 void Setup()
 {
@@ -29,11 +31,13 @@ void Setup()
     
     void* nativeWindow = lightman::GetNativeWindow();
     mySwapChain = myEngine->CreateSwapChain(nativeWindow);
+
+    myRenderer = new lightman::renderer::GPURenderer(myEngine);
 }
 
 void Render()
 {
-    printf("HELLO\n");
+    
 }
 
 void destory()

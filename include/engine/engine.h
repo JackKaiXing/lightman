@@ -6,7 +6,6 @@
 
 #include "backend/driverbase.h"
 #include "backend/platform.h"
-#include "renderer/renderer.h"
 #include "engine/swapchain.h"
 
 namespace lightman
@@ -32,8 +31,6 @@ namespace lightman
         private:
             backend::Platform * m_platform;
             backend::Driver * m_driver;
-            renderer::Renderer * m_currentRenderer;
-            std::array<renderer::Renderer *, renderer::MAX_RENDERER_TYPE_COUNT> m_renderers;
         };
     }
 }
