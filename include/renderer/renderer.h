@@ -26,6 +26,8 @@ namespace lightman
             ~Renderer();
             virtual RenderType GetType() = 0;
             Engine * getEngine() {return m_engine;};
+            virtual bool BeginFrame(SwapChain *SwapChain) = 0;
+            virtual void EndFrame() = 0;
         private:
             Engine * m_engine = nullptr;
         };
@@ -35,6 +37,8 @@ namespace lightman
         public:
             GPURenderer(Engine * engine);
             RenderType GetType() override {return RenderType::RASTER_GPU;};
+            bool BeginFrame(SwapChain *SwapChain) override;
+            void EndFrame() override;
         };
     }
 }

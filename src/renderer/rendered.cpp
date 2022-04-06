@@ -19,5 +19,13 @@ namespace lightman
         {
 
         }
+        bool GPURenderer::BeginFrame(SwapChain *SwapChain)
+        {
+            SwapChain->makeCurrent();
+        }
+        void GPURenderer::EndFrame()
+        {
+
+        }
     }
 }

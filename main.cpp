@@ -37,6 +37,11 @@ void Setup()
 
 void Render()
 {
+    if (myRenderer->BeginFrame(mySwapChain))
+    {
+        
+        myRenderer->EndFrame();
+    }
     
 }
 
