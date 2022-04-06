@@ -16,7 +16,20 @@ namespace lightman
         // ----------------------------------------------------------------------------
         struct CocoaGLSwapChain : public Platform::SwapChain
         {
+            CocoaGLSwapChain(NSView* inView);
+            ~CocoaGLSwapChain() noexcept;
+
+            NSView* view;
         };
+        CocoaGLSwapChain::CocoaGLSwapChain( NSView* inView )
+        : view(inView)
+        {
+
+        }
+        CocoaGLSwapChain::~CocoaGLSwapChain() noexcept
+        {
+            view = nullptr;
+        }
         // ----------------------------------------------------------------------------
         // mixing compile C++ and ObjectC
         // https://stackoverflow.com/questions/4714698/mixing-objective-c-m-mm-c-cpp-files
@@ -24,6 +37,7 @@ namespace lightman
         {
             // TODO: METAL, OpenGL is deprecatingn
             NSOpenGLContext* m_openGLContext = nullptr;
+            CocoaGLSwapChain* mCurrentSwapChain = nullptr;
         };   
         // ----------------------------------------------------------------------------
         CocoaOpenGLPlatform::CocoaOpenGLPlatform() : m_cocoaImpl(new CocoaOpenGLPlatformImpl())
@@ -64,5 +78,14 @@ namespace lightman
             assert(!result);
             return OpengGLDriver::create(this, nullptr);
         }
+        Platform::SwapChain* CocoaOpenGLPlatform::CreateSwainChain(void* nativeWindow)
+        {
+            printf("CREATE SWAINCHAIN BY COCOAOPENGLDRIVER \n");
+
+            NSView* nsView = (__bridge NSView*)nativeWindow;
+            CocoaGLSwapChain* swapChain = new CocoaGLSwapChain( nsView );
+            return swapChain;
+        }
+
     }
 }

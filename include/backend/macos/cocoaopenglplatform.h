@@ -15,6 +15,7 @@ namespace lightman
             backend::Driver* CreateDriver() noexcept override;
             CocoaOpenGLPlatform();
             ~CocoaOpenGLPlatform();
+            Platform::SwapChain* CreateSwainChain(void* nativeWindow) override;
         private:
             CocoaOpenGLPlatformImpl * m_cocoaImpl;
         };

@@ -12,6 +12,7 @@ lightman::scene::Scene* myScene;
 lightman::engine::Engine* myEngine;
 lightman::view::View *myView;
 lightman::camera::Camera * myCamera;
+lightman::engine::SwapChain * mySwapChain;
 
 void Setup()
 {
@@ -27,7 +28,7 @@ void Setup()
     myView->SetCamera(myCamera);
     
     void* nativeWindow = lightman::GetNativeWindow();
-    myEngine->createSwapChain(nativeWindow);
+    mySwapChain = myEngine->CreateSwapChain(nativeWindow);
 }
 
 void Render()

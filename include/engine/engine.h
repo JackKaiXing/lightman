@@ -7,6 +7,7 @@
 #include "backend/driverbase.h"
 #include "backend/platform.h"
 #include "renderer/renderer.h"
+#include "engine/swapchain.h"
 
 namespace lightman
 {
@@ -15,13 +16,7 @@ namespace lightman
         class Engine
         {
         public:
-            #define DECL_DRIVER_API_RETURN(RetType, methodName, paramsDecl, params) \
-            inline RetType methodName(paramsDecl){ \
-                RetType result = m_driver->methodName(params); \
-                return result; \
-            }
-            #include "backend/driverapi.inc"
-
+            engine::SwapChain* CreateSwapChain(void* nativeWindow);
         public:
             static Engine* Create(backend::BackendType backend = backend::BackendType::OPENGL); //  TODO: be removed out of this file
 

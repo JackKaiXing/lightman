@@ -24,5 +24,9 @@ namespace lightman
                 assert(0);
             m_driver = m_platform->CreateDriver();
         }
+        engine::SwapChain* Engine::CreateSwapChain(void* nativeWindow)
+        {
+            return new engine::SwapChain(m_driver->createSwapChain(nativeWindow));
+        }
     }
 }

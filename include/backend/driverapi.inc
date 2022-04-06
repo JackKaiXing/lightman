@@ -28,7 +28,7 @@
 #define DECL_DRIVER_API_R_N(R, N, ...) \
     DECL_DRIVER_API_RETURN(R, N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
 
-DECL_DRIVER_API_R_N(backend::HwSwapChain, createSwapChain, void*, nativeWindow)
+DECL_DRIVER_API_R_N(backend::HwSwapChain*, createSwapChain, void*, nativeWindow)
 // ----------------------------------------------------------------------------
 
 #undef DECL_DRIVER_API_R_N
