@@ -22,5 +22,9 @@ namespace lightman
             swapchain->swapchain = m_platfrom->CreateSwainChain(nativeWindow);
             return swapchain;
         }
+        void OpengGLDriver::makeCurrent(backend::HwSwapChain* swapchain)
+        {
+            m_platfrom->MakeCurrent(swapchain->swapchain);
+        }
     }
 }

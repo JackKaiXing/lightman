@@ -86,6 +86,9 @@ namespace lightman
             CocoaGLSwapChain* swapChain = new CocoaGLSwapChain( nsView );
             return swapChain;
         }
-
+        void CocoaOpenGLPlatform::MakeCurrent(Platform::SwapChain* drawswapchain)
+        {
+            CocoaGLSwapChain* swapchain = static_cast<CocoaGLSwapChain*>(swapchain);
+        }
     }
 }

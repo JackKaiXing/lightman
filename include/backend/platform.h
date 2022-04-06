@@ -16,6 +16,7 @@ namespace lightman
             virtual backend::Driver* CreateDriver() noexcept = 0;
             virtual Platform::SwapChain* CreateSwainChain(void* nativeWindow) = 0;
             virtual ~Platform() noexcept{};
+            virtual void MakeCurrent(Platform::SwapChain* swapchain) = 0;
         };
     } 
 } 

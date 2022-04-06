@@ -1,4 +1,9 @@
 
+#ifndef DECL_DRIVER_API
+#error "The DECL_DRIVER_API() macro must be defined before including this file"
+#define DECL_DRIVER_API(M, D, P)
+#endif
+
 #ifndef DECL_DRIVER_API_RETURN
 #error "The DECL_DRIVER_API_RETURN() macro must be defined before including this file"
 #define DECL_DRIVER_API_RETURN(R, M, D, P)
@@ -23,7 +28,10 @@
 #define PAIR_ARGS_N(M, ...) PAIR_ARGS_N__(0, ##__VA_ARGS__, 4, E, 3, E, 2, E, 1, E, 0)(M, __VA_ARGS__)
 
 // ----------------------------------------------------------------------------
+#define DECL_DRIVER_API_N(N, ...) \
+    DECL_DRIVER_API(N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
 
+DECL_DRIVER_API_N(makeCurrent, backend::HwSwapChain*, schDraw)
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_R_N(R, N, ...) \
     DECL_DRIVER_API_RETURN(R, N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
@@ -31,7 +39,7 @@
 DECL_DRIVER_API_R_N(backend::HwSwapChain*, createSwapChain, void*, nativeWindow)
 // ----------------------------------------------------------------------------
 
-#undef DECL_DRIVER_API_R_N
+
 #undef PAIR_ARGS_N
 #undef PAIR_ARGS_N__
 #undef PAIR_ARGS_4
@@ -42,4 +50,7 @@ DECL_DRIVER_API_R_N(backend::HwSwapChain*, createSwapChain, void*, nativeWindow)
 #undef PARAM
 #undef ARG
 
+#undef DECL_DRIVER_API_N
+#undef DECL_DRIVER_API
+#undef DECL_DRIVER_API_R_N
 #undef DECL_DRIVER_API_RETURN
