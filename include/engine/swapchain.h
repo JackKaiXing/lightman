@@ -7,13 +7,16 @@ namespace lightman
 {
     namespace engine
     {
+        class Engine;
         class SwapChain
         {
         public:
-            SwapChain(backend::HwSwapChain* swapchain);
+            SwapChain(Engine* engine, backend::HwSwapChain* swapchain);
             ~SwapChain();
+            void makeCurrent();
         private:
             backend::HwSwapChain* m_swapchain;
+            Engine* m_engine;
         };
     }
 }
