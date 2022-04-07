@@ -28,7 +28,7 @@ namespace lightman
         {
             if(m_swapChain)
             {
-                // TODO
+                m_swapChain->Commit();
                 m_swapChain = nullptr;
             }
         }

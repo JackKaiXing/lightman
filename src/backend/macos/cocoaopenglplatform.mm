@@ -88,7 +88,18 @@ namespace lightman
         }
         void CocoaOpenGLPlatform::MakeCurrent(Platform::SwapChain* drawswapchain)
         {
-            CocoaGLSwapChain* swapchain = static_cast<CocoaGLSwapChain*>(swapchain);
+            CocoaGLSwapChain* swapchain = (CocoaGLSwapChain*)drawswapchain;
+
+            // TODO SWAPCHAIN CHANGE
+            if(m_cocoaImpl->mCurrentSwapChain != swapchain)
+            {
+                m_cocoaImpl->mCurrentSwapChain = swapchain;
+                [m_cocoaImpl->m_openGLContext setView:swapchain->view];
+            }
+            [m_cocoaImpl->m_openGLContext update];
+        }
+        void CocoaOpenGLPlatform::Commit(Platform::SwapChain* drawswapchain)
+        {
         }
     }
 }
