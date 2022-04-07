@@ -100,6 +100,7 @@ namespace lightman
         }
         void CocoaOpenGLPlatform::Commit(Platform::SwapChain* drawswapchain)
         {
+            [m_cocoaImpl->m_openGLContext flushBuffer];
         }
     }
 }
