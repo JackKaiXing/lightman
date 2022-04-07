@@ -2,8 +2,6 @@
 #include "platformhandle.h"
 
 #import <Cocoa/Cocoa.h>
-#import <OpenGL/gl.h> // TODO tobe removed
-#import <OpenGL/glu.h> // TODO tobe removed
 
 // ----------------------------------------------------------------------------
 // VIEW AND CONTEXT
