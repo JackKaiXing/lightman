@@ -10,40 +10,24 @@
 // ----------------------------------------------------------------------------
 
 using RenderCallback = std::function<void()>;
+using SetupCallback = std::function<void()>;
 
 @interface AppView : NSOpenGLView
 {
     NSTimer* animationTimer;
-    float accumulator;
     RenderCallback render;
 }
 @end
 
 @implementation AppView
 
--(float)accumulator
-{
-    return 0.0f;
-}
-
 -(void)prepareOpenGL
 {
     [super prepareOpenGL];
-
-    GLint swapInterval = 0;
-    [[self openGLContext] setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 }
 
 -(void)updateView
 {
-    [[self openGLContext] makeCurrentContext];
-    accumulator = (accumulator+0.01) > 1.0 ? 0.0 : (accumulator+0.01);
-    glClearColor(1.0 * accumulator, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    // https://developer.apple.com/documentation/appkit/nsopenglcontext/1436211-flushbuffer
-    [[self openGLContext] flushBuffer];
-
     if (!animationTimer)
         animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.017 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES];
 }
@@ -54,11 +38,11 @@ using RenderCallback = std::function<void()>;
 }
 
 // https://developer.apple.com/documentation/appkit/nsopenglview/1414948-reshape
--(void)reshape                              { [super reshape]; [[self openGLContext] update]; [self updateView]; }
+-(void)reshape                              { [super reshape]; [self updateView]; }
 // https://developer.apple.com/documentation/uikit/uiview/1622529-drawrect
 -(void)drawRect:(NSRect)bounds              { [self updateView]; render(); }
 -(void)animationTimerFired:(NSTimer*)timer  { [self setNeedsDisplay:YES]; }
--(void)dealloc                              { animationTimer = nil; }
+-(void)dealloc                              { [super dealloc]; animationTimer = nil; }
 
 @end
 
@@ -68,6 +52,7 @@ using RenderCallback = std::function<void()>;
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 @property (nonatomic, readonly) NSWindow* window;
 @property (nonatomic, readwrite) RenderCallback render;
+@property (nonatomic, readwrite) SetupCallback setup;
 @end
 
 @implementation AppDelegate
@@ -105,17 +90,8 @@ using RenderCallback = std::function<void()>;
     ProcessSerialNumber psn = {0, kCurrentProcess};
     TransformProcessType(&psn, kProcessTransformToForegroundApplication);
     
-    NSOpenGLPixelFormatAttribute attrs[] =
-    {
-        NSOpenGLPFADoubleBuffer,
-        NSOpenGLPFADepthSize, 32,
-        0
-    };
-
-    NSOpenGLPixelFormat* format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-    AppView* view = [[AppView alloc] initWithFrame:self.window.frame pixelFormat:format];
+    AppView* view = [[AppView alloc] initWithFrame:self.window.frame];
     [view setRenderCallback:_render];
-    format = nil;
 
     #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
         if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_6)
@@ -123,14 +99,18 @@ using RenderCallback = std::function<void()>;
     #endif // MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
 
     [self.window setContentView:view];
-    if ([view openGLContext] == nil)
-        NSLog(@"No OpenGL Context!");
-    [view initialize];
+    
+    _setup();
 }
 
 -(void)setRenderCallback:(RenderCallback)fb
 {
     _render = fb;
+}
+
+-(void)setSetupCallback:(SetupCallback)fb
+{
+    _setup = fb;
 }
 
 @end
@@ -148,15 +128,14 @@ namespace lightman
     int MainWindow(int argc, const char* argv[], std::function<void()> setup, std::function<void()> render)
     {
         @autoreleasepool
-           {
-               NSApp = [NSApplication sharedApplication];
-               delegate = [[AppDelegate alloc] init];
-               [delegate setRenderCallback:render];
-               // called after the window initialized
-               setup();
-               [[NSApplication sharedApplication] setDelegate:delegate];
-               [NSApp run];
-           }
-           return NSApplicationMain(argc, argv);
+        {
+            NSApp = [NSApplication sharedApplication];
+            delegate = [[AppDelegate alloc] init];
+            [delegate setRenderCallback:render];
+            [delegate setSetupCallback:setup];
+            [[NSApplication sharedApplication] setDelegate:delegate];
+            [NSApp run];
+        }
+        return NSApplicationMain(argc, argv);
     }
 }
