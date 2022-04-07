@@ -17,6 +17,7 @@ namespace lightman
             ~CocoaOpenGLPlatform();
             Platform::SwapChain* CreateSwainChain(void* nativeWindow) override;
             void MakeCurrent(Platform::SwapChain* drawswapchain) override;
+            void Commit(Platform::SwapChain* drawswapchain) override;
         private:
             CocoaOpenGLPlatformImpl * m_cocoaImpl;
         };

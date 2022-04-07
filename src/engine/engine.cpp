@@ -26,7 +26,7 @@ namespace lightman
         }
         engine::SwapChain* Engine::CreateSwapChain(void* nativeWindow)
         {
-            return new engine::SwapChain(this, m_driver->createSwapChain(nativeWindow));
+            return new engine::SwapChain(this, m_driver->CreateSwapChain(nativeWindow));
         }
     }
 }

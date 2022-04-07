@@ -14,6 +14,7 @@ namespace lightman
             SwapChain(Engine* engine, backend::HwSwapChain* swapchain);
             ~SwapChain();
             void makeCurrent();
+            void Commit();
         private:
             backend::HwSwapChain* m_swapchain;
             Engine* m_engine;

@@ -17,6 +17,7 @@ namespace lightman
             virtual Platform::SwapChain* CreateSwainChain(void* nativeWindow) = 0;
             virtual ~Platform() noexcept{};
             virtual void MakeCurrent(Platform::SwapChain* swapchain) = 0;
+            virtual void Commit(Platform::SwapChain* swapchain) = 0;
         };
     } 
 } 

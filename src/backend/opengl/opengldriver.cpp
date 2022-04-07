@@ -16,7 +16,7 @@ namespace lightman
         {
             m_platfrom = platform;
         }
-        backend::HwSwapChain* OpengGLDriver::createSwapChain(void* nativeWindow)
+        backend::HwSwapChain* OpengGLDriver::CreateSwapChain(void* nativeWindow)
         {
             backend::HwSwapChain* swapchain = new backend::HwSwapChain();
             swapchain->swapchain = m_platfrom->CreateSwainChain(nativeWindow);
@@ -25,6 +25,10 @@ namespace lightman
         void OpengGLDriver::makeCurrent(backend::HwSwapChain* swapchain)
         {
             m_platfrom->MakeCurrent(swapchain->swapchain);
+        }
+        void OpengGLDriver::Commit(backend::HwSwapChain* swapchain)
+        {
+            m_platfrom->Commit(swapchain->swapchain);
         }
     }
 }

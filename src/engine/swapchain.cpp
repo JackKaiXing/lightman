@@ -20,5 +20,9 @@ namespace lightman
         {
             m_engine->GetDriver()->makeCurrent(m_swapchain);
         }
+        void SwapChain::Commit()
+        {
+            m_engine->GetDriver()->Commit(m_swapchain);
+        }
     }
 }
