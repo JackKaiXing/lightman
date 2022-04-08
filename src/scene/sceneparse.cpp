@@ -147,7 +147,10 @@ void Scene::Parse(const string& file)
                             
                             for (int j = 0; j < NUM_V_PROPS; j++)
                             {
-                                ply_get_property (ply, elem_name, &vert_props[j]);
+                                if((hasVertex && j <= 2 ) ||
+                                    (hasNormal && j >= 3 && j <= 5 )
+                                        || (hasUV && j >= 6 ))
+                                    ply_get_property (ply, elem_name, &vert_props[j]);
                             }
 
                             Vertex v;
@@ -170,8 +173,17 @@ void Scene::Parse(const string& file)
                         
                         if (equal_strings((char*)"face", elem_name))
                         {
+                            bool hasIntensity = false;
+                            for (int j = 0; j < nprops; j++)
+                            {
+                                if(equal_strings(plist[j]->name,(char*)"intensity"))
+                                    hasIntensity = true;
+                            }
+                            
                             /* set up for getting face elements */
-                            ply_get_property (ply, elem_name, &face_props[0]);
+                            if (hasIntensity) {
+                               ply_get_property (ply, elem_name, &face_props[0]);
+                            }
                             ply_get_property (ply, elem_name, &face_props[1]);
 
                             /* grab all the face elements */
@@ -200,6 +212,7 @@ void Scene::Parse(const string& file)
                         mesh->InitUVs(uvs); 
 
                     // bind mesh to imesh
+                    m_meshes.insert({plyFileName, mesh});
                     iMesh->setMesh(mesh);
                 }
             }

@@ -24,6 +24,7 @@ namespace lightman
         {
         public:
             void Parse(const string& file);
+            void PreRender();
         private:
             // TODO: Managers for those resources
             std::unordered_map<string, InstancedTriangleMesh*> m_iMeshes;
