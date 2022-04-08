@@ -40,6 +40,7 @@ namespace lightman
             }
             bool hasNormal() {return m_normals.size() > 0;};
             bool hasUV() {return m_UVs.size() > 0;};
+            void preRender();
         private:
             std::vector<Triangle> m_tris;
             std::vector<Point> m_points; // model space position

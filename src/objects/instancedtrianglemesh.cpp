@@ -16,6 +16,11 @@ void InstancedTriangleMesh::setMesh(TriangleMesh * _mesh)
 {
     m_triMesh = _mesh;
 }
+
+void InstancedTriangleMesh::preRender()
+{
+    m_triMesh->preRender();
+}
 } // namespace objects
     
 } // namespace lightman

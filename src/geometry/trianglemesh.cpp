@@ -26,5 +26,9 @@ void TriangleMesh::InitUVs(std::vector<UV> &uvs)
     assert(uvs.size() == m_points.size());
     m_UVs = std::move(uvs);
 }
+void TriangleMesh::preRender()
+{
+    
+}
 } // namespace geometry
 } // namespace lightman
