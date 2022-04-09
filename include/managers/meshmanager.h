@@ -20,6 +20,7 @@ namespace lightman
         void CreateTriMesh(std::string name,
             std::vector<unsigned int>& triIndexs, std::vector<float>& points,
             std::vector<float>& normals, std::vector<float>& uvs);
+        Mesh* GetMesh(std::string name);
     protected:
         MeshManager(/* args */);
         ~MeshManager();

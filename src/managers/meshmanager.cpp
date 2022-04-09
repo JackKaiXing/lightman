@@ -38,6 +38,11 @@ namespace lightman
         return m_meshes.find(name) != m_meshes.end();
     }
 
+    Mesh* MeshManager::GetMesh(std::string name)
+    {
+        return m_meshes.find(name)->second;
+    }
+
     void MeshManager::CreateTriMesh(std::string name,
             std::vector<unsigned int>& triIndexs, std::vector<float>& points,
             std::vector<float>& normals, std::vector<float>& uvs)
