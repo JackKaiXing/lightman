@@ -1,6 +1,8 @@
 
 #include "renderer/renderer.h"
 
+#include "objects/instancedtrianglemesh.h"
+
 namespace lightman
 {
     //----------------------------------------------------------------------------
@@ -36,6 +38,12 @@ namespace lightman
     }
     void GPURenderer::RenderFrame(View* view)
     {
-        view->GetScene();
+        // GPURender is responsible for calling all the backend method.
+        std::unordered_map<string, InstancedTriangleMesh*> imeshes= view->GetScene()->GetInstanceMeshes();
+        std::unordered_map<string, InstancedTriangleMesh*>::iterator iter = imeshes.begin();
+        while (iter!=imeshes.end())
+        {
+            iter++;
+        } 
     }
 }

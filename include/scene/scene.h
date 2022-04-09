@@ -20,8 +20,9 @@ namespace lightman
         {
         public:
             void Parse(const string& file);
-        friend class View;
+        friend class GPURenderer;
         protected:
+            std::unordered_map<string, InstancedTriangleMesh*> GetInstanceMeshes();
         private:
             // TODO: Managers for those resources
             std::unordered_map<string, InstancedTriangleMesh*> m_iMeshes;
