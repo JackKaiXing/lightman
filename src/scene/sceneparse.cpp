@@ -7,10 +7,6 @@
 
 #include "ply/ply.h"
 
-#include "geometry/point.h"
-#include "geometry/normal.h"
-#include "geometry/uv.h"
-#include "geometry/triangle.h"
 #include "scene/scene.h"
 #include "math/matrix4x4.h"
 
@@ -122,10 +118,10 @@ void Scene::Parse(const string& file)
                     bool hasVertex = false;
                     bool hasNormal = false;
                     bool hasUV = false;
-                    std::vector<Point> points;
-                    std::vector<Normal> normals;
-                    std::vector<UV> uvs;
-                    std::vector<Triangle> triangles;
+                    std::vector<float> points;
+                    std::vector<float> normals;
+                    std::vector<float> uvs;
+                    std::vector<unsigned int> triangles;
                     for (int i = 0; i < nelems; i++)
                     {
                         /* get the description of current element */
@@ -154,20 +150,29 @@ void Scene::Parse(const string& file)
                             }
 
                             Vertex v;
-                            points.resize(num_elems);
+                            points.resize(num_elems * 3);
                             if (hasNormal)
-                                normals.resize(num_elems);
+                                normals.resize(num_elems * 3);
                             if (hasUV)
-                                uvs.resize(num_elems);
+                                uvs.resize(num_elems * 2);
 
                             for (int j = 0; j < num_elems; j++)
                             {    
                                 ply_get_element (ply, (void *) &v);
-                                points.at(j) = {v.x, v.y, v.z};
+                                points.at(3*j+0) = v.x;
+                                points.at(3*j+1) = v.y;
+                                points.at(3*j+2) = v.z;
                                 if (hasNormal)
-                                    normals.at(j) = {v.nx, v.ny, v.nz};
+                                {
+                                    normals.at(3*j+0) = v.nx;
+                                    normals.at(3*j+1) = v.ny;
+                                    normals.at(3*j+2) = v.nz;
+                                }
                                 if (hasUV)
-                                    uvs.at(j) = {v.s, v.t};  
+                                {
+                                    uvs.at(2*j+0) = v.s;
+                                    uvs.at(2*j+1) = v.t;
+                                }   
                             }
                         }
                         
@@ -186,17 +191,22 @@ void Scene::Parse(const string& file)
                             }
                             ply_get_property (ply, elem_name, &face_props[1]);
 
-                            /* grab all the face elements */
-                            triangles.reserve(num_elems);
+                            /* grab all the face elements
+                             we do not know how many triangles here, use reserve instead of resize*/
+                            triangles.reserve(num_elems*3);
                             for (int j = 0; j < num_elems; j++)
                             {
                                 /* grab and element from the file */
                                 Face f;
                                 ply_get_element (ply, (void *) &f);
-                                triangles.push_back({f.verts[0],f.verts[1],f.verts[2]});
+                                triangles.push_back(f.verts[0]);
+                                triangles.push_back(f.verts[1]);
+                                triangles.push_back(f.verts[2]);
                                 if (f.nverts == 4)
                                 {
-                                    triangles.push_back({f.verts[0],f.verts[2],f.verts[3]});
+                                    triangles.push_back(f.verts[0]);
+                                    triangles.push_back(f.verts[2]);
+                                    triangles.push_back(f.verts[3]);
                                 }
                             }
                         }
@@ -205,7 +215,7 @@ void Scene::Parse(const string& file)
                     /* close the PLY file */
                     ply_close (ply);
                     
-                    TriangleMesh * mesh = new TriangleMesh(points, triangles);
+                    TriangleMesh * mesh = new TriangleMesh(triangles,points);
                     if (hasNormal)
                         mesh->InitNormals(normals);
                     if (hasUV)
