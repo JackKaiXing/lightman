@@ -12,21 +12,18 @@ using namespace lightman::geometry;
 
 namespace lightman
 {
-    namespace camera
+    class Camera : public Ref
     {
-        class Camera : public Ref
-        {
-        public:
-            Camera();
-            virtual ~Camera();
-        private:
-            float m_near{};
-            float m_far{};
-            Matrix4X4 m_projection;
-            Point m_eye;
-            Point m_center;
-            Vector m_up;
-        };
-    }
+    public:
+        Camera();
+        virtual ~Camera();
+    private:
+        float m_near{};
+        float m_far{};
+        Matrix4X4 m_projection;
+        Point m_eye;
+        Point m_center;
+        Vector m_up;
+    };
 }
 #endif // _LIGHTMAN_CAMERA_H

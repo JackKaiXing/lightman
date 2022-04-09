@@ -3,8 +3,7 @@
 
 namespace lightman
 {
-namespace scene
-{
+    // ----------------------------------------------------------------------------
     void Scene::PreRender()
     {
         std::unordered_map<string, InstancedTriangleMesh*>::iterator iter = m_iMeshes.begin();;
@@ -14,6 +13,4 @@ namespace scene
             iter++;
         }
     }
-// ----------------------------------------------------------------------------
-}
 }

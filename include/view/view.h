@@ -5,25 +5,20 @@
 #include "view/viewport.h"
 #include "camera/camera.h"
 
-using namespace lightman::scene;
-using namespace lightman::camera;
-
 namespace lightman
 {
-    namespace view
+    class View
     {
-        class View
-        {
-        public:
-            View();
-            virtual ~View();
-            void SetScene(Scene * targetScene);
-            void SetCamera(Camera * camera);
-        private:
-            Scene * m_scene = nullptr;
-            Viewport m_viewport;
-            Camera * m_camera = nullptr;
-        };
-    }
+    public:
+        View();
+        virtual ~View();
+        void SetScene(Scene * targetScene);
+        void SetCamera(Camera * camera);
+        void PreRender();
+    private:
+        Scene * m_scene = nullptr;
+        Viewport m_viewport;
+        Camera * m_camera = nullptr;
+    };
 }
 #endif // _LIGHTMAN_VIEW_H

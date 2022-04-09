@@ -3,39 +3,39 @@
 
 namespace lightman
 {
-    namespace view
+    View::View()
     {
-        View::View()
+        m_scene = nullptr;
+    }
+    View::~View()
+    {
+        if(m_scene)
+            m_scene->Release();
+        if(m_camera)
+            m_camera->Release();
+    }
+    void View::SetScene(Scene * targetScene)
+    {
+        if (m_scene)
         {
-            m_scene = nullptr;
+            m_scene->Release();
         }
-        View::~View()
+        if (targetScene)
         {
-            if(m_scene)
-                m_scene->Release();
-            if(m_camera)
-                m_camera->Release();
+            targetScene->Increase();
         }
-        void View::SetScene(Scene * targetScene)
-        {
-            if (m_scene)
-            {
-                m_scene->Release();
-            }
-            if (targetScene)
-            {
-                targetScene->Increase();
-            }
-            m_scene = targetScene;
-        }
-        void View::SetCamera(Camera * camera)
-        {
-            if(m_camera)
-                m_camera->Release();
-            if(camera)
-                camera->Increase();
-            m_camera = camera;    
-        }
-
+        m_scene = targetScene;
+    }
+    void View::SetCamera(Camera * camera)
+    {
+        if(m_camera)
+            m_camera->Release();
+        if(camera)
+            camera->Increase();
+        m_camera = camera;    
+    }
+    void View::PreRender()
+    {
+        m_scene->PreRender();
     }
 }

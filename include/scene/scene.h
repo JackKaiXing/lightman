@@ -18,20 +18,19 @@ using namespace lightman::utils;
 namespace lightman
 {
     // ----------------------------------------------------------------------------
-    namespace scene
-    {
-        class Scene : public Ref
+    class Scene : public Ref
         {
         public:
             void Parse(const string& file);
+        friend class View;
+        protected:
             void PreRender();
         private:
             // TODO: Managers for those resources
             std::unordered_map<string, InstancedTriangleMesh*> m_iMeshes;
             std::unordered_map<string, TriangleMesh*> m_meshes;
             std::unordered_map<string, Material*> m_mats;
-        };
-    } // namespace scene
+    };
 } // namespace lightman
 
 #endif // #ifndef _LIGHTMAN_SCENE_H

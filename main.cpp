@@ -9,38 +9,49 @@
 #include "camera/camera.h"
 #include "renderer/renderer.h"
 
-lightman::scene::Scene* myScene;
-lightman::engine::Engine* myEngine;
-lightman::view::View *myView;
-lightman::camera::Camera * myCamera;
-lightman::engine::SwapChain * mySwapChain;
-lightman::renderer::Renderer *myRenderer;
+lightman::Scene* myScene;
+lightman::Engine* myEngine;
+lightman::View *myView;
+lightman::Camera * myCamera;
+lightman::SwapChain * mySwapChain;
+lightman::Renderer *myRenderer;
 
 void Setup()
 {
-    myScene = new lightman::scene::Scene();
+    myScene = new lightman::Scene();
     myScene->Parse("/Users/XK/Downloads/LuxCore2.1Benchmark/LuxCoreScene/scene.scn");
 
-    myEngine = lightman::engine::Engine::Create(lightman::backend::BackendType::OPENGL);
+    myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
 
-    myView = new lightman::view::View();
+    myView = new lightman::View();
     myView->SetScene(myScene);
 
-    myCamera = new lightman::camera::Camera();
+    myCamera = new lightman::Camera();
     myView->SetCamera(myCamera);
     
     void* nativeWindow = lightman::GetNativeWindow();
     mySwapChain = myEngine->CreateSwapChain(nativeWindow);
 
-    myRenderer = new lightman::renderer::GPURenderer();
+    myRenderer = new lightman::GPURenderer();
+}
+void PreRender()
+{
+
+}
+
+void PostRender()
+{
+
 }
 
 void Render()
 {
+    PreRender();
     if (myRenderer->BeginFrame(mySwapChain))
     {
-        
+        myRenderer->RenderFrame(myView);
         myRenderer->EndFrame();
+        PostRender();
     }
     
 }

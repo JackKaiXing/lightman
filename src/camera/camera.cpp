@@ -6,15 +6,12 @@ using namespace lightman::math;
 
 namespace lightman
 {
-    namespace camera
+    Camera::Camera()
     {
-        Camera::Camera()
-        {
 
-        }
-        Camera::~Camera()
-        {
+    }
+    Camera::~Camera()
+    {
 
-        }
     }
 }

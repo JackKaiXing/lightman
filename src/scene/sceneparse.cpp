@@ -14,8 +14,6 @@ using namespace std;
 
 namespace lightman
 {
-namespace scene
-{
 // ----------------------------------------------------------------------------
 typedef struct Vertex {
   float x, y ,z, nx, ny, nz, s, t;             /* the usual 3-space position, normal of a vertex */
@@ -274,5 +272,4 @@ void Scene::Parse(const string& file)
     scnfile.close(); 
 }
 // ----------------------------------------------------------------------------
-} // namespace scene
 } // namespace lightman
