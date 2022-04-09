@@ -22,7 +22,6 @@ namespace lightman
             void Parse(const string& file);
         friend class View;
         protected:
-            void PreRender();
         private:
             // TODO: Managers for those resources
             std::unordered_map<string, InstancedTriangleMesh*> m_iMeshes;
