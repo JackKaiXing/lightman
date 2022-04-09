@@ -59,7 +59,7 @@ namespace lightman
 
             // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
             // size = count * elementSize in bytes
-            HwIndexBuffer() noexcept : count{}, elementSize{} { }
+            HwIndexBuffer() noexcept : count{}, elementSize{} { };
             HwIndexBuffer(uint8_t elementSize, uint32_t indexCount) noexcept :
                     count(indexCount), elementSize(elementSize) {
                 assert(elementSize > 0 && elementSize <= 16);
