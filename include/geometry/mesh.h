@@ -2,7 +2,9 @@
 #define _LIGHTMAN_MESH_H
 
 #include <cstdint>
+#include "utils/ref.h"
 
+using namespace lightman::utils;
 namespace lightman
 {
     namespace geometry
@@ -14,7 +16,7 @@ namespace lightman
             Quad
         };
 
-        class Mesh
+        class Mesh : virtual public Ref
         {
         public:
             virtual ~Mesh(){};
