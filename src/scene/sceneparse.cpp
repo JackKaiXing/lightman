@@ -215,7 +215,7 @@ void Scene::Parse(const string& file)
                     
                     mManager->CreateTriMesh(plyFileName, triangles, points, normals, uvs);
                 }
-                iMesh->setMeshName(plyFileName);
+                iMesh->setMesh(plyFileName, mManager->GetMesh(plyFileName));
             }
             else if (arrtibuteName.compare("material") == 0)
             {
