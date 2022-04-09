@@ -60,6 +60,8 @@ void destory()
     delete myView;
     delete myScene;
     delete myCamera;
+
+    lightman::Engine::DestroyInstance();
 }
 
 int main(int argc, const char* argv[])
