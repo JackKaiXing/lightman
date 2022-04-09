@@ -10,6 +10,8 @@
 #include "scene/scene.h"
 #include "math/matrix4x4.h"
 
+#include "managers/meshmanager.h"
+
 using namespace std;
 
 namespace lightman
@@ -42,6 +44,9 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 // ----------------------------------------------------------------------------
 void Scene::Parse(const string& file)
 {
+    // get managers
+    MeshManager* mManager = MeshManager::GetInstance();
+
     // hard coded, deprecated later
     string filePath = file.substr(0, file.find_last_of("/")+1);
 
@@ -87,14 +92,9 @@ void Scene::Parse(const string& file)
             {
                 // check if the ply mesh already loaded
                 string plyFileName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
-                std::unordered_map<string, TriangleMesh*>::iterator iter = m_meshes.find(plyFileName);
-                if(iter != m_meshes.end())
+                if(!(mManager->HasMesh(plyFileName)))
                 {
-                    // bind mesh to imesh
-                    iMesh->setMesh(iter->second);
-                }
-                else
-                {
+                    // load new mwah
                     string plyFilePath = filePath;
                     plyFilePath.append(plyFileName);
 
@@ -213,16 +213,9 @@ void Scene::Parse(const string& file)
                     /* close the PLY file */
                     ply_close (ply);
                     
-                    TriangleMesh * mesh = new TriangleMesh(triangles,points);
-                    if (hasNormal)
-                        mesh->InitNormals(normals);
-                    if (hasUV)
-                        mesh->InitUVs(uvs); 
-
-                    // bind mesh to imesh
-                    m_meshes.insert({plyFileName, mesh});
-                    iMesh->setMesh(mesh);
+                    mManager->CreateTriMesh(plyFileName, triangles, points, normals, uvs);
                 }
+                iMesh->setMeshName(plyFileName);
             }
             else if (arrtibuteName.compare("material") == 0)
             {
