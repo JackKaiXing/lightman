@@ -33,12 +33,5 @@ void TriangleMesh::InitUVs(std::vector<float>& uvs)
     m_uvs = std::move(uvs);
     uvs.clear();
 }
-void TriangleMesh::preRender()
-{
-    if(m_renderPrimitive == nullptr)
-    {
-
-    }
-}
 } // namespace geometry
 } // namespace lightman

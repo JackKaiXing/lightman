@@ -35,6 +35,6 @@ namespace lightman
     }
     void GPURenderer::RenderFrame(View* view)
     {
-        view->PreRender();
+        
     }
 }

@@ -34,8 +34,4 @@ namespace lightman
             camera->Increase();
         m_camera = camera;    
     }
-    void View::PreRender()
-    {
-        m_scene->PreRender();
-    }
 }

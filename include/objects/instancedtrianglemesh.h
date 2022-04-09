@@ -16,7 +16,6 @@ namespace lightman
     public:
         Transform& getTransform();
         void setMesh(TriangleMesh * _mesh);
-        void preRender();
     private:
         // tranfrom from model space to world space
         Transform m_transform;
