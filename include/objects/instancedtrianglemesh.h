@@ -14,12 +14,15 @@ namespace lightman
     class InstancedTriangleMesh : public InstancedObject
     {
     public:
+        InstancedTriangleMesh();
+        ~InstancedTriangleMesh();
         Transform& getTransform();
-        void setMeshName(std::string _mesh);
+        void setMesh(std::string name, Mesh* mesh);
     private:
         // tranfrom from model space to world space
         Transform m_transform;
-        std::string m_triMeshName;
+        std::string m_meshName;
+        Mesh* m_mesh = nullptr;
     };
     
 } // namespace lightman
