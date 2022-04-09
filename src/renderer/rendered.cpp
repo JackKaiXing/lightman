@@ -9,8 +9,9 @@ namespace lightman
         m_swapChain = nullptr;
     }
     //----------------------------------------------------------------------------
-    GPURenderer::GPURenderer()
+    GPURenderer::GPURenderer(Engine * engine)
     {
+        m_Engine = engine;
     }
     GPURenderer::~GPURenderer()
     {
@@ -35,6 +36,6 @@ namespace lightman
     }
     void GPURenderer::RenderFrame(View* view)
     {
-        
+        view->GetScene();
     }
 }

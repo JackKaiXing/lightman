@@ -26,4 +26,21 @@ namespace lightman
     {
         return new SwapChain(this, m_driver->CreateSwapChain(nativeWindow));
     }
+    Renderer* Engine::CreateRender(RenderType type)
+    {
+        switch (type)
+        {
+        case RenderType::RASTER_GPU:
+            {
+                return new GPURenderer(this);
+            }
+            break;
+        
+        default:
+            {
+                return nullptr;
+            }
+            break;
+        }
+    }
 }

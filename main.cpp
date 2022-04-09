@@ -31,8 +31,7 @@ void Setup()
     
     void* nativeWindow = lightman::GetNativeWindow();
     mySwapChain = myEngine->CreateSwapChain(nativeWindow);
-
-    myRenderer = new lightman::GPURenderer();
+    myRenderer = myEngine->CreateRender(lightman::RenderType::RASTER_GPU);
 }
 void PreRender()
 {

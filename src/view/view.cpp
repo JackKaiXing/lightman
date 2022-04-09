@@ -34,4 +34,8 @@ namespace lightman
             camera->Increase();
         m_camera = camera;    
     }
+    Scene* View::GetScene()
+    {
+        return m_scene;
+    }
 }

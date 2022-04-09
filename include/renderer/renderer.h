@@ -2,11 +2,12 @@
 #define _LIGHTMAN_RENDERER_H
 
 #include <cstdint>
-#include "engine/engine.h"
+#include "engine/swapchain.h"
 #include "view/view.h"
 
 namespace lightman
 {
+    class Engine;
     //----------------------------------------------------------------------------
     static constexpr uint8_t MAX_RENDERER_TYPE_COUNT = 3;
     enum class RenderType: uint8_t
@@ -32,12 +33,14 @@ namespace lightman
     class GPURenderer : public Renderer
     {
     public:
-        GPURenderer();
+        GPURenderer(Engine * engine);
         ~GPURenderer();
         RenderType GetType() override {return RenderType::RASTER_GPU;};
         bool BeginFrame(SwapChain *swapChain) override;
         void EndFrame() override;
         void RenderFrame(View* view) override;
+    private:
+        Engine* m_Engine; // TODO DO WE NEED MULTIPLE ENGINES?
     };
 }
 #endif // _LIGHTMAN_RENDERER_H

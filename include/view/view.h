@@ -14,6 +14,7 @@ namespace lightman
         virtual ~View();
         void SetScene(Scene * targetScene);
         void SetCamera(Camera * camera);
+        Scene* GetScene();
     private:
         Scene * m_scene = nullptr;
         Viewport m_viewport;

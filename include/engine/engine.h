@@ -7,6 +7,7 @@
 #include "backend/driverbase.h"
 #include "backend/platform.h"
 #include "engine/swapchain.h"
+#include "renderer/renderer.h"
 
 namespace lightman
 {
@@ -14,6 +15,7 @@ namespace lightman
     {
     public:
         SwapChain* CreateSwapChain(void* nativeWindow);
+        Renderer* CreateRender(RenderType type = RenderType::RASTER_GPU);
     public:
         static Engine* Create(backend::BackendType backend = backend::BackendType::OPENGL); //  TODO: be removed out of this file
 
