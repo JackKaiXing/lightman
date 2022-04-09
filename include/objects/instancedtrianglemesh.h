@@ -15,11 +15,11 @@ namespace lightman
     {
     public:
         Transform& getTransform();
-        void setMesh(TriangleMesh * _mesh);
+        void setMeshName(std::string _mesh);
     private:
         // tranfrom from model space to world space
         Transform m_transform;
-        TriangleMesh * m_triMesh;
+        std::string m_triMeshName;
     };
     
 } // namespace lightman

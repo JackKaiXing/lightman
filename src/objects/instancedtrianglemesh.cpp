@@ -10,9 +10,9 @@ Transform& InstancedTriangleMesh::getTransform()
     return m_transform;
 }
 
-void InstancedTriangleMesh::setMesh(TriangleMesh * _mesh)
+void InstancedTriangleMesh::setMeshName(std::string meshName)
 {
-    m_triMesh = _mesh;
+    m_triMeshName = meshName;
 }
     
 } // namespace lightman
