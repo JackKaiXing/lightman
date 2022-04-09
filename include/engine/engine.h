@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <array>
+#include <iostream>
 
 #include "backend/driverbase.h"
 #include "backend/platform.h"
@@ -18,7 +19,8 @@ namespace lightman
         Renderer* CreateRender(RenderType type = RenderType::RASTER_GPU);
     public:
         static Engine* Create(backend::BackendType backend = backend::BackendType::OPENGL); //  TODO: be removed out of this file
-        static void Destroy();
+        static Engine* GetInstance();
+        static void DestroyInstance();
 
         Engine(Engine const&) = delete;
         Engine(Engine&&) = delete;

@@ -15,10 +15,22 @@ namespace lightman
         return new Engine(backend);
     }
 
-    void Engine::Destroy()
+    void Engine::DestroyInstance()
     {
         MeshManager::DetoryInstance();
     }
+    
+    Engine* GetInstance()
+    {
+        if (g_engine)
+        {
+            return g_engine;
+        }else{
+            std::cout << "Please create Engine before, GetInstance!\n" << std::endl;
+            assert(0)
+        }
+    }
+    // ----------------------------------------------------------------------------
 
     Engine::Engine(backend::BackendType backend) noexcept
     {
