@@ -49,7 +49,6 @@ namespace lightman
             
             BBox m_bBox;
             Transform m_transform;
-            backend::HwRenderPrimitive* m_renderPrimitive = nullptr;
         };
     } // namespace geometry
     
