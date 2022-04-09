@@ -10,28 +10,28 @@ namespace lightman
     View::~View()
     {
         if(m_scene)
-            m_scene->Release();
+            m_scene->ReleaseRef();
         if(m_camera)
-            m_camera->Release();
+            m_camera->ReleaseRef();
     }
     void View::SetScene(Scene * targetScene)
     {
         if (m_scene)
         {
-            m_scene->Release();
+            m_scene->ReleaseRef();
         }
         if (targetScene)
         {
-            targetScene->Increase();
+            targetScene->IncreaseRef();
         }
         m_scene = targetScene;
     }
     void View::SetCamera(Camera * camera)
     {
         if(m_camera)
-            m_camera->Release();
+            m_camera->ReleaseRef();
         if(camera)
-            camera->Increase();
+            camera->IncreaseRef();
         m_camera = camera;    
     }
     Scene* View::GetScene()

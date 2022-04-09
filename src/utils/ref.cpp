@@ -15,11 +15,11 @@ namespace lightman
             m_refCount--;
             assert(m_refCount==0);
         }
-        void Ref::Increase()
+        void Ref::IncreaseRef()
         {
             m_refCount++;
         }
-        void Ref::Release()
+        void Ref::ReleaseRef()
         {
             assert(!(m_refCount==1));
             m_refCount--;
