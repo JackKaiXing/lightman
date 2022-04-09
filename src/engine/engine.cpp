@@ -27,7 +27,7 @@ namespace lightman
             return g_engine;
         }else{
             std::cout << "Please create Engine before, GetInstance!\n" << std::endl;
-            assert(0)
+            assert(0);
         }
     }
     // ----------------------------------------------------------------------------
