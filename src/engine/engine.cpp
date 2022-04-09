@@ -1,5 +1,6 @@
 
 #include "engine/engine.h"
+#include "managers/meshmanager.h"
 
 namespace lightman
 {
@@ -12,6 +13,11 @@ namespace lightman
             return g_engine;
         }
         return new Engine(backend);
+    }
+
+    void Engine::Destroy()
+    {
+        MeshManager::DetoryInstance();
     }
 
     Engine::Engine(backend::BackendType backend) noexcept

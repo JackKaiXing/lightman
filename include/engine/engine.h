@@ -18,6 +18,7 @@ namespace lightman
         Renderer* CreateRender(RenderType type = RenderType::RASTER_GPU);
     public:
         static Engine* Create(backend::BackendType backend = backend::BackendType::OPENGL); //  TODO: be removed out of this file
+        static void Destroy();
 
         Engine(Engine const&) = delete;
         Engine(Engine&&) = delete;
