@@ -3,17 +3,23 @@
 
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 #include "geometry/mesh.h"
 
+using namespace lightman::geometry;
+
 namespace lightman
 {
-    class Mesh;
     class MeshManager
     {
     public:
         static MeshManager* GetInstance();
         static void DetoryInstance();
+        bool HasMesh(std::string name);
+        void CreateTriMesh(std::string name,
+            std::vector<unsigned int>& triIndexs, std::vector<float>& points,
+            std::vector<float>& normals, std::vector<float>& uvs);
     protected:
         MeshManager(/* args */);
         ~MeshManager();
