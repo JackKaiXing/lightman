@@ -3,15 +3,12 @@
 
 namespace lightman
 {
-    namespace objects
+    // ----------------------------------------------------------------------------
+    class InstancedObject
     {
-        // ----------------------------------------------------------------------------
-        class InstancedObject
-        {
-        public:
-            
-        };
-    } // namespace objects
+    public:
+        
+    };
     
 } // namespace lightman
 

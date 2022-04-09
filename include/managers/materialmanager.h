@@ -2,24 +2,21 @@
 #define _LIGHTMAN_MATERIALMANAGER_H
 namespace lightman
 {
-    namespace managers
+    class MaterialManager
     {
-        class MaterialManager
-        {
-        public:
-            MaterialManager(/* args */);
-            ~MaterialManager();
-        private:
-            /* data */
-        };
-        
-        MaterialManager::MaterialManager(/* args */)
-        {
-        }
-        
-        MaterialManager::~MaterialManager()
-        {
-        }
+    public:
+        MaterialManager(/* args */);
+        ~MaterialManager();
+    private:
+        /* data */
+    };
+    
+    MaterialManager::MaterialManager(/* args */)
+    {
+    }
+    
+    MaterialManager::~MaterialManager()
+    {
     }
 } // namespace lightman
 

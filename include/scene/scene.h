@@ -11,8 +11,6 @@
 #include "utils/ref.h"
 
 using namespace std;
-using namespace lightman::objects;
-using namespace lightman::materials;
 using namespace lightman::utils;
 
 namespace lightman

@@ -4,8 +4,6 @@
 
 namespace lightman
 {
-namespace objects
-{
 // ----------------------------------------------------------------------------
 Transform& InstancedTriangleMesh::getTransform()
 {
@@ -21,6 +19,5 @@ void InstancedTriangleMesh::preRender()
 {
     m_triMesh->preRender();
 }
-} // namespace objects
     
 } // namespace lightman

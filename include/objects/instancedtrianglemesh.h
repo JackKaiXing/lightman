@@ -10,21 +10,18 @@ using namespace lightman::geometry;
 
 namespace lightman
 {
-    namespace objects
+    // ----------------------------------------------------------------------------
+    class InstancedTriangleMesh : public InstancedObject
     {
-        // ----------------------------------------------------------------------------
-        class InstancedTriangleMesh : public InstancedObject
-        {
-        public:
-            Transform& getTransform();
-            void setMesh(TriangleMesh * _mesh);
-            void preRender();
-        private:
-            // tranfrom from model space to world space
-            Transform m_transform;
-            TriangleMesh * m_triMesh;
-        };
-    } // namespace objects
+    public:
+        Transform& getTransform();
+        void setMesh(TriangleMesh * _mesh);
+        void preRender();
+    private:
+        // tranfrom from model space to world space
+        Transform m_transform;
+        TriangleMesh * m_triMesh;
+    };
     
 } // namespace lightman
 
