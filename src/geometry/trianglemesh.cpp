@@ -29,7 +29,7 @@ void TriangleMesh::InitNormals(std::vector<float>& normals)
 }
 void TriangleMesh::InitUVs(std::vector<float>& uvs)
 {
-    assert(uvs.size() == m_points.size());
+    assert(uvs.size()/2 == m_points.size()/3);
     m_uvs = std::move(uvs);
     uvs.clear();
 }
