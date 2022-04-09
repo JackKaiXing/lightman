@@ -8,27 +8,37 @@ namespace lightman
 namespace geometry
 {
 // ----------------------------------------------------------------------------
-TriangleMesh::TriangleMesh(std::vector<Point> & points, std::vector<Triangle> & tris)
+TriangleMesh::TriangleMesh(std::vector<unsigned int>& triIndexs, std::vector<float>& points)
 {
-    assert(points.size() > 3 && tris.size() > 0);
+    assert(points.size() > 9 && triIndexs.size() > 3);
 
     // fast copy, https://en.cppreference.com/w/cpp/utility/move
+    // https://stackoverflow.com/questions/2740020/c-stl-array-vs-vector-raw-element-accessing-performance
+    // vector access or pointer access is of same performance, so we use vector here
     m_points = std::move(points);
-    m_tris = std::move(tris);
+    m_triIndexs = std::move(triIndexs);
+
+    points.clear();
+    triIndexs.clear();
 }
-void TriangleMesh::InitNormals(std::vector<Normal> &normals)
+void TriangleMesh::InitNormals(std::vector<float>& normals)
 {
     assert(normals.size() == m_points.size());
     m_normals = std::move(normals);
+    normals.clear();
 }
-void TriangleMesh::InitUVs(std::vector<UV> &uvs)
+void TriangleMesh::InitUVs(std::vector<float>& uvs)
 {
     assert(uvs.size() == m_points.size());
-    m_UVs = std::move(uvs);
+    m_uvs = std::move(uvs);
+    uvs.clear();
 }
 void TriangleMesh::preRender()
 {
-    
+    if(m_renderPrimitive == nullptr)
+    {
+
+    }
 }
 } // namespace geometry
 } // namespace lightman

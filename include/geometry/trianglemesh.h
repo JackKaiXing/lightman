@@ -13,8 +13,11 @@
 #include "math/transform.h"
 #include "color/color.h"
 
+#include "backend/driverbase.h"
+
 using namespace lightman::color;
 using namespace lightman::math;
+using namespace lightman::backend;
 
 namespace lightman
 {
@@ -25,32 +28,28 @@ namespace lightman
         class TriangleMesh : virtual public Mesh
         {
         public:
-            TriangleMesh(std::vector<Point> & points, std::vector<Triangle> & tris);
-            void InitNormals(std::vector<Normal> &normals);
-            void InitUVs(std::vector<UV> &uvs);
+            TriangleMesh(std::vector<unsigned int>& triIndexs, std::vector<float>& points);
+            void InitNormals(std::vector<float>& normals);
+            void InitUVs(std::vector<float>& uvs);
             virtual ~TriangleMesh()
             {
-                m_tris.clear();
+                m_triIndexs.clear();
                 m_points.clear();
                 m_normals.clear();
-                m_triNormals.clear();
-                m_UVs.clear();
-                m_alphs.clear();
-                m_vColors.clear();
+                m_uvs.clear();
             }
-            bool hasNormal() {return m_normals.size() > 0;};
-            bool hasUV() {return m_UVs.size() > 0;};
+            bool hasNormal() {return m_normals.size()>0;};
+            bool hasUV() {return m_uvs.size()>0;};
             void preRender();
         private:
-            std::vector<Triangle> m_tris;
-            std::vector<Point> m_points; // model space position
-            std::vector<Normal> m_normals; // vertex normal
-            std::vector<Normal> m_triNormals; // triangle normal
-            std::vector<UV> m_UVs; // vertex uv
-            std::vector<float> m_alphs; // vertex alpha
-            std::vector<Color> m_vColors; // vertex color
+            std::vector<unsigned int> m_triIndexs;         // i.e tri0.v0, tri0.v1, tri0.v2, tri1.v0, tri1.v1, tri1.v2, ...
+            std::vector<float> m_points;                   // model space position, i.e. p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, ...
+            std::vector<float> m_normals;                  // vertex normal
+            std::vector<float> m_uvs;                      // vertex uv, i.e. u0, v0, u1, v1, ...
+            
             BBox m_bBox;
             Transform m_transform;
+            backend::HwRenderPrimitive* m_renderPrimitive = nullptr;
         };
     } // namespace geometry
     
