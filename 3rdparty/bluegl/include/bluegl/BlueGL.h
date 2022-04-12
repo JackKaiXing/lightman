@@ -22,6 +22,8 @@
 #ifndef TNT_FILAMENT_BLUEGL__H
 #define TNT_FILAMENT_BLUEGL__H
 
+ // https://stackoverflow.com/questions/67921973/opengl-extensions-not-linking-on-windows
+ // https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
 #if defined(WIN32)
     
 #else
