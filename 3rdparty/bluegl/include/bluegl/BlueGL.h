@@ -23,6 +23,7 @@
 #define TNT_FILAMENT_BLUEGL__H
 
  // https://stackoverflow.com/questions/67921973/opengl-extensions-not-linking-on-windows
+ // https://stackoverflow.com/questions/18419662/undefined-reference-to-gl-functions-when-using-qglwidget/18420279#18420279
  // https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
 #if defined(WIN32)
     
