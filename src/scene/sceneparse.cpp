@@ -215,7 +215,7 @@ void Scene::Parse(const string& file)
                     
                     mManager->CreateTriMesh(plyFileName, triangles, points, normals, uvs);
                 }
-                iMesh->setMesh(plyFileName, mManager->GetMesh(plyFileName));
+                iMesh->SetMesh(plyFileName, mManager->GetMesh(plyFileName));
             }
             else if (arrtibuteName.compare("material") == 0)
             {
@@ -241,7 +241,7 @@ void Scene::Parse(const string& file)
                     }
                 }
                 Matrix4X4 mat4(m);
-                iMesh->getTransform().setMatrix4(mat4);
+                iMesh->GetTransform().setMatrix4(mat4);
             }
         }
         else if(objectType.compare("materials") == 0)
