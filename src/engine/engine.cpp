@@ -8,11 +8,11 @@ namespace lightman
 
     Engine * Engine::Create(backend::BackendType backend)
     {
-        if (g_engine)
+        if (g_engine == nullptr)
         {
-            return g_engine;
+            g_engine = new Engine(backend);
         }
-        return new Engine(backend);
+        return g_engine;
     }
 
     void Engine::DestroyInstance()
