@@ -15,17 +15,27 @@ InstancedTriangleMesh::~InstancedTriangleMesh()
         m_mesh->ReleaseRef();
 }
 
-Transform& InstancedTriangleMesh::getTransform()
+Transform& InstancedTriangleMesh::GetTransform()
 {
     return m_transform;
 }
 
-void InstancedTriangleMesh::setMesh(std::string name, Mesh* mesh)
+void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)
 {
     m_meshName = name;
     m_mesh = mesh;
 
     mesh->IncreaseRef();
+}
+
+void InstancedTriangleMesh::PrepareForRasterGPU()
+{
+    if(m_mesh)  
+        m_mesh->PrepareForRasterGPU();
+#ifdef DEBUG
+    else    
+        std::cout << "InstancedMesh does not have a valid source mesh" << std::endl;
+#endif
 }
     
 } // namespace lightman

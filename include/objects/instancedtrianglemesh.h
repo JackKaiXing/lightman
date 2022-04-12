@@ -16,8 +16,9 @@ namespace lightman
     public:
         InstancedTriangleMesh();
         ~InstancedTriangleMesh();
-        Transform& getTransform();
-        void setMesh(std::string name, Mesh* mesh);
+        Transform& GetTransform();
+        void SetMesh(std::string name, Mesh* mesh);
+        void PrepareForRasterGPU();
     private:
         // tranfrom from model space to world space
         Transform m_transform;
