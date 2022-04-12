@@ -32,13 +32,14 @@
     DECL_DRIVER_API(N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
 
 DECL_DRIVER_API_N(makeCurrent, backend::HwSwapChain*, schDraw)
+
+DECL_DRIVER_API_N(Commit, backend::HwSwapChain*, sch)
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_R_N(R, N, ...) \
     DECL_DRIVER_API_RETURN(R, N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
 
 DECL_DRIVER_API_R_N(backend::HwSwapChain*, CreateSwapChain, void*, nativeWindow)
 
-DECL_DRIVER_API_N(Commit, backend::HwSwapChain*, sch)
 // ----------------------------------------------------------------------------
 
 
