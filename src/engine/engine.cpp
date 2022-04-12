@@ -20,7 +20,7 @@ namespace lightman
         MeshManager::DetoryInstance();
     }
     
-    Engine* GetInstance()
+    Engine* Engine::GetInstance()
     {
         if (g_engine)
         {
