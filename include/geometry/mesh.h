@@ -21,6 +21,7 @@ namespace lightman
         public:
             virtual ~Mesh(){};
             virtual MeshType GetMeshType() = 0;
+            virtual void PrepareForRasterGPU() = 0;
         };
     } // namespace geometry
     
