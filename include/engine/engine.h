@@ -27,9 +27,8 @@ namespace lightman
         Engine& operator=(Engine const&) = delete;
         Engine& operator=(Engine&&) = delete;
     
-    friend class SwapChain;
-    protected:
         backend::Driver * GetDriver() {return m_driver;};
+    protected:
         Engine(backend::BackendType backend) noexcept;
         ~Engine() = default;
 
