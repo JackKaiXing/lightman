@@ -38,9 +38,10 @@ namespace lightman
                 m_normals.clear();
                 m_uvs.clear();
             }
-            bool hasNormal() {return m_normals.size()>0;};
-            bool hasUV() {return m_uvs.size()>0;};
+            bool HasNormal() {return m_normals.size()>0;};
+            bool HasUV() {return m_uvs.size()>0;};
             MeshType GetMeshType() override {return MeshType::Triangle;};
+            void PrepareForRasterGPU() override;
         private:
             std::vector<unsigned int> m_triIndexs;         // i.e tri0.v0, tri0.v1, tri0.v2, tri1.v0, tri1.v1, tri1.v2, ...
             std::vector<float> m_points;                   // model space position, i.e. p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, ...
@@ -49,6 +50,11 @@ namespace lightman
             
             BBox m_bBox;
             Transform m_transform;
+
+            bool m_isRasterGPUInitialized = false;
+            backend::HwRenderPrimitive* m_renderPrimitive = nullptr;
+            backend::HwIndexBuffer * m_indexBuffer = nullptr;
+            backend::HwVertexBuffer * m_vertexBuffer = nullptr;
         };
     } // namespace geometry
     
