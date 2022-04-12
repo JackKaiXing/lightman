@@ -22,7 +22,11 @@
 #ifndef TNT_FILAMENT_BLUEGL__H
 #define TNT_FILAMENT_BLUEGL__H
 
-#define GL_GLEXT_PROTOTYPES 1
+#if defined(WIN32)
+    
+#else
+    #define GL_GLEXT_PROTOTYPES 1
+#endif
 
 #include <GL/glcorearb.h>
 #include <GL/glext.h>
