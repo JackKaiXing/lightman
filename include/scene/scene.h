@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "geometry/trianglemesh.h"
 #include "objects/instancedtrianglemesh.h"
 #include "materials/material.h"
 
@@ -17,7 +16,7 @@ namespace lightman
 {
     // ----------------------------------------------------------------------------
     class Scene : public Ref
-        {
+    {
         public:
             void Parse(const string& file);
         friend class GPURenderer;
