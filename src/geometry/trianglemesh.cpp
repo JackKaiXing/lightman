@@ -33,5 +33,14 @@ void TriangleMesh::InitUVs(std::vector<float>& uvs)
     m_uvs = std::move(uvs);
     uvs.clear();
 }
+void TriangleMesh::PrepareForRasterGPU()
+{
+    if(m_isRasterGPUInitialized)
+        return;
+    
+    //Engine::GetInstance()->GetDriver();
+
+    m_isRasterGPUInitialized = true;
+}
 } // namespace geometry
 } // namespace lightman
