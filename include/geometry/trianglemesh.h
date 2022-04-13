@@ -43,6 +43,9 @@ namespace lightman
             MeshType GetMeshType() override {return MeshType::Triangle;};
             void PrepareForRasterGPU() override;
         private:
+            void SetAttribute(uint8_t bufferIndex, backend::VertexAttribute attributeType, backend::ElementType elementType, 
+                uint8_t flags, uint8_t stride, uint32_t offset);
+        private:
             std::vector<unsigned int> m_triIndexs;         // i.e tri0.v0, tri0.v1, tri0.v2, tri1.v0, tri1.v1, tri1.v2, ...
             std::vector<float> m_points;                   // model space position, i.e. p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, ...
             std::vector<float> m_normals;                  // vertex normal
@@ -55,6 +58,8 @@ namespace lightman
             backend::HwRenderPrimitive* m_renderPrimitive = nullptr;
             backend::HwIndexBuffer * m_indexBuffer = nullptr;
             backend::HwVertexBuffer * m_vertexBuffer = nullptr;
+            uint16_t m_declaredAttribute = 0;
+            backend::AttributeArray m_attributeArray;
         };
     } // namespace geometry
     
