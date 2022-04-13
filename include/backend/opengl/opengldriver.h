@@ -3,7 +3,7 @@
 
 #include <array>
 
-#include "GL/glcorearb.h"
+#include "backend/opengl/openglheaders.h"
 
 #include "backend/driverbase.h"
 #include "backend/program.h"

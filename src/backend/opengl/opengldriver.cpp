@@ -1,5 +1,6 @@
 
 #include "backend/opengl/opengldriver.h"
+#include "backend/opengl/openglutils.h"
 
 #include <iostream>
 
@@ -29,6 +30,13 @@ namespace lightman
         void OpengGLDriver::Commit(backend::HwSwapChain* swapchain)
         {
             m_platfrom->Commit(swapchain->swapchain);
+        }
+        HwRenderPrimitive* OpengGLDriver::createRenderPrimitive()
+        {
+            GLRenderPrimitive* result = new GLRenderPrimitive();
+            glGenVertexArrays(1, &result->gl.vao);
+            CHECK_GL_ERROR()
+            return result;
         }
     }
 }
