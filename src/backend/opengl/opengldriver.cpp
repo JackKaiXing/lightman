@@ -38,5 +38,31 @@ namespace lightman
             CHECK_GL_ERROR()
             return result;
         }
+        backend::HwVertexBuffer* OpengGLDriver::createVertexBuffer(
+            uint8_t bufferCount,
+            uint8_t attributeCount,
+            uint32_t vertexCount,
+            const backend::AttributeArray& attributes)
+        {
+            assert(attributes.size() != MAX_VERTEX_ATTRIBUTE_COUNT);
+
+            GLVertexBuffer* result = new GLVertexBuffer();
+            result->attributes = attributes;
+            result->vertexCount = vertexCount;
+            for (size_t i = 0; i < MAX_VERTEX_ATTRIBUTE_COUNT; i++)
+            {
+                if(result->attributes[i].buffer != Attribute::BUFFER_UNUSED)
+                {
+
+                }
+            }
+        }
+        backend::HwBufferObject* OpengGLDriver::createBufferObject(
+            uint32_t byteCount, 
+            backend::BufferObjectBinding bindingType,
+            backend::BufferUsage usage)
+        {
+            return nullptr;
+        }
     }
 }

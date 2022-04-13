@@ -40,6 +40,15 @@ DECL_DRIVER_API_N(Commit, backend::HwSwapChain*, sch)
 
 DECL_DRIVER_API_R_N(backend::HwSwapChain*, CreateSwapChain, void*, nativeWindow)
 DECL_DRIVER_API_R_N(backend::HwRenderPrimitive*, createRenderPrimitive)
+DECL_DRIVER_API_R_N(backend::HwVertexBuffer*, createVertexBuffer,
+        uint8_t, bufferCount,
+        uint8_t, attributeCount,
+        uint32_t, vertexCount,
+        const backend::AttributeArray&, attributes)
+DECL_DRIVER_API_R_N(backend::HwBufferObject*, createBufferObject,
+        uint32_t, byteCount,
+        backend::BufferObjectBinding, bindingType,
+        backend::BufferUsage, usage)
 
 
 // ----------------------------------------------------------------------------
