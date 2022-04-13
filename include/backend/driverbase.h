@@ -31,11 +31,10 @@ namespace lightman
             static constexpr uint8_t BUFFER_UNUSED = 0xFF;
 
             // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glVertexAttribPointer.xhtml
-            uint8_t size = 0;                       // number of components per vertex
             ElementType type = ElementType::BYTE;   //
             uint8_t flags = 0x0;                    // to use as integer value, ((flags & FLAG_INTEGER_TARGET)>0)
-                                                    // to use as float value, ((flags & FLAG_INTEGER_TARGET)>0)
-                                                    // to use as normalized float value, ((flags & FLAG_INTEGER_TARGET)>0, (flags & FLAG_NORMALIZED)>0)
+                                                    // to use as float value, ((flags & FLAG_INTEGER_TARGET)<0)
+                                                    // to use as normalized float value, ((flags & FLAG_INTEGER_TARGET)<0, (flags & FLAG_NORMALIZED)>0)
                                                     // This is because of different Driver-API calls.
             uint8_t stride = 0;                     // in bytes
             uint32_t offset = 0;                    // in bytes
@@ -65,6 +64,12 @@ namespace lightman
                 assert(elementSize > 0 && elementSize <= 16);
                 assert(indexCount < (1u << 27));
             }
+        };
+        // ----------------------------------------------------------------------------
+        // Buffer Objects
+        // ----------------------------------------------------------------------------
+        struct HwBufferObject : public HwBase {
+            uint32_t byteCount{};
         };
         // ----------------------------------------------------------------------------
         // Render Primitives
