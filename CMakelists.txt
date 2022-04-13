@@ -49,9 +49,8 @@ if(LIGHTMAN_OPENGL)
             set(SRC_OPENGLAPI ${SRC_OPENGLAPI} ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLCoreWindowsImpl.S)
         endif()
 
-        list(APPEND SRC_OPENGLAPI
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/opengl/opengldriver.cpp
-        )
+        aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/opengl SRC_OPENGLCOMMON)
+        list(APPEND SRC_OPENGLAPI ${SRC_OPENGLCOMMON})
     endif()
 endif()
 
