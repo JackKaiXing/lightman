@@ -38,6 +38,11 @@ namespace lightman
             FLOAT4,
         };
 
+        enum class BufferObjectBinding : uint8_t {
+            VERTEX,
+            UNIFORM
+        };
+
         enum class BufferUsage : uint8_t
         {
             // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
@@ -54,6 +59,13 @@ namespace lightman
 
         // https://www.khronos.org/registry/OpenGL-Refpages/es3/html/glGet.xhtml
         static constexpr size_t MAX_VERTEX_ATTRIBUTE_COUNT = 16;
+        enum VertexAttribute : uint8_t {
+            POSITION        = 0, //!< XYZ position (float3)
+            TANGENTS        = 1, //!< tangent, bitangent and normal, encoded as a quaternion (float4)
+            COLOR           = 2, //!< vertex color (float4)
+            UV0             = 3, //!< texture coordinates (float2)
+            UV1             = 4, //!< texture coordinates (float2)
+        };
 
         // Driver
         enum class BackendType : uint8_t
