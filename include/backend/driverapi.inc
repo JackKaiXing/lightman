@@ -39,6 +39,8 @@ DECL_DRIVER_API_N(Commit, backend::HwSwapChain*, sch)
     DECL_DRIVER_API_RETURN(R, N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
 
 DECL_DRIVER_API_R_N(backend::HwSwapChain*, CreateSwapChain, void*, nativeWindow)
+DECL_DRIVER_API_R_N(backend::HwRenderPrimitive*, createRenderPrimitive)
+
 
 // ----------------------------------------------------------------------------
 
