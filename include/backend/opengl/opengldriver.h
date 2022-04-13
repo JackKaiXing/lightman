@@ -46,7 +46,17 @@ namespace lightman
                 GLuint shaders[Program::SHADER_TYPE_COUNT];
                 GLuint program;
             } gl;
-        };  
+        }; 
+
+        struct GLBufferObject : public backend::HwBufferObject {
+            struct {
+                GLuint id = 0;
+                GLenum binding = 0;
+            } gl;
+            uint32_t base = 0;
+            uint32_t size = 0;
+            backend::BufferUsage usage = {};
+        };
 
         class OpengGLDriver : public Driver
         {
