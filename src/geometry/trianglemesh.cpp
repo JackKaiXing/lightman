@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include "geometry/trianglemesh.h"
+#include "engine/engine.h"
 
 namespace lightman
 {
@@ -38,7 +39,7 @@ void TriangleMesh::PrepareForRasterGPU()
     if(m_isRasterGPUInitialized)
         return;
     
-    //Engine::GetInstance()->GetDriver();
+    m_renderPrimitive = Engine::GetInstance()->GetDriver()->createRenderPrimitive();
 
     m_isRasterGPUInitialized = true;
 }

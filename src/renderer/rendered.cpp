@@ -2,6 +2,7 @@
 #include "renderer/renderer.h"
 
 #include "objects/instancedtrianglemesh.h"
+#include "managers/meshmanager.h"
 
 namespace lightman
 {
@@ -38,11 +39,17 @@ namespace lightman
     }
     void GPURenderer::RenderFrame(View* view)
     {
-        // GPURender is responsible for calling all the backend method.
+        // GPURenderer is responsible for calling all the backend method.
+
+        // processing vertex arrays for all imesh for current scene
         std::unordered_map<string, InstancedTriangleMesh*> imeshes= view->GetScene()->GetInstanceMeshes();
         std::unordered_map<string, InstancedTriangleMesh*>::iterator iter = imeshes.begin();
         while (iter!=imeshes.end())
         {
+            // This will check if any operation shoule be applied before drawing the mesh
+            // Usually this would return quickly after the first loop.
+            iter->second->PrepareForRasterGPU();
+
             iter++;
         } 
     }
