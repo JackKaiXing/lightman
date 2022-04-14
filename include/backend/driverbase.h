@@ -110,6 +110,8 @@ namespace lightman
             #define DECL_DRIVER_API(methodName, paramsDecl, params) virtual void methodName(paramsDecl) = 0;
             #define DECL_DRIVER_API_RETURN(RetType, methodName, paramsDecl, params) virtual RetType methodName(paramsDecl) = 0;
             #include "backend/driverapi.inc"
+        public:
+            static size_t getElementTypeSize(ElementType type) noexcept;
         };
     }
 }
