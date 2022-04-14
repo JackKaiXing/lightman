@@ -13,7 +13,7 @@ namespace lightman
                 case ElementType::USHORT:   return sizeof(uint16_t);
                 case ElementType::INT:      return sizeof(int32_t);
                 case ElementType::UINT:     return sizeof(uint32_t);
+            }
         }
     }
 }
-#endif // _LIGHTMAN_DRIVERBASE_H
