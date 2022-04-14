@@ -54,7 +54,7 @@ namespace lightman
         {
             // https://en.cppreference.com/w/cpp/language/bit_field
             uint32_t count : 27;
-            uint32_t elementSize : 5;
+            uint32_t elementSize : 5; // USHORT, UINT..
 
             // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
             // size = count * elementSize in bytes

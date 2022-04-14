@@ -2,6 +2,7 @@
 #define _LIGHTMAN_OPENGLUTILS_H
 
 #include "backend/opengl/openglheaders.h"
+#include "backend/driverenum.h"
 
 namespace lightman
 {
@@ -14,6 +15,16 @@ namespace lightman
         {
             void AssertGLError(const char* function, size_t line) noexcept;
             const char* getGLError(GLenum error) noexcept;
+            constexpr inline GLenum getBufferUsage(backend::BufferUsage usage) noexcept
+            {
+                switch (usage) {
+                case backend::BufferUsage::STATIC:
+                    return GL_STATIC_DRAW;
+                case backend::BufferUsage::DYNAMIC:
+                case backend::BufferUsage::STREAM:
+                    return GL_DYNAMIC_DRAW;
+                }
+            }
         };
 
         #ifdef DEBUG
