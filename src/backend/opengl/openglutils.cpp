@@ -2,6 +2,7 @@
 #include "backend/opengl/openglutils.h"
 
 #include <iostream>
+#include <assert.h>
 
 namespace lightman
 {
@@ -46,6 +47,7 @@ namespace lightman
                 {
                     const char* string = getGLError(error);
                     std::cout << "OpenGL error " << error << " (" << string << ") in \"" << function << "\" at line " << line << std::endl;
+                    assert(0);
                 }
             }
         }; 
