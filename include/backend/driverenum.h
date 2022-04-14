@@ -15,27 +15,12 @@ namespace lightman
         enum class ElementType : uint8_t
         {
             BYTE,
-            BYTE2,
-            BYTE3,
-            BYTE4,
             UBYTE,
-            UBYTE2,
-            UBYTE3,
-            UBYTE4,
             SHORT,
-            SHORT2,
-            SHORT3,
-            SHORT4,
             USHORT,
-            USHORT2,
-            USHORT3,
-            USHORT4,
             INT,
             UINT,
             FLOAT,
-            FLOAT2,
-            FLOAT3,
-            FLOAT4,
         };
 
         enum class BufferObjectBinding : uint8_t {
