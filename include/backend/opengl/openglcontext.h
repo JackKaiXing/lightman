@@ -19,6 +19,7 @@ namespace lightman
                 // http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-9-vbo-indexing/
                 GLuint vao = 0;             // vertex array object
                 GLuint elementArray = 0;    // index array buffer object
+                GLenum indicesType = GL_UNSIGNED_INT;
             };
         };
     }
