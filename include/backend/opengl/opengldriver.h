@@ -22,7 +22,7 @@ namespace lightman
         {
             struct
             {   
-                std::array<GLuint, MAX_VERTEX_ATTRIBUTE_COUNT> buffer{}; // OpenGL VertexBuffer target, i.e. generated from glGenBuffer()
+                std::array<GLuint, MAX_VERTEX_ATTRIBUTE_COUNT> buffers{}; // OpenGL VertexBuffer target, i.e. generated from glGenBuffer()
             }gl;  
         };
 
@@ -53,8 +53,6 @@ namespace lightman
                 GLuint id = 0;
                 GLenum binding = 0;
             } gl;
-            uint32_t base = 0;
-            uint32_t size = 0;
             backend::BufferUsage usage = {};
         };
 
