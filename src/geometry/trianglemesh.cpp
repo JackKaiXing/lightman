@@ -22,18 +22,17 @@ TriangleMesh::TriangleMesh(std::vector<unsigned int>& triIndexs, std::vector<flo
     points.clear();
     triIndexs.clear(); 
 
-    // TODO BUFFERINDEX
-    SetAttribute(0, backend::VertexAttribute::POSITION, backend::ElementType::FLOAT3, 
+    SetAttribute(backend::VertexAttribute::POSITION, backend::ElementType::FLOAT3, 
         0, 0, 0); 
 }
-void TriangleMesh::SetAttribute(uint8_t bufferIndex, backend::VertexAttribute attributeType, backend::ElementType elementType, uint8_t flags, uint8_t stride, uint32_t offset)
+void TriangleMesh::SetAttribute(backend::VertexAttribute attributeType, backend::ElementType elementType, uint8_t flags, uint8_t stride, uint32_t offset)
 {
     m_declaredAttribute += 1 << attributeType;
     m_attributeArray[attributeType].offset = offset;
     m_attributeArray[attributeType].stride = stride;
     m_attributeArray[attributeType].type = elementType;
     m_attributeArray[attributeType].flags |= flags;
-    m_attributeArray[attributeType].buffer = bufferIndex;
+    m_attributeArray[attributeType].buffer = attributeType;
 }
 
 void TriangleMesh::InitNormals(std::vector<float>& normals)
@@ -43,7 +42,7 @@ void TriangleMesh::InitNormals(std::vector<float>& normals)
     normals.clear();
 
     // TODO Quaterion FLOAT4
-    SetAttribute(0, backend::VertexAttribute::TANGENTS, backend::ElementType::FLOAT3, 
+    SetAttribute(backend::VertexAttribute::TANGENTS, backend::ElementType::FLOAT3, 
         backend::Attribute::FLAG_NORMALIZED, 0, 0); 
 }
 void TriangleMesh::InitUVs(std::vector<float>& uvs)
@@ -52,13 +51,16 @@ void TriangleMesh::InitUVs(std::vector<float>& uvs)
     m_uvs = std::move(uvs);
     uvs.clear();
 
-    SetAttribute(0, backend::VertexAttribute::UV0, backend::ElementType::FLOAT2, 
+    SetAttribute(backend::VertexAttribute::UV0, backend::ElementType::FLOAT2, 
         0, 0, 0); 
 }
 void TriangleMesh::PrepareForRasterGPU()
 {
     if(m_isRasterGPUInitialized)
+    {
+        Engine::GetInstance()->GetDriver()->draw(m_renderPrimitive);
         return;
+    }
     
     // vao
     m_renderPrimitive = Engine::GetInstance()->GetDriver()->createRenderPrimitive();
@@ -78,8 +80,47 @@ void TriangleMesh::PrepareForRasterGPU()
     }
     m_vertexBuffer = Engine::GetInstance()->GetDriver()->createVertexBuffer(
         0,attributeCount,m_points.size()/3,m_attributeArray);
+    for (size_t i = 0; i < backend::MAX_VERTEX_ATTRIBUTE_COUNT; i++)
+    {
+        if(m_declaredAttribute & (1 << i))
+        {
+            uint32_t size = 0;
+            void* data = nullptr;
+            switch (i)
+            {
+            case backend::VertexAttribute::POSITION:
+                size = m_points.size() * sizeof(float);
+                data = (void*)m_points.data();
+                break;
+            case backend::VertexAttribute::TANGENTS:
+                size = m_normals.size() * sizeof(float);
+                data = (void*)m_normals.data();
+                break;
+            case backend::VertexAttribute::UV0:
+                size = m_uvs.size() * sizeof(float);
+                data = (void*)m_uvs.data();
+                break;
+            default:
+                break;
+            }
+            HwBufferObject * bo = Engine::GetInstance()->GetDriver()->createBufferObject(size, 
+                backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+            Engine::GetInstance()->GetDriver()->updateBufferObject(bo, data, size, 0);
+            // NOTE: i is in the order of VertexAttribute
+            Engine::GetInstance()->GetDriver()->setVertexBufferObject(m_vertexBuffer,i,bo);
+        }
+    }
+
+    // index buffer
+    m_indexBuffer = Engine::GetInstance()->GetDriver()->createIndexBuffer(backend::ElementType::UINT, 
+        m_triIndexs.size(), backend::BufferUsage::STATIC);
+    Engine::GetInstance()->GetDriver()->updateIndexBuffer(m_indexBuffer,m_triIndexs.data(), m_triIndexs.size(), 0);
+    
+    // set renderprimitive
+    Engine::GetInstance()->GetDriver()->setRenderPrimitiveBuffer(m_renderPrimitive, m_vertexBuffer, m_indexBuffer);
 
     m_isRasterGPUInitialized = true;
+    Engine::GetInstance()->GetDriver()->draw(m_renderPrimitive);
 }
 } // namespace geometry
 } // namespace lightman
