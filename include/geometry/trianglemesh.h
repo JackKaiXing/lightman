@@ -43,7 +43,7 @@ namespace lightman
             MeshType GetMeshType() override {return MeshType::Triangle;};
             void PrepareForRasterGPU() override;
         private:
-            void SetAttribute(uint8_t bufferIndex, backend::VertexAttribute attributeType, backend::ElementType elementType, 
+            void SetAttribute(backend::VertexAttribute attributeType, backend::ElementType elementType, 
                 uint8_t flags, uint8_t stride, uint32_t offset);
         private:
             std::vector<unsigned int> m_triIndexs;         // i.e tri0.v0, tri0.v1, tri0.v2, tri1.v0, tri1.v1, tri1.v2, ...
