@@ -34,6 +34,27 @@
 DECL_DRIVER_API_N(makeCurrent, backend::HwSwapChain*, schDraw)
 
 DECL_DRIVER_API_N(Commit, backend::HwSwapChain*, sch)
+
+DECL_DRIVER_API_N(setVertexBufferObject,
+        backend::HwVertexBuffer*, vbh,
+        uint32_t, index,
+        backend::HwBufferObject*, bufferObject)
+DECL_DRIVER_API_N(updateBufferObject,
+        backend::HwBufferObject*, boh,
+        void*, data,
+        size_t, dataSize,
+        uint32_t, byteOffset)
+DECL_DRIVER_API_N(updateIndexBuffer,
+        backend::HwIndexBuffer*, ibh,
+        void*, data,
+        size_t, dataSize,
+        uint32_t, byteOffset)
+DECL_DRIVER_API_N(setRenderPrimitiveBuffer,
+        backend::HwRenderPrimitive*, rph,
+        backend::HwVertexBuffer*, vbh,
+        backend::HwIndexBuffer*, ibh)
+DECL_DRIVER_API_N(draw, backend::HwRenderPrimitive*, rph)
+
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_R_N(R, N, ...) \
     DECL_DRIVER_API_RETURN(R, N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
@@ -48,6 +69,10 @@ DECL_DRIVER_API_R_N(backend::HwVertexBuffer*, createVertexBuffer,
 DECL_DRIVER_API_R_N(backend::HwBufferObject*, createBufferObject,
         uint32_t, byteCount,
         backend::BufferObjectBinding, bindingType,
+        backend::BufferUsage, usage)
+DECL_DRIVER_API_R_N(backend::HwIndexBuffer*, createIndexBuffer,
+        backend::ElementType, elementType,
+        uint32_t, indexCount,
         backend::BufferUsage, usage)
 
 
