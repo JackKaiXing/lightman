@@ -1,10 +1,6 @@
 #ifndef _LIGHTMAN_QUATERNION_H
 #define _LIGHTMAN_QUATERNION_H
 
-#include "geometry/vector.h"
-
-using namespace lightman::geometry;
-
 namespace lightman
 {
     namespace math
@@ -13,7 +9,7 @@ namespace lightman
         class Quaternion
         {
         public:
-            Vector m_vector;
+            float m_vector[3];
             float m_radians;
         };
     } // namespace math
