@@ -18,7 +18,8 @@ namespace lightman
     class Scene : public Ref
     {
         public:
-            void Parse(const string& file);
+            InstancedTriangleMesh* GetMesh(const std::string& meshName);
+            InstancedTriangleMesh* AddMesh(const std::string& meshName);
         friend class GPURenderer;
         protected:
             std::unordered_map<string, InstancedTriangleMesh*> GetInstanceMeshes();
