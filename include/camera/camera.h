@@ -30,6 +30,7 @@ namespace lightman
         float m_target[3];
         float m_up[3];
         Matrix4X4 m_worldToCamera;
+        Matrix4X4 m_cameraToWorld;
     };
 
     class PerspectiveCamera : public Camera

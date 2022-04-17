@@ -50,6 +50,9 @@ namespace lightman
         m[1][2] = dir[1];
         m[2][2] = dir[2];
         m[3][2] = 0.;
-        m_worldToCamera = Matrix4X4(m);
+        // https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function
+        m_cameraToWorld = Matrix4X4(m); 
+        // same as gllookat, https://twodee.org/blog/17560
+        m_worldToCamera = m_cameraToWorld.Inverse(); 
     }
 }
