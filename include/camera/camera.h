@@ -3,27 +3,53 @@
 
 #include "utils/ref.h"
 #include "math/matrix4x4.h"
-#include "geometry/point.h"
-#include "geometry/vector.h"
 
 using namespace lightman::utils;
 using namespace lightman::math;
-using namespace lightman::geometry;
 
 namespace lightman
 {
     class Camera : public Ref
     {
     public:
-        Camera();
+        enum class CameraType : uint8_t
+        {
+            PERSPECTIVE,
+            ORTHO
+        };
+        virtual CameraType GetCameraType() = 0 ;
+        void LookAt(float eye[3], float target[3], float up[3]);
         virtual ~Camera();
+    protected:
+        Camera();
     private:
         float m_near{};
         float m_far{};
-        Matrix4X4 m_projection;
-        Point m_eye;
-        Point m_center;
-        Vector m_up;
+
+        float m_eye[3];
+        float m_target[3];
+        float m_up[3];
+        Matrix4X4 m_worldToCamera;
     };
+
+    class PerspectiveCamera : public Camera
+    {
+    public:
+        CameraType GetCameraType() override {return Camera::CameraType::PERSPECTIVE;};
+        PerspectiveCamera(/* args */) = default;
+        ~PerspectiveCamera() = default;
+    private:
+        Matrix4X4 m_cameraToScreen;
+    };
+
+    class OrthogrpicCamera : public Camera
+    {
+    public:
+        CameraType GetCameraType() override {return Camera::CameraType::ORTHO;};
+        OrthogrpicCamera(/* args */);
+        ~OrthogrpicCamera();
+    private:
+        Matrix4X4 m_cameraToScreen;
+    };    
 }
 #endif // _LIGHTMAN_CAMERA_H
