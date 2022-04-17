@@ -62,7 +62,13 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
     // get managers
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
 
+    // init members
     myScene = new lightman::Scene();
+
+    // camera paras
+    lightman::Camera::CameraType myprojection = lightman::Camera::CameraType::PERSPECTIVE;
+    float myfov = 0.0, mynear = 0.0, myfar = 0.0, myfocaldistance=0.0;
+    float myeye[3], mytarget[3], myup[3];
 
     // hard coded, deprecated later
     string filePath = file.substr(0, file.find_last_of("/")+1);
@@ -253,7 +259,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                     }
                 }
                 Matrix4X4 mat4(m);
-                iMesh->GetTransform().setMatrix4(mat4);
+                iMesh->SetTransform(mat4);
             }
         }
         else if(objectType.compare("materials") == 0)
@@ -262,7 +268,57 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
         }
         else if(objectType.compare("camera") == 0)
         {
-            //
+            pos = subline.find_first_of(" = ");
+            string arrtibuteName = subline.substr(0,pos);
+            string arrtibuteValue = subline.substr(pos+2, subline.length());
+            
+            if(arrtibuteName.compare("type") == 0)
+            {
+                if (arrtibuteValue.compare("\"perspective\""))
+                {
+                    myprojection = lightman::Camera::CameraType::PERSPECTIVE;
+                }
+            }
+            else if(arrtibuteName.compare("fieldofview") == 0)
+            {
+                myfov = std::stod(arrtibuteValue);
+            }
+            else if(arrtibuteName.compare("cliphither") == 0)
+            {
+                mynear = std::stod(arrtibuteValue);
+            }
+            else if(arrtibuteName.compare("clipyon") == 0)
+            {
+                myfar = std::stod(arrtibuteValue);
+            }
+            else if(arrtibuteName.compare("focaldistance") == 0)
+            {
+                myfocaldistance = std::stod(arrtibuteValue);
+            }
+            else if(arrtibuteName.compare("lookat.orig") == 0)
+            {
+                stringstream ss(arrtibuteValue);
+                for (int i = 0; i < 3; i++)
+                {
+                    ss >> myeye[i];
+                }
+            }
+            else if(arrtibuteName.compare("lookat.target") == 0)
+            {
+                stringstream ss(arrtibuteValue);
+                for (int i = 0; i < 3; i++)
+                {
+                    ss >> mytarget[i];
+                }
+            }
+            else if(arrtibuteName.compare("up") == 0)
+            {
+                stringstream ss(arrtibuteValue);
+                for (int i = 0; i < 3; i++)
+                {
+                    ss >> myup[i];
+                }
+            }
         }
         else if(objectType.compare("lights") == 0)
         {
@@ -281,7 +337,8 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
     myView = new lightman::View();
     myView->SetScene(myScene);
 
-    myCamera = new lightman::Camera();
+    myCamera = new lightman::PerspectiveCamera();
+    myCamera->LookAt(myeye,mytarget,myup);
     myView->SetCamera(myCamera);
     
     void* nativeWindow = lightman::GetNativeWindow();
