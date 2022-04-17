@@ -5,12 +5,10 @@
 #include <cstdint>
 
 #include "geometry/triangle.h"
-#include "geometry/point.h"
 #include "geometry/mesh.h"
 #include "geometry/bbox.h"
 #include "geometry/normal.h"
-#include "geometry/uv.h"
-#include "math/transform.h"
+#include "math/matrix4x4.h"
 #include "color/color.h"
 
 #include "backend/driverbase.h"
@@ -52,7 +50,7 @@ namespace lightman
             std::vector<float> m_uvs;                      // vertex uv, i.e. u0, v0, u1, v1, ...
             
             BBox m_bBox;
-            Transform m_transform;
+            Matrix4X4 m_transform;
 
             bool m_isRasterGPUInitialized = false;
             backend::HwRenderPrimitive* m_renderPrimitive = nullptr;

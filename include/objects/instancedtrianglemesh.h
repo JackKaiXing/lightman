@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_INSTANCEDTRIANGLEMESH_H
 #define _LIGHTMAN_INSTANCEDTRIANGLEMESH_H
 
-#include "math/transform.h"
+#include "math/matrix4x4.h"
 #include "geometry/trianglemesh.h"
 #include "objects/instancedobject.h"
 
@@ -16,12 +16,12 @@ namespace lightman
     public:
         InstancedTriangleMesh();
         ~InstancedTriangleMesh();
-        Transform& GetTransform();
+        void SetTransform(const Matrix4X4& m);
         void SetMesh(std::string name, Mesh* mesh);
         void PrepareForRasterGPU();
     private:
         // tranfrom from model space to world space
-        Transform m_transform;
+        Matrix4X4 m_transform;
         std::string m_meshName;
         Mesh* m_mesh = nullptr;
     };

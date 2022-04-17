@@ -15,9 +15,8 @@ InstancedTriangleMesh::~InstancedTriangleMesh()
         m_mesh->ReleaseRef();
 }
 
-Transform& InstancedTriangleMesh::GetTransform()
+void InstancedTriangleMesh::SetTransform(const Matrix4X4& m)
 {
-    return m_transform;
 }
 
 void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)
