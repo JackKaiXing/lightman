@@ -8,6 +8,10 @@ namespace lightman
     namespace math
     {
         // ----------------------------------------------------------------------------
+        constexpr const double L_PI             = 3.14159265358979323846264338327950288;
+        constexpr const double DEG_TO_RAD       = L_PI/ 180.0;
+        constexpr const double RAD_TO_DEG       = 180.0 / L_PI;
+
         inline void V3ASubB(const float* a, const float* b, float* c)
         {
             c[0] = a[0] - b[0];
