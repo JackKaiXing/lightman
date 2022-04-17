@@ -1,8 +1,6 @@
 #ifndef _LIGHTMAN_BBOX_H
 #define _LIGHTMAN_BBOX_H
 
-#include "geometry/point.h"
-
 namespace lightman
 {
     namespace geometry
@@ -11,7 +9,7 @@ namespace lightman
         class BBox
         {
         public:
-            Point m_pMin, m_pMax;
+            float m_pMin[3], m_pMax[3];
         };
     } // namespace geometry
     
