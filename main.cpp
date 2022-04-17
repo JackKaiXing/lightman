@@ -26,6 +26,9 @@ public:
     lightman::Camera * myCamera = nullptr;
     lightman::SwapChain * mySwapChain = nullptr;
     lightman::Renderer *myRenderer = nullptr;
+    
+    unsigned int windowWidth = 500;
+    unsigned int windowheight = 400;
 public:
     void ParseLuxCoreScene(const std::string& file);
 }myConfig;
@@ -338,7 +341,8 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
     myView->SetScene(myScene);
 
     myCamera = new lightman::PerspectiveCamera();
-    myCamera->LookAt(myeye,mytarget,myup);
+    myCamera->LookAt(myeye, mytarget, myup);
+    myCamera->setProjection(myfov, mynear, myfar, windowWidth / windowheight,lightman::Camera::FovDirection::VERTICAL);
     myView->SetCamera(myCamera);
     
     void* nativeWindow = lightman::GetNativeWindow();
@@ -382,7 +386,7 @@ void Destory()
 
 int main(int argc, const char* argv[])
 {
-    lightman::MainWindow(argc, argv, Setup, Render);
+    lightman::MainWindow(argc, argv, Setup, Render, myConfig.windowWidth, myConfig.windowheight);
     Destory();
     return 0;
 }

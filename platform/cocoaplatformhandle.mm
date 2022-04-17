@@ -51,6 +51,7 @@ using SetupCallback = std::function<void()>;
 @property (nonatomic, readonly) NSWindow* window;
 @property (nonatomic, readwrite) RenderCallback render;
 @property (nonatomic, readwrite) SetupCallback setup;
+@property (nonatomic, readwrite) NSSize windowSize;
 @end
 
 @implementation AppDelegate
@@ -66,7 +67,7 @@ using SetupCallback = std::function<void()>;
     if (_window != nil)
         return (_window);
 
-    NSRect viewRect = NSMakeRect(100.0, 100.0, 100.0 + 500.0, 100 + 500.0);
+    NSRect viewRect = NSMakeRect(100.0, 100.0, _windowSize.width, _windowSize.height);
 
     _window = [[NSWindow alloc] initWithContentRect:viewRect styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
     [_window setTitle:@"LightMan MacOs"];
@@ -111,6 +112,11 @@ using SetupCallback = std::function<void()>;
     _setup = fb;
 }
 
+-(void)setWidowSize:(NSSize)size
+{
+    _windowSize = size;
+}
+
 @end
 
 // ----------------------------------------------------------------------------
@@ -123,7 +129,8 @@ namespace lightman
     {
         return [delegate.window contentView];
     }
-    int MainWindow(int argc, const char* argv[], std::function<void()> setup, std::function<void()> render)
+    int MainWindow(int argc, const char* argv[], std::function<void()> setup, std::function<void()> render,
+        unsigned int w, unsigned int h)
     {
         @autoreleasepool
         {
@@ -131,6 +138,7 @@ namespace lightman
             delegate = [[AppDelegate alloc] init];
             [delegate setRenderCallback:render];
             [delegate setSetupCallback:setup];
+            [delegate setWidowSize:NSMakeSize(w, h)];
             [[NSApplication sharedApplication] setDelegate:delegate];
             [NSApp run];
         }
