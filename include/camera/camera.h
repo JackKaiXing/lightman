@@ -17,12 +17,19 @@ namespace lightman
             PERSPECTIVE,
             ORTHO
         };
+        enum class FovDirection : uint8_t
+        {
+            HORIZONTAL,
+            VERTICAL
+        };
         virtual CameraType GetCameraType() = 0 ;
         void LookAt(float eye[3], float target[3], float up[3]);
         virtual ~Camera();
+        void setProjection(float fov, float near, float far, float aspect,
+                                  Camera::FovDirection direction = Camera::FovDirection::VERTICAL);
+        void setProjection(float left, float right, float bottom, float up, float near, float far);
     protected:
         Camera();
-    private:
         float m_near{};
         float m_far{};
 
@@ -31,6 +38,7 @@ namespace lightman
         float m_up[3];
         Matrix4X4 m_worldToCamera;
         Matrix4X4 m_cameraToWorld;
+        Matrix4X4 m_cameraToScreen;
     };
 
     class PerspectiveCamera : public Camera
@@ -38,9 +46,7 @@ namespace lightman
     public:
         CameraType GetCameraType() override {return Camera::CameraType::PERSPECTIVE;};
         PerspectiveCamera(/* args */) = default;
-        ~PerspectiveCamera() = default;
-    private:
-        Matrix4X4 m_cameraToScreen;
+        ~PerspectiveCamera() = default;        
     };
 
     class OrthogrpicCamera : public Camera
@@ -49,8 +55,6 @@ namespace lightman
         CameraType GetCameraType() override {return Camera::CameraType::ORTHO;};
         OrthogrpicCamera(/* args */);
         ~OrthogrpicCamera();
-    private:
-        Matrix4X4 m_cameraToScreen;
     };    
 }
 #endif // _LIGHTMAN_CAMERA_H
