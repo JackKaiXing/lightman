@@ -2,6 +2,7 @@
 #define _LIGHTMAN_MATRIX4X4_H
 
 #include <cstddef>
+#include <cstring>
 
 namespace lightman
 {
