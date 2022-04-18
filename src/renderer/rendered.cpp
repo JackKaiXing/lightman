@@ -50,6 +50,8 @@ namespace lightman
             // Usually this would return quickly after the first loop.
             iter->second->PrepareForRasterGPU();
 
+            iter->second->Draw();
+
             iter++;
         } 
     }
