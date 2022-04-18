@@ -125,6 +125,7 @@ namespace lightman
         template<typename T>
         TMatrix4X4<T> TMatrix4X4<T>::frustum(T left, T right, T bottom, T top, T near, T far)
         {
+            // http://learnwebgl.brown37.net/08_projections/projections_perspective.html
             /*
              * P =  2N/r-l    0      r+l/r-l        0
              *       0      2N/t-b   t+b/t-b        0
