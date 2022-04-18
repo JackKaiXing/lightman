@@ -19,6 +19,7 @@ namespace lightman
         void SetTransform(const Matrix4X4& m);
         void SetMesh(std::string name, Mesh* mesh);
         void PrepareForRasterGPU();
+        void Draw();
     private:
         // tranfrom from model space to world space
         Matrix4X4 m_transform;

@@ -36,5 +36,15 @@ void InstancedTriangleMesh::PrepareForRasterGPU()
         std::cout << "InstancedMesh does not have a valid source mesh" << std::endl;
 #endif
 }
+
+void InstancedTriangleMesh::Draw()
+{
+    if(m_mesh)  
+        m_mesh->Draw();
+#ifdef DEBUG
+    else    
+        std::cout << "InstancedMesh does not have a valid source mesh" << std::endl;
+#endif
+}
     
 } // namespace lightman
