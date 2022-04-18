@@ -57,10 +57,7 @@ void TriangleMesh::InitUVs(std::vector<float>& uvs)
 void TriangleMesh::PrepareForRasterGPU()
 {
     if(m_isRasterGPUInitialized)
-    {
-        Engine::GetInstance()->GetDriver()->draw(m_renderPrimitive);
         return;
-    }
     
     // vao
     m_renderPrimitive = Engine::GetInstance()->GetDriver()->createRenderPrimitive();
@@ -120,6 +117,11 @@ void TriangleMesh::PrepareForRasterGPU()
     Engine::GetInstance()->GetDriver()->setRenderPrimitiveBuffer(m_renderPrimitive, m_vertexBuffer, m_indexBuffer);
 
     m_isRasterGPUInitialized = true;
+}
+void TriangleMesh::Draw()
+{
+    if(!m_isRasterGPUInitialized)
+        return;
     Engine::GetInstance()->GetDriver()->draw(m_renderPrimitive);
 }
 } // namespace geometry
