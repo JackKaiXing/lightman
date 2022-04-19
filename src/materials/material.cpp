@@ -9,6 +9,8 @@ namespace lightman
     }
     MaterialInstance* Material::createMaterialInstance(const std::string& name)
     {
+        IncreaseRef();
+        
         MaterialInstance* result = new MaterialInstance(this, name);
         return result;
     }
