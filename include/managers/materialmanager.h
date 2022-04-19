@@ -14,8 +14,12 @@ namespace lightman
     public:
         MaterialManager(/* args */);
         ~MaterialManager();
+        Material* CreateMaterial(Material::MaterialType type, const std::string& name);
+        MaterialInstance* CreateMaterialInstance(Material* material, const std::string& name);
+
     private:
-        std::unordered_map<std::string, Material*> m_mats;
+        std::unordered_map<std::string, Material*> m_materials;
+        std::unordered_map<std::string, MaterialInstance*> m_materialInstances;
     };
 } // namespace lightman
 
