@@ -3,7 +3,8 @@
 
 namespace lightman
 {
-    MatteMaterial::MatteMaterial()
+    MatteMaterial::MatteMaterial(const std::string& name) 
+        : Material(name)
     {
 
     }

@@ -9,10 +9,10 @@ namespace lightman
     class MatteMaterial final : public Material
     {
     public:
-        MatteMaterial();
+        MatteMaterial(const std::string& name);
         ~MatteMaterial();
         MaterialType getMaterialType() { return Material::MaterialType::MATTE;};
-    protected:
+    private:
         
     };
     
