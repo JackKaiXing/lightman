@@ -17,14 +17,6 @@ namespace lightman
     private:
         std::unordered_map<std::string, Material*> m_mats;
     };
-    
-    MaterialManager::MaterialManager(/* args */)
-    {
-    }
-    
-    MaterialManager::~MaterialManager()
-    {
-    }
 } // namespace lightman
 
 #endif  //_LIGHTMAN_MATERIALMANAGER_H
