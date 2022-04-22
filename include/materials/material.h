@@ -26,7 +26,6 @@ namespace lightman
     protected:
         MaterialInstance* createMaterialInstance(const std::string& name);
     private:
-        backend::HwProgram * m_program = nullptr;
         std::string m_name;
     };
     
