@@ -10,10 +10,9 @@ namespace lightman
     {
         if (g_meshManager==nullptr)
         {
-           return new MeshManager();
+            g_meshManager = new MeshManager();
         }
         return g_meshManager;
-        
     }
 
     void MeshManager::DetoryInstance()
