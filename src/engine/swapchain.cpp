@@ -4,22 +4,20 @@
 
 namespace lightman
 {
-    SwapChain::SwapChain(Engine* engine, backend::HwSwapChain* swapchain)
+    SwapChain::SwapChain(backend::HwSwapChain* swapchain)
     {
         m_swapchain = swapchain;
-        m_engine = engine;
     }
     SwapChain::~SwapChain()
     {
         m_swapchain = nullptr;
-        m_engine = nullptr;
     }
     void SwapChain::makeCurrent()
     {
-        m_engine->GetDriver()->makeCurrent(m_swapchain);
+        Engine::GetInstance()->GetDriver()->makeCurrent(m_swapchain);
     }
     void SwapChain::Commit()
     {
-        m_engine->GetDriver()->Commit(m_swapchain);
+        Engine::GetInstance()->GetDriver()->Commit(m_swapchain);
     }
 }
