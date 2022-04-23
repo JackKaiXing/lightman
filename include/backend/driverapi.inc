@@ -53,7 +53,7 @@ DECL_DRIVER_API_N(setRenderPrimitiveBuffer,
         backend::HwRenderPrimitive*, rph,
         backend::HwVertexBuffer*, vbh,
         backend::HwIndexBuffer*, ibh)
-DECL_DRIVER_API_N(draw, backend::HwRenderPrimitive*, rph)
+DECL_DRIVER_API_N(draw, backend::HwProgram*, program, backend::HwRenderPrimitive*, rph)
 
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_R_N(R, N, ...) \

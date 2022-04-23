@@ -292,7 +292,7 @@ namespace lightman
             CHECK_GL_ERROR();
         }
 
-        void OpengGLDriver::draw(backend::HwRenderPrimitive* rph)
+        void OpengGLDriver::draw(backend::HwProgram * program, backend::HwRenderPrimitive* rph)
         {
             GLRenderPrimitive* rp = static_cast<GLRenderPrimitive *>(rph);
 
