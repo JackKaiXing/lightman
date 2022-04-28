@@ -15,6 +15,7 @@
 #include "renderer/renderer.h"
 #include "objects/instancedtrianglemesh.h"
 #include "managers/meshmanager.h"
+#include "managers/materialmanager.h"
 
 #include "ply/ply.h"
 
@@ -27,8 +28,8 @@ public:
     lightman::SwapChain * mySwapChain = nullptr;
     lightman::Renderer *myRenderer = nullptr;
     
-    unsigned int windowWidth = 500;
-    unsigned int windowheight = 400;
+    unsigned int windowWidth = 394;
+    unsigned int windowheight = 535;
 public:
     void ParseLuxCoreScene(const std::string& file);
 }myConfig;
@@ -62,6 +63,8 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 
 void AppConfig::ParseLuxCoreScene(const std::string& file)
 {
+    myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
+    
     // get managers
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
 
@@ -240,7 +243,13 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             }
             else if (arrtibuteName.compare("material") == 0)
             {
-                //
+                string materialName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
+                materialName = "Spot11264181937048"; // TODO Remove
+                std::string materialInstancename = materialName + "_mi"; // TODO Remove
+                lightman::MaterialInstance * mi = lightman::MaterialManager::GetInstance()->CreateMaterialInstance(
+                        lightman::MaterialManager::GetInstance()->GetMaterial(materialName),"");
+                lightman::InstancedTriangleMesh * iMesh = myScene->GetMesh(objectName);
+                iMesh->SetMaterialInstance(mi);
             }
             else if (arrtibuteName.compare("camerainvisible") == 0)
             {
@@ -250,7 +259,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             {
                 //
             }
-            else if (arrtibuteName.compare("appliedtransformation") == 0)
+            else if (arrtibuteName.compare("transformation") == 0)
             {
                 float m[4][4];
                 stringstream ss(arrtibuteValue);
@@ -262,12 +271,42 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                     }
                 }
                 Matrix4X4 mat4(m);
+                mat4.Transpose();
+                Matrix4X4 ratateMatrix;
+                ratateMatrix.m_value[0][0] = 1;
+                ratateMatrix.m_value[0][1] = 0;
+                ratateMatrix.m_value[0][2] = 0;
+                
+                ratateMatrix.m_value[1][0] = 0;
+                ratateMatrix.m_value[1][1] = 0;
+                ratateMatrix.m_value[1][2] = 1;
+                
+                ratateMatrix.m_value[2][0] = 0;
+                ratateMatrix.m_value[2][1] = -1;
+                ratateMatrix.m_value[2][2] = 0;
+                 
+                mat4 = ratateMatrix * mat4;
+                
                 iMesh->SetTransform(mat4);
             }
         }
         else if(objectType.compare("materials") == 0)
         {
-            //
+            pos = subline.find_first_of(".");
+            string materialName = subline.substr(0,pos);
+
+            subline = subline.substr(pos+1,subline.length());
+            pos = subline.find_first_of(" = ");
+            string arrtibuteName = subline.substr(0,pos);
+            string arrtibuteValue = subline.substr(pos+2, subline.length());
+
+            if (arrtibuteName.compare("type") == 0)
+            {
+                string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
+                lightman::MaterialManager::GetInstance()->CreateMaterial(
+                    lightman::Material::StringToMaterialType(arrtibuteValue),materialName);
+            }
+            // TODO other properties
         }
         else if(objectType.compare("camera") == 0)
         {
@@ -333,16 +372,14 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
         }
         
     }
-    scnfile.close(); 
-
-    myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
+    scnfile.close();
 
     myView = new lightman::View();
     myView->SetScene(myScene);
 
     myCamera = new lightman::PerspectiveCamera();
     myCamera->LookAt(myeye, mytarget, myup);
-    myCamera->setProjection(myfov, mynear, myfar, windowWidth / windowheight,lightman::Camera::FovDirection::VERTICAL);
+    myCamera->setProjection(myfov, mynear, myfar, (float)windowWidth / (float)windowheight,lightman::Camera::FovDirection::VERTICAL);
     myView->SetCamera(myCamera);
     
     void* nativeWindow = lightman::GetNativeWindow();
