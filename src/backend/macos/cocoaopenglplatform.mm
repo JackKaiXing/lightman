@@ -100,9 +100,10 @@ namespace lightman
             }
             [m_cocoaImpl->m_openGLContext makeCurrentContext];
 
-            accumulator = (accumulator+0.01) > 1.0 ? 0.0 : (accumulator+0.01);
+            accumulator = (accumulator+0.01) > 1.0 ? 0.0 : (accumulator+0.01); // TODO REMOVE
             glClearColor(1.0*accumulator, 0.0, 0.0, 1.0);
-            glClear(GL_COLOR_BUFFER_BIT);
+            glEnable(GL_DEPTH_TEST);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         void CocoaOpenGLPlatform::Commit(Platform::SwapChain* drawswapchain)
         {
