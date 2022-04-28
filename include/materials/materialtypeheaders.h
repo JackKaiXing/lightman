@@ -1,0 +1,6 @@
+#ifndef _LIGHTMAN_MATERIALTYPEHEADERS_H
+#define _LIGHTMAN_MATERIALTYPEHEADERS_H
+
+#include "materials/mattematrial.h"
+
+#endif // _LIGHTMAN_MATERIALTYPEHEADERS_H
