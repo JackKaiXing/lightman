@@ -38,4 +38,8 @@ namespace lightman
     {
         return m_scene;
     }
+    Camera* View::getCamera()
+    {
+        return m_camera;
+    }
 }
