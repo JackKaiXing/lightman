@@ -40,7 +40,8 @@ namespace lightman
             bool HasUV() {return m_uvs.size()>0;};
             MeshType GetMeshType() override {return MeshType::Triangle;};
             void PrepareForRasterGPU() override;
-            void Draw() override;
+            void Draw(backend::HwProgram * program) override;
+            Matrix4X4 GetTransform();
         private:
             void SetAttribute(backend::VertexAttribute attributeType, backend::ElementType elementType, 
                 uint8_t flags, uint8_t stride, uint32_t offset);

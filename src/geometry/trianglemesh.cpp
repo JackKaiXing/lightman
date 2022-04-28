@@ -64,7 +64,7 @@ void TriangleMesh::PrepareForRasterGPU()
     m_renderPrimitive->offset = 0;
     m_renderPrimitive->minIndex = 0;
     m_renderPrimitive->maxIndex = m_triIndexs.size();
-    m_renderPrimitive->count = m_triIndexs.size() / 3;
+    m_renderPrimitive->count = m_triIndexs.size();
 
     // vertex buffer
     uint8_t attributeCount = 0;
@@ -111,18 +111,22 @@ void TriangleMesh::PrepareForRasterGPU()
     // index buffer
     m_indexBuffer = Engine::GetInstance()->GetDriver()->createIndexBuffer(backend::ElementType::UINT, 
         m_triIndexs.size(), backend::BufferUsage::STATIC);
-    Engine::GetInstance()->GetDriver()->updateIndexBuffer(m_indexBuffer,m_triIndexs.data(), m_triIndexs.size(), 0);
+    Engine::GetInstance()->GetDriver()->updateIndexBuffer(m_indexBuffer,m_triIndexs.data(), m_triIndexs.size() * sizeof(uint32_t), 0);
     
     // set renderprimitive
     Engine::GetInstance()->GetDriver()->setRenderPrimitiveBuffer(m_renderPrimitive, m_vertexBuffer, m_indexBuffer);
 
     m_isRasterGPUInitialized = true;
 }
-void TriangleMesh::Draw()
+void TriangleMesh::Draw(backend::HwProgram * program)
 {
     if(!m_isRasterGPUInitialized)
         return;
-    Engine::GetInstance()->GetDriver()->draw(m_renderPrimitive);
+    Engine::GetInstance()->GetDriver()->draw(program, m_renderPrimitive);
+}
+Matrix4X4 TriangleMesh::GetTransform()
+{
+    return m_transform;
 }
 } // namespace geometry
 } // namespace lightman
