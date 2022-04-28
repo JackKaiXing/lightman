@@ -22,6 +22,7 @@ namespace lightman
             TMatrix4X4();
             TMatrix4X4(const T mat[SIZE][SIZE]);
             TMatrix4X4 Inverse();
+            void Transpose();
             static TMatrix4X4 LookAt(T eye[3], T target[3], T up[3]);
             static TMatrix4X4 frustum(T left, T right, T bottom, T top, T near, T far);
             T m_value[SIZE][SIZE];
@@ -132,22 +133,27 @@ namespace lightman
              *       0        0      F+N/N-F   2*F*N/N-F
              *       0        0        -1           0
              */
+            // http://learnwebgl.brown37.net/08_projections/projections_perspective.html
 
             TMatrix4X4<T> m;
             m.m_value[0][0] = (2 * near) / (right - left);
+            m.m_value[0][2] = (right + left) / (right - left);
+            
             m.m_value[1][1] = (2 * near) / (top - bottom);
-            m.m_value[2][0] = (right + left) / (right - left);
-            m.m_value[2][1] = (top + bottom) / (top - bottom);
+            m.m_value[1][2] = (top + bottom) / (top - bottom);
+            
             m.m_value[2][2] = -(far + near) / (far - near);
-            m.m_value[2][3] = -1;
-            m.m_value[3][2] = -(2 * far * near) / (far - near);
+            m.m_value[2][3] = -(2 * far * near) / (far - near);
+            
+            m.m_value[3][2] = -1;
             m.m_value[3][3] = 0;
+                        
             return m;
         }
         template<typename T>
         TMatrix4X4<T> TMatrix4X4<T>::LookAt(T eye[3], T target[3], T up[3])
         {
-            // camera to wolrd
+            // camera to wolrd, row first
             TMatrix4X4<T> cameToWorld;
             cameToWorld.m_value[0][3] = eye[0];
             cameToWorld.m_value[1][3] = eye[1];
@@ -169,14 +175,52 @@ namespace lightman
             cameToWorld.m_value[1][1] = newUp[1];
             cameToWorld.m_value[2][1] = newUp[2];
             cameToWorld.m_value[3][1] = 0.;
-            cameToWorld.m_value[0][2] = dir[0];
-            cameToWorld.m_value[1][2] = dir[1];
-            cameToWorld.m_value[2][2] = dir[2];
+            cameToWorld.m_value[0][2] = -dir[0];
+            cameToWorld.m_value[1][2] = -dir[1];
+            cameToWorld.m_value[2][2] = -dir[2];
             cameToWorld.m_value[3][2] = 0.;
             
             // camToWorld, https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/lookat-function
-            // worldToCamera,         // same as gllookat, https://twodee.org/blog/17560
+            // worldToCamera, same as gllookat, https://twodee.org/blog/17560
+            // the camera should look into the negative-Z axis, http://www.songho.ca/opengl/gl_projectionmatrix.html
             return cameToWorld;
+        }
+        template<typename T>
+        void TMatrix4X4<T>::Transpose()
+        {
+            float temp = 0.0;
+            for (int i = 0; i < TMatrix4X4<T>::SIZE; i++)
+            {
+                for (int j = i+1; j < TMatrix4X4<T>::SIZE; j++)
+                {
+                    temp = m_value[i][j];
+                    m_value[i][j] = m_value[j][i];
+                    m_value[j][i] = temp;
+                }
+            }
+        }
+        // Should Not Member Function, https://stackoverflow.com/questions/13554320/overloaded-operator-must-be-a-unary-or-binary-operator-error
+        template<typename T>
+        TMatrix4X4<T> operator*(const TMatrix4X4<T>& lhs, const TMatrix4X4<T>& rhs)
+        {
+            TMatrix4X4<T> result;
+
+            // Normal Matrix Multiply
+            for (int i = 0; i < TMatrix4X4<T>::SIZE; i++)
+            {
+                for (int j = 0; j < TMatrix4X4<T>::SIZE; j++)
+                {
+                    result.m_value[i][j] = 0;
+                    for (int k = 0; k < TMatrix4X4<T>::SIZE; k++)
+                    {
+                        result.m_value[i][j] += lhs.m_value[i][k] * rhs.m_value[k][j];
+                    }
+                }
+            }
+            // TODO better Matrix Multiply Performance
+            // https://github.com/rangelak/Strassen-Matrix-Multiplication/blob/master/strassen.cpp
+
+            return result;
         }
         // ----------------------------------------------------------------------------
         using Matrix4X4 = TMatrix4X4<float>;
