@@ -10,48 +10,22 @@ namespace lightman
 {
     namespace backend
     {
-        // TEST PROGRAM
-        GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path)
+        void GLProgram::LoadShaders(const std::string& VertexShaderCode, const std::string& FragmentShaderCode)
         {
-
-            // Create the shaders
-            GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-            GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-            // Read the Vertex Shader code from the file
-            std::string VertexShaderCode;
-            std::ifstream VertexShaderStream(vertex_file_path, std::ios::in);
-            if(VertexShaderStream.is_open()){
-                std::string Line = "";
-                while(getline(VertexShaderStream, Line))
-                    VertexShaderCode += "\n" + Line;
-                VertexShaderStream.close();
-            }else{
-                printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_file_path);
-                getchar();
-                return 0;
-            }
-
-            // Read the Fragment Shader code from the file
-            std::string FragmentShaderCode;
-            std::ifstream FragmentShaderStream(fragment_file_path, std::ios::in);
-            if(FragmentShaderStream.is_open()){
-                std::string Line = "";
-                while(getline(FragmentShaderStream, Line))
-                    FragmentShaderCode += "\n" + Line;
-                FragmentShaderStream.close();
-            }
+            GLuint& VertexShaderID = gl.shaders[uint32_t(backend::Shader::VERTEX)];
+            GLuint& FragmentShaderID = gl.shaders[uint32_t(backend::Shader::FRAGMENT)];
+            
+            VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+            FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
             GLint Result = GL_FALSE;
             int InfoLogLength;
 
-
             // Compile Vertex Shader
-            printf("Compiling shader : %s\n", vertex_file_path);
             char const * VertexSourcePointer = VertexShaderCode.c_str();
             glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
             glCompileShader(VertexShaderID);
-
+            
             // Check Vertex Shader
             glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
             glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
@@ -62,7 +36,6 @@ namespace lightman
             }
             
             // Compile Fragment Shader
-            printf("Compiling shader : %s\n", fragment_file_path);
             char const * FragmentSourcePointer = FragmentShaderCode.c_str();
             glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
             glCompileShader(FragmentShaderID);
@@ -78,34 +51,29 @@ namespace lightman
             
             // Link the program
             printf("Linking program\n");
-            GLuint ProgramID = glCreateProgram();
-            glAttachShader(ProgramID, VertexShaderID);
-            glAttachShader(ProgramID, FragmentShaderID);
-            glLinkProgram(ProgramID);
+            gl.program = glCreateProgram();
+            glAttachShader(gl.program, VertexShaderID);
+            glAttachShader(gl.program, FragmentShaderID);
+            glLinkProgram(gl.program);
 
             // Check the program
-            glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
-            glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+            glGetProgramiv(gl.program, GL_LINK_STATUS, &Result);
+            glGetProgramiv(gl.program, GL_INFO_LOG_LENGTH, &InfoLogLength);
             if ( InfoLogLength > 0 ){
                 std::vector<char> ProgramErrorMessage(InfoLogLength+1);
-                glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+                glGetProgramInfoLog(gl.program, InfoLogLength, NULL, &ProgramErrorMessage[0]);
                 printf("%s\n", &ProgramErrorMessage[0]);
             }
             
-            glDetachShader(ProgramID, VertexShaderID);
-            glDetachShader(ProgramID, FragmentShaderID);
+            // glDetachShader(gl.program, VertexShaderID);
+            // glDetachShader(gl.program, FragmentShaderID);
             
-            glDeleteShader(VertexShaderID);
-            glDeleteShader(FragmentShaderID);
-
-            return ProgramID;
+            // glDeleteShader(VertexShaderID);
+            // glDeleteShader(FragmentShaderID);
         }
-        GLuint g_program = 0;
         // ----------------------------------------------------------------------------
         backend::Driver* OpengGLDriver::create(backend::OpenGLPlatform* platform, void* sharedGLContext) noexcept
         {
-            g_program = LoadShaders("/Users/XK/Desktop/Projects/lightman/src/backend/opengl/shader.vert",
-            "/Users/XK/Desktop/Projects/lightman/src/backend/opengl/shader.frag");
             return new OpengGLDriver(platform, sharedGLContext);
         }
         OpengGLDriver::OpengGLDriver(backend::OpenGLPlatform* platform, void* sharedGLContext)
@@ -173,7 +141,8 @@ namespace lightman
 
             if (bo->gl.binding == GL_UNIFORM_BUFFER)
             {
-                // TODO
+                // TODO check byteoffset and aligment
+                glBufferData(bo->gl.binding, dataSize, data, OpenGLUtils::getBufferUsage(bo->usage));
             }
             else{
                 if(bo->gl.binding == GL_ARRAY_BUFFER)
@@ -295,13 +264,33 @@ namespace lightman
         void OpengGLDriver::draw(backend::HwProgram * program, backend::HwRenderPrimitive* rph)
         {
             GLRenderPrimitive* rp = static_cast<GLRenderPrimitive *>(rph);
+            GLProgram * glprogram = static_cast<GLProgram *>(program);
 
-            glUseProgram(g_program);
+            glUseProgram(glprogram->gl.program);
 
             glBindVertexArray(rp->gl.vao);
             // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawRangeElements.xhtml
             glDrawRangeElements(GLenum(rp->type), rp->minIndex, rp->maxIndex, rp->count,
                 rp->gl.indicesType, reinterpret_cast<const void*>(rp->offset));
+            CHECK_GL_ERROR();
+        }
+
+        backend::HwProgram* OpengGLDriver::createProgram(const std::string& vertexShader, const std::string& fragShader)
+        {
+            GLProgram* result = new GLProgram();
+            result->LoadShaders(vertexShader, fragShader);
+
+            // TODO remove below test code
+            unsigned int targetUniformIndex = glGetUniformBlockIndex(result->gl.program, "targetUniform");   
+            glUniformBlockBinding(result->gl.program, targetUniformIndex, 0);
+
+            return result;
+        }
+        void OpengGLDriver::bindUniformBuffer(uint32_t index, backend::HwBufferObject* ubh)
+        {
+            GLBufferObject* ub = static_cast<GLBufferObject *>(ubh);
+            assert(ub->gl.binding == GL_UNIFORM_BUFFER);
+            glBindBufferRange(ub->gl.binding, GLuint(index), ub->gl.id, 0, ub->byteCount);
             CHECK_GL_ERROR();
         }
     }
