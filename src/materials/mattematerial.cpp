@@ -55,14 +55,12 @@ namespace lightman
                 float uTestColor; \n \
             }; \n \
             out float lightIntensity; \n \
-            out float testColor; \n \
             void main() \n \
             { \n \
                 lightIntensity = 1.0; \n \
                 #if defined(HAS_ATTRIBUTE_TANGENTS) \n \
                     lightIntensity *= dot(vec3(0.577), tangent); \n \
                 #endif \n \
-                testColor = 1.0f * uTestColor; \n \
                 mat4 localMatrix; \n \
                 localMatrix[0] = vec4(0,        0,          -1.00400794,    -1); \n \
                 localMatrix[1] = vec4(0,        2.1875,     0,              0); \n \
@@ -90,10 +88,9 @@ namespace lightman
 
         static const std::string fragmengShader = "out vec4 color; \n \
         in float lightIntensity; \n \
-        in float testColor; \n \
         void main() \n \
         { \n \
-            color.rgb =	vec3(testColor*lightIntensity); \n \
+            color.rgb =	vec3(lightIntensity); \n \
             color.a = 1.0; \n \
         }";
         ss << fragmengShader;

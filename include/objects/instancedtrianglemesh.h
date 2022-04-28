@@ -39,8 +39,6 @@ namespace lightman
         HwProgram* m_program = nullptr;
         bool m_needToUpdateProgram = true;
         bool m_needToUpdateTransform = true;
-        bool testFlag = true;
-
     };
     
 } // namespace lightman

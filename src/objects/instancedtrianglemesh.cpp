@@ -89,15 +89,7 @@ void InstancedTriangleMesh::Draw()
             pvmMatrix.Transpose();
             m_mInstance->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
         }
-        
-        if (testFlag) {
-            static float testColor = 0.5;
-            float stride = 0.1;
-            testColor += stride;
-            testColor = testColor > 1.0? 0.5 : testColor;
-            m_mInstance->SetParameter("uTestColor",testColor); // TODO Config
-            testFlag = false;
-        }
+        m_mInstance->SetParameter("uTestColor",0.5f); // TODO Config
         
         m_mInstance->Commit();
         m_mInstance->BindUniformBlockToProgram(m_program);
