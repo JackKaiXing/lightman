@@ -9,6 +9,37 @@ namespace lightman
     namespace backend
     {
         // ----------------------------------------------------------------------------
+        // Shader Program Related Types.
+        // ----------------------------------------------------------------------------
+        enum class UniformType : uint8_t {
+            BOOL,
+            BOOL2,
+            BOOL3,
+            BOOL4,
+            FLOAT,
+            FLOAT2,
+            FLOAT3,
+            FLOAT4,
+            INT,
+            INT2,
+            INT3,
+            INT4,
+            UINT,
+            UINT2,
+            UINT3,
+            UINT4,
+            MAT3,   //!< a 3x3 float matrix
+            MAT4    //!< a 4x4 float matrix
+        };
+
+        enum class Precision : uint8_t {
+            LOW,
+            MEDIUM,
+            HIGH,
+            DEFAULT
+        };
+
+        // ----------------------------------------------------------------------------
         // C++ Driver Interface Type Definitions
         // Specific Dirver should implement conversions to their own type.
         // ----------------------------------------------------------------------------
@@ -51,6 +82,7 @@ namespace lightman
             STREAM,     
         };
         enum class PrimitiveType : uint8_t {
+            // do not changed
             POINTS      = 0,
             LINES       = 1,
             TRIANGLES   = 4,
@@ -62,9 +94,8 @@ namespace lightman
         enum VertexAttribute : uint8_t {
             POSITION        = 0, //!< XYZ position (float3)
             TANGENTS        = 1, //!< tangent, bitangent and normal, encoded as a quaternion (float4)
-            COLOR           = 2, //!< vertex color (float4)
-            UV0             = 3, //!< texture coordinates (float2)
-            UV1             = 4, //!< texture coordinates (float2)
+            UV0             = 2, //!< texture coordinates (float2)
+            UV1             = 3, //!< texture coordinates (float2)
         };
 
         // Driver
@@ -73,6 +104,13 @@ namespace lightman
             OPENGL = 0, // also default
             METAL,
             VULKAN,
+        };
+
+        static constexpr size_t SHADER_TYPE_COUNT = 2;
+        enum class Shader : uint8_t
+        {
+            VERTEX = 0,
+            FRAGMENT = 1
         };
     }
 }
