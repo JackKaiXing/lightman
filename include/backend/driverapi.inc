@@ -54,6 +54,9 @@ DECL_DRIVER_API_N(setRenderPrimitiveBuffer,
         backend::HwVertexBuffer*, vbh,
         backend::HwIndexBuffer*, ibh)
 DECL_DRIVER_API_N(draw, backend::HwProgram*, program, backend::HwRenderPrimitive*, rph)
+DECL_DRIVER_API_N(bindUniformBuffer,
+        uint32_t, index,
+        backend::HwBufferObject*, ubh)
 
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_R_N(R, N, ...) \
@@ -74,6 +77,9 @@ DECL_DRIVER_API_R_N(backend::HwIndexBuffer*, createIndexBuffer,
         backend::ElementType, elementType,
         uint32_t, indexCount,
         backend::BufferUsage, usage)
+DECL_DRIVER_API_R_N(backend::HwProgram*, createProgram,
+        const std::string&, vertexShader,
+        const std::string&, fragShader)
 
 
 // ----------------------------------------------------------------------------
