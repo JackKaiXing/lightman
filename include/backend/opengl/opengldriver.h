@@ -6,7 +6,6 @@
 #include "backend/opengl/openglheaders.h"
 
 #include "backend/driverbase.h"
-#include "backend/program.h"
 #include "backend/opengl/openglplatform.h"
 #include "backend/opengl/openglcontext.h"
 
@@ -39,13 +38,15 @@ namespace lightman
             OpenGLContext::RenderPrimitive gl;
         };
 
-        struct GLPROGRAM : public HwProgram
+        struct GLProgram : public HwProgram
         {
             struct
             {
-                GLuint shaders[Program::SHADER_TYPE_COUNT];
+                GLuint shaders[backend::SHADER_TYPE_COUNT];
                 GLuint program;
             } gl;
+
+            void LoadShaders(const std::string& VertexShaderCode, const std::string& FragmentShaderCode);
         }; 
 
         struct GLBufferObject : public backend::HwBufferObject {
