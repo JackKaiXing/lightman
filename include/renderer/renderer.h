@@ -2,12 +2,15 @@
 #define _LIGHTMAN_RENDERER_H
 
 #include <cstdint>
+#include <unordered_map>
+#include <array>
 #include "engine/swapchain.h"
-#include "view/view.h"
+#include "materials/material.h"
 
 namespace lightman
 {
     class Engine;
+    class View;
     //----------------------------------------------------------------------------
     static constexpr uint8_t MAX_RENDERER_TYPE_COUNT = 3;
     enum class RenderType: uint8_t
@@ -33,14 +36,18 @@ namespace lightman
     class GPURenderer : public Renderer
     {
     public:
-        GPURenderer(Engine * engine);
+        GPURenderer();
         ~GPURenderer();
         RenderType GetType() override {return RenderType::RASTER_GPU;};
         bool BeginFrame(SwapChain *swapChain) override;
         void EndFrame() override;
         void RenderFrame(View* view) override;
+    friend class InstancedTriangleMesh;
+    protected:
+        backend::HwProgram* GetProgram(Material::MaterialType type, uint32_t index);
     private:
-        Engine* m_Engine; // TODO DO WE NEED MULTIPLE ENGINES?
+        std::array<std::unordered_map<uint32_t, backend::HwProgram*>, 
+            Material::MaterialType::MAX_MATERIALTYPE_COUNT> m_programs;
     };
 }
 #endif // _LIGHTMAN_RENDERER_H
