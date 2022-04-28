@@ -28,6 +28,9 @@ namespace lightman
         void setProjection(float fov, float near, float far, float aspect,
                                   Camera::FovDirection direction = Camera::FovDirection::VERTICAL);
         void setProjection(float left, float right, float bottom, float up, float near, float far);
+        Matrix4X4 GetViewMatrix();
+        Matrix4X4 GetProjectionMatrix();
+        Matrix4X4 GetProjectionViewMatrix();
     protected:
         Camera();
         float m_near{};
@@ -39,6 +42,7 @@ namespace lightman
         Matrix4X4 m_worldToCamera;
         Matrix4X4 m_cameraToWorld;
         Matrix4X4 m_cameraToScreen;
+        Matrix4X4 m_worldToSreen;
     };
 
     class PerspectiveCamera : public Camera

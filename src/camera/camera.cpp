@@ -26,6 +26,7 @@ namespace lightman
         
         m_cameraToWorld = Matrix4X4::LookAt(m_eye, m_target, m_up); 
         m_worldToCamera = m_cameraToWorld.Inverse(); 
+        m_worldToSreen = m_cameraToScreen * m_worldToCamera;
     }
     void Camera::setProjection(float fovDegree, float near, float far, float aspect, Camera::FovDirection direction)
     {
@@ -62,5 +63,19 @@ namespace lightman
 
         m_near = near;
         m_far = far;
+        
+        m_worldToSreen = m_cameraToScreen * m_worldToCamera;
+    }
+    Matrix4X4 Camera::GetViewMatrix()
+    {
+        return m_worldToCamera;
+    }
+    Matrix4X4 Camera::GetProjectionMatrix()
+    {
+        return m_cameraToScreen;
+    }
+    Matrix4X4 Camera::GetProjectionViewMatrix()
+    {
+        return m_worldToSreen;
     }
 }
