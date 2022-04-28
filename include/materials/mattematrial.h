@@ -11,7 +11,9 @@ namespace lightman
     public:
         MatteMaterial(const std::string& name);
         ~MatteMaterial();
-        MaterialType getMaterialType() { return Material::MaterialType::MATTE;};
+        MaterialType getMaterialType() override { return Material::MaterialType::MATTE;};
+        static std::string CreateVertexShaderString(uint32_t index);
+        static std::string CreateFragmentShaderString(uint32_t index);
     private:
         
     };
