@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include "utils/ref.h"
+#include "backend/driverbase.h"
 
 using namespace lightman::utils;
 namespace lightman
@@ -22,7 +23,7 @@ namespace lightman
             virtual ~Mesh(){};
             virtual MeshType GetMeshType() = 0;
             virtual void PrepareForRasterGPU() = 0;
-            virtual void Draw() = 0;
+            virtual void Draw(backend::HwProgram * program) = 0;
         };
     } // namespace geometry
     
