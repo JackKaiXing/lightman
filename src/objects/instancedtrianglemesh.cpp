@@ -13,23 +13,64 @@ InstancedTriangleMesh::~InstancedTriangleMesh()
 {
     if(m_mesh)
         m_mesh->ReleaseRef();
+    if(m_mInstance)
+        m_mInstance->ReleaseRef();
 }
 
 void InstancedTriangleMesh::SetTransform(const Matrix4X4& m)
 {
+    m_transform = m;
+    m_needToUpdateTransform = true;
+}
+
+void InstancedTriangleMesh::setPVTransform(const Matrix4X4& pvmatrix)
+{
+    m_PVTransform = pvmatrix;
+    m_needToUpdateTransform = true;
+}
+
+void InstancedTriangleMesh::SetMaterialInstance(MaterialInstance * mi)
+{
+    if (m_mInstance)
+        m_mInstance->ReleaseRef();
+    
+    m_mInstance = mi;
+    m_mInstance->IncreaseRef();
 }
 
 void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)
 {
     m_meshName = name;
-    m_mesh = mesh;
+    m_mesh = dynamic_cast<TriangleMesh*>(mesh);
 
     mesh->IncreaseRef();
 }
 
-void InstancedTriangleMesh::PrepareForRasterGPU()
+MaterialInstance* InstancedTriangleMesh::GetMaterialInstance()
 {
-    if(m_mesh)  
+    return m_mInstance;
+}
+
+uint32_t InstancedTriangleMesh::GetProgramIndexBySupportedVertexAttribute()
+{
+    return Material::GetProgramIndexBySupportedVertexAttribute(
+        m_mesh->HasNormal(),m_mesh->HasUV(), false);
+}
+
+bool InstancedTriangleMesh::IsNeedToUpdateProgram()
+{
+    return m_needToUpdateProgram;
+}
+
+void InstancedTriangleMesh::UpdateProgram(HwProgram* program)
+{
+    m_program = program; // TODO REF
+    m_needToUpdateProgram = true;
+}
+
+void InstancedTriangleMesh::PrepareForRasterGPU(GPURenderer* renderer)
+{
+    if(m_mesh)
         m_mesh->PrepareForRasterGPU();
 #ifdef DEBUG
     else    
@@ -40,7 +81,28 @@ void InstancedTriangleMesh::PrepareForRasterGPU()
 void InstancedTriangleMesh::Draw()
 {
     if(m_mesh)  
-        m_mesh->Draw();
+    {
+        if(m_needToUpdateTransform)
+        {
+            Matrix4X4 pvmMatrix = (m_PVTransform * m_transform * m_mesh->GetTransform());
+            // The OpenGL Matrix Buffer is column first, https://stackoverflow.com/questions/17717600/confusion-between-c-and-opengl-matrix-order-row-major-vs-column-major
+            pvmMatrix.Transpose();
+            m_mInstance->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
+        }
+        
+        if (testFlag) {
+            static float testColor = 0.5;
+            float stride = 0.1;
+            testColor += stride;
+            testColor = testColor > 1.0? 0.5 : testColor;
+            m_mInstance->SetParameter("uTestColor",testColor); // TODO Config
+            testFlag = false;
+        }
+        
+        m_mInstance->Commit();
+        m_mInstance->BindUniformBlockToProgram(m_program);
+        m_mesh->Draw(m_program);
+    }
 #ifdef DEBUG
     else    
         std::cout << "InstancedMesh does not have a valid source mesh" << std::endl;
