@@ -59,7 +59,7 @@ namespace lightman
             { \n \
                 lightIntensity = 1.0; \n \
                 #if defined(HAS_ATTRIBUTE_TANGENTS) \n \
-                    lightIntensity *= dot(vec3(0.577), tangent); \n \
+                    lightIntensity *= abs(dot(vec3(0.577), tangent)); \n \
                 #endif \n \
                 mat4 localMatrix; \n \
                 localMatrix[0] = vec4(0,        0,          -1.00400794,    -1); \n \
