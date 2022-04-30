@@ -272,20 +272,6 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 }
                 Matrix4X4 mat4(m);
                 mat4.Transpose();
-                Matrix4X4 ratateMatrix;
-                ratateMatrix.m_value[0][0] = 1;
-                ratateMatrix.m_value[0][1] = 0;
-                ratateMatrix.m_value[0][2] = 0;
-                
-                ratateMatrix.m_value[1][0] = 0;
-                ratateMatrix.m_value[1][1] = 0;
-                ratateMatrix.m_value[1][2] = 1;
-                
-                ratateMatrix.m_value[2][0] = 0;
-                ratateMatrix.m_value[2][1] = -1;
-                ratateMatrix.m_value[2][2] = 0;
-                 
-                mat4 = ratateMatrix * mat4;
                 
                 iMesh->SetTransform(mat4);
             }
