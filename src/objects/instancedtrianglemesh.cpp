@@ -46,6 +46,16 @@ void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)
     mesh->IncreaseRef();
 }
 
+Mesh* InstancedTriangleMesh::GetMesh()
+{
+    return m_mesh;
+}
+
+std::string InstancedTriangleMesh::GetName()
+{
+    return m_meshName;
+}
+
 MaterialInstance* InstancedTriangleMesh::GetMaterialInstance()
 {
     return m_mInstance;
@@ -84,10 +94,18 @@ void InstancedTriangleMesh::Draw()
     {
         if(m_needToUpdateTransform)
         {
-            Matrix4X4 pvmMatrix = (m_PVTransform * m_transform * m_mesh->GetTransform());
             // The OpenGL Matrix Buffer is column first, https://stackoverflow.com/questions/17717600/confusion-between-c-and-opengl-matrix-order-row-major-vs-column-major
+            
+            Matrix4X4 mMatrix = m_transform * m_mesh->GetTransform();
+            
+            Matrix4X4 pvmMatrix = m_PVTransform * mMatrix;
             pvmMatrix.Transpose();
             m_mInstance->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
+            
+            Matrix4X4 TransposeInverseMMatrix = mMatrix.Inverse();
+            // TransposeInverseMMatrix.Transpose().Transpose();
+            // Normal Transformation, http://www.songho.ca/opengl/gl_normaltransform.html
+            m_mInstance->SetParameter("InverseMMatrix",TransposeInverseMMatrix);
         }
         m_mInstance->SetParameter("uTestColor",0.5f); // TODO Config
         

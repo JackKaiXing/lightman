@@ -22,6 +22,7 @@ namespace lightman
         void SetTransform(const Matrix4X4& m);
         void SetMaterialInstance(MaterialInstance * mi);
         void SetMesh(std::string name, Mesh* mesh);
+        Mesh* GetMesh();
         void PrepareForRasterGPU(GPURenderer* renderer);
         void Draw();
         MaterialInstance* GetMaterialInstance();
@@ -29,6 +30,7 @@ namespace lightman
         uint32_t GetProgramIndexBySupportedVertexAttribute();
         bool IsNeedToUpdateProgram();
         void UpdateProgram(HwProgram* program);
+        std::string GetName();
     private:
         // tranfrom from model space to world space
         Matrix4X4 m_transform;

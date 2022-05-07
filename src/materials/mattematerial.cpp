@@ -11,6 +11,7 @@ namespace lightman
         // TODO read uniform config from outside
         std::vector<UniformDefine> uDefines;
         uDefines.push_back({"PVMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
+        uDefines.push_back({"InverseMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
         uDefines.push_back({"uTestColor", backend::UniformType::FLOAT, 1, backend::Precision::DEFAULT});
 
         InitUniformBlockInfo(uDefines);
@@ -52,20 +53,19 @@ namespace lightman
             layout (std140) uniform targetUniform \n \
             {\n \
                 mat4 PVMMatrix; \n \
+                mat4 InverseMMatrix; \n \
                 float uTestColor; \n \
             }; \n \
             out float lightIntensity; \n \
+            out vec3 Normal; \n \
             void main() \n \
             { \n \
                 lightIntensity = 1.0; \n \
                 #if defined(HAS_ATTRIBUTE_TANGENTS) \n \
-                    lightIntensity *= abs(dot(vec3(0.577), tangent)); \n \
+                    vec4 transformedTangent = InverseMMatrix * vec4(tangent, 0.0); \n \
+                    lightIntensity *= max(dot(vec3(0.0,0.0,1.0),transformedTangent.xyz), 0.0); \n \
+                    Normal = normalize(transformedTangent.xyz)/ 2.0 + 0.5; \n \
                 #endif \n \
-                mat4 localMatrix; \n \
-                localMatrix[0] = vec4(0,        0,          -1.00400794,    -1); \n \
-                localMatrix[1] = vec4(0,        2.1875,     0,              0); \n \
-                localMatrix[2] = vec4(1.75,     0,          0,              0); \n \
-                localMatrix[3] = vec4(0,        0,          9.63927745,    10); \n \
                 gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
             }";
         ss << vertexShader;
@@ -88,9 +88,10 @@ namespace lightman
 
         static const std::string fragmengShader = "out vec4 color; \n \
         in float lightIntensity; \n \
+        in vec3 Normal; \n \
         void main() \n \
         { \n \
-            color.rgb =	vec3(lightIntensity); \n \
+            color.rgb =	Normal; \n \
             color.a = 1.0; \n \
         }";
         ss << fragmengShader;
