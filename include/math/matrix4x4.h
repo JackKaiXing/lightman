@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "math/mathutils.h"
+#include "math/vector.h"
 
 namespace lightman
 {
@@ -23,6 +24,7 @@ namespace lightman
             TMatrix4X4(const T mat[SIZE][SIZE]);
             TMatrix4X4 Inverse();
             void Transpose();
+            bool SwapsHandedness();
             static TMatrix4X4 LookAt(T eye[3], T target[3], T up[3]);
             static TMatrix4X4 frustum(T left, T right, T bottom, T top, T near, T far);
             T m_value[SIZE][SIZE];
@@ -199,7 +201,18 @@ namespace lightman
                 }
             }
         }
-        // Should Not Member Function, https://stackoverflow.com/questions/13554320/overloaded-operator-must-be-a-unary-or-binary-operator-error
+        template<typename T>
+        bool TMatrix4X4<T>::SwapsHandedness()
+        {
+            // https://www.euclideanspace.com/maths/geometry/elements/determinant/index.htm
+            // https://www.photomodeler.com/downloads/OnlineHelp/index.html#!righthandedcoordinatesystem.htm
+            const float det = (
+                (m_value[0][0] * (m_value[1][1] * m_value[2][2] - m_value[1][2] * m_value[2][1])) -
+                (m_value[0][1] * (m_value[1][0] * m_value[2][2] - m_value[1][2] * m_value[2][0])) +
+                (m_value[0][2] * (m_value[1][0] * m_value[2][1] - m_value[1][1] * m_value[2][0])));
+            return det < 0.f;
+        }
+        // Should Not be Member Function, https://stackoverflow.com/questions/13554320/overloaded-operator-must-be-a-unary-or-binary-operator-error
         template<typename T>
         TMatrix4X4<T> operator*(const TMatrix4X4<T>& lhs, const TMatrix4X4<T>& rhs)
         {
@@ -220,6 +233,22 @@ namespace lightman
             // TODO better Matrix Multiply Performance
             // https://github.com/rangelak/Strassen-Matrix-Multiplication/blob/master/strassen.cpp
 
+            return result;
+        }
+        template<typename T>
+        Vector4 operator*(const TMatrix4X4<T>& lhs, const Vector4& rhs)
+        {
+            Vector4 result;
+
+            for (size_t i = 0; i <TMatrix4X4<T>::SIZE; i++)
+            {
+                result.v[i] = 0.0;
+                for (size_t j = 0; j < TMatrix4X4<T>::SIZE; j++)
+                {
+                    result.v[i] += lhs.m_value[i][j] * rhs.v[j];
+                }
+            }
+        
             return result;
         }
         // ----------------------------------------------------------------------------
