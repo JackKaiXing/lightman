@@ -4,8 +4,11 @@
 #include <cstdint>
 #include "utils/ref.h"
 #include "backend/driverbase.h"
+#include "math/matrix4x4.h"
 
 using namespace lightman::utils;
+using namespace lightman::math;
+
 namespace lightman
 {
     namespace geometry
@@ -24,6 +27,7 @@ namespace lightman
             virtual MeshType GetMeshType() = 0;
             virtual void PrepareForRasterGPU() = 0;
             virtual void Draw(backend::HwProgram * program) = 0;
+            virtual void SetAppliedTransform(const Matrix4X4& mat) = 0;
         };
     } // namespace geometry
     

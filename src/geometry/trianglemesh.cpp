@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include "geometry/trianglemesh.h"
+#include "math/vector.h"
 #include "engine/engine.h"
 
 namespace lightman
@@ -127,6 +128,21 @@ void TriangleMesh::Draw(backend::HwProgram * program)
 Matrix4X4 TriangleMesh::GetTransform()
 {
     return m_transform;
+}
+void TriangleMesh::SetAppliedTransform(const Matrix4X4& mat)
+{
+    m_appliedTransform = mat;
+    
+    // TODO UPDATE NORMAL Vertex Attribute Buffer
+    // https://pbr-book.org/3ed-2018/Geometry_and_Transformations/Applying_Transformations#Transform::SwapsHandedness
+    if (m_normals.size() > 0 && m_appliedTransform.SwapsHandedness())
+    {
+        Vector4 result;
+        for (size_t i = 0; i < m_normals.size(); i++)
+        {
+            m_normals.at(i) *= -1.0;
+        }
+    }
 }
 } // namespace geometry
 } // namespace lightman

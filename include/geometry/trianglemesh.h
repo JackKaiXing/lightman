@@ -41,6 +41,7 @@ namespace lightman
             MeshType GetMeshType() override {return MeshType::Triangle;};
             void PrepareForRasterGPU() override;
             void Draw(backend::HwProgram * program) override;
+            void SetAppliedTransform(const Matrix4X4& mat) override;
             Matrix4X4 GetTransform();
         private:
             void SetAttribute(backend::VertexAttribute attributeType, backend::ElementType elementType, 
@@ -53,6 +54,7 @@ namespace lightman
             
             BBox m_bBox;
             Matrix4X4 m_transform;
+            Matrix4X4 m_appliedTransform;                  // world to local space
 
             bool m_isRasterGPUInitialized = false;
             backend::HwRenderPrimitive* m_renderPrimitive = nullptr;
