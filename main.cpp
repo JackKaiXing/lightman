@@ -275,6 +275,22 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 
                 iMesh->SetTransform(mat4);
             }
+            else if (arrtibuteName.compare("appliedtransformation") == 0)
+            {
+                float m[4][4];
+                stringstream ss(arrtibuteValue);
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                         ss >> m[i][j];
+                    }
+                }
+                Matrix4X4 mat4(m);
+                mat4.Transpose();
+                
+                iMesh->GetMesh()->SetAppliedTransform(mat4);
+            }
         }
         else if(objectType.compare("materials") == 0)
         {
@@ -375,7 +391,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
 
 void Setup()
 {
-    myConfig.ParseLuxCoreScene("/Users/XK/Downloads/LuxCore2.1Benchmark/LuxCoreScene/scene.scn");
+    myConfig.ParseLuxCoreScene("/Users/XK/Downloads/LuxCore2.1Benchmark/LuxCoreScene/scene-src.scn");
 }
 void PreRender()
 {
