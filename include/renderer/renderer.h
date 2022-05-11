@@ -6,6 +6,7 @@
 #include <array>
 #include "engine/swapchain.h"
 #include "materials/material.h"
+#include "objects/instancedtrianglemesh.h"
 
 namespace lightman
 {
@@ -36,7 +37,7 @@ namespace lightman
     class GPURenderer : public Renderer
     {
     public:
-        GPURenderer();
+        GPURenderer(uint32_t width, uint32_t height);
         ~GPURenderer();
         RenderType GetType() override {return RenderType::RASTER_GPU;};
         bool BeginFrame(SwapChain *swapChain) override;
@@ -48,6 +49,11 @@ namespace lightman
     private:
         std::array<std::unordered_map<uint32_t, backend::HwProgram*>, 
             Material::MaterialType::MAX_MATERIALTYPE_COUNT> m_programs;
+        backend::HwRenderTarget* m_mrt = nullptr; // geometry off-screen rendering
+        backend::HwTexture* m_colorTex = nullptr;
+        backend::RenderPassParams m_mrtPP;
+        backend::HwProgram* m_postprocessing_fxaa = nullptr;
+        geometry::TriangleMesh * m_quad = nullptr;
     };
 }
 #endif // _LIGHTMAN_RENDERER_H
