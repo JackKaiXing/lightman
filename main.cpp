@@ -30,6 +30,7 @@ public:
     
     unsigned int windowWidth = 394;
     unsigned int windowheight = 535;
+    float contentScaleFactor = 1.0;
 public:
     void ParseLuxCoreScene(const std::string& file);
 }myConfig;
@@ -64,6 +65,7 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 void AppConfig::ParseLuxCoreScene(const std::string& file)
 {
     myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
+    contentScaleFactor = lightmangui::GetBackScaleFactor();
     
     // get managers
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
@@ -384,9 +386,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
     myCamera->setProjection(myfov, mynear, myfar, (float)windowWidth / (float)windowheight,lightman::Camera::FovDirection::VERTICAL);
     myView->SetCamera(myCamera);
     
-    void* nativeWindow = lightman::GetNativeWindow();
+    void* nativeWindow = lightmangui::GetNativeWindow();
     mySwapChain = myEngine->CreateSwapChain(nativeWindow);
-    myRenderer = myEngine->CreateRender(lightman::RenderType::RASTER_GPU);
+    myRenderer = myEngine->CreateRender(uint32_t(windowWidth*contentScaleFactor), uint32_t(windowheight*contentScaleFactor), lightman::RenderType::RASTER_GPU);
 }
 
 void Setup()
@@ -425,7 +427,7 @@ void Destory()
 
 int main(int argc, const char* argv[])
 {
-    lightman::MainWindow(argc, argv, Setup, Render, myConfig.windowWidth, myConfig.windowheight);
+    lightmangui::MainWindow(argc, argv, Setup, Render, myConfig.windowWidth, myConfig.windowheight);
     Destory();
     return 0;
 }

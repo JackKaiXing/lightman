@@ -22,6 +22,8 @@ using SetupCallback = std::function<void()>;
 -(void)prepareOpenGL
 {
     [super prepareOpenGL];
+    //https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/EnablingOpenGLforHighResolution/EnablingOpenGLforHighResolution.html
+    [self setWantsBestResolutionOpenGLSurface:YES];
 }
 
 -(void)updateView
@@ -122,12 +124,17 @@ using SetupCallback = std::function<void()>;
 // ----------------------------------------------------------------------------
 // RETRY INTERFACE
 // ----------------------------------------------------------------------------
-namespace lightman
+namespace lightmangui
 {
     AppDelegate* delegate = nullptr;
     void* GetNativeWindow()
     {
         return [delegate.window contentView];
+    }
+    float GetBackScaleFactor()
+    {
+        // https://developer.apple.com/documentation/appkit/nswindow/1419459-backingscalefactor
+        return [[delegate.window contentView] wantsBestResolutionOpenGLSurface]? [delegate.window backingScaleFactor] : 1.0;
     }
     int MainWindow(int argc, const char* argv[], std::function<void()> setup, std::function<void()> render,
         unsigned int w, unsigned int h)

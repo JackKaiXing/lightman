@@ -4,10 +4,11 @@
 
 #include <functional>
 
-namespace lightman
+namespace lightmangui
 {
     extern "C" {
         void* GetNativeWindow();
+        float GetBackScaleFactor();
         int MainWindow(int argc, const char* argv[], std::function<void()> setup, std::function<void()> render, 
             unsigned int w, unsigned int h);
     }
