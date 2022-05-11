@@ -8,6 +8,8 @@
 #include <string>
 
 #include "backend/platform.h"
+#include "math/vector.h"
+#include "view/viewport.h"
 
 namespace lightman
 {
@@ -100,10 +102,84 @@ namespace lightman
         {
             Platform::SwapChain * swapchain = nullptr;
         };
-
+        // ----------------------------------------------------------------------------
+        // RenderTarget
+        // ----------------------------------------------------------------------------
+        struct HwRenderTarget : public HwBase
+        {
+            uint32_t width{};
+            uint32_t height{};
+            static constexpr uint8_t MAX_SUPPORTED_RENDER_TARGET_COUNT = 8u;
+            HwRenderTarget() noexcept = default;
+            HwRenderTarget(uint32_t w, uint32_t h) : width(w), height(h) { };
+        };
+        // ----------------------------------------------------------------------------
+        // Texture
+        // ----------------------------------------------------------------------------
+        struct HwTexture : public HwBase
+        {
+            uint32_t width{};
+            uint32_t height{};
+            uint32_t depth{};
+            SamplerType target{};
+            uint8_t levels : 4;  // This allows up to 15 levels (max texture size of 32768 x 32768)
+            uint8_t samples : 4; // Sample count per pixel (should always be a power of 2)
+            TextureFormat format{};
+            TextureUsage usage{};
+        };
         // ----------------------------------------------------------------------------
         // DriverBase
         // ----------------------------------------------------------------------------
+        class TargetBufferInfo
+        {
+        public:
+            // 2D textures
+            TargetBufferInfo(HwTexture* tex, uint8_t level = 0) noexcept
+                : m_tex(tex), m_level(level) { };
+            ~TargetBufferInfo() {m_tex = nullptr; m_level = 0;};
+            TargetBufferInfo() noexcept { };
+            
+            // texture to be used as render target
+            HwTexture* m_tex = nullptr;
+            // level to be used
+            uint8_t m_level = 0;
+        };
+
+        class MRT
+        {
+        private:
+            TargetBufferInfo mInfos[HwRenderTarget::MAX_SUPPORTED_RENDER_TARGET_COUNT];
+
+        public:
+            TargetBufferInfo const& operator[](size_t i) const noexcept {
+                return mInfos[i];
+            }
+
+            TargetBufferInfo& operator[](size_t i) noexcept {
+                return mInfos[i];
+            }
+
+            MRT() noexcept = default;
+
+            MRT(TargetBufferInfo const& color) noexcept
+                    : mInfos{ color } {
+            }
+        };
+
+        struct RenderPassFlags {
+            // bitmask indicating which buffers to clear at the beginning of a render pass.
+            TargetBufferFlags clear;
+        };
+
+        struct RenderPassParams
+        {
+            RenderPassFlags flags{};            // clear options
+            lightman::Viewport viewport{};                //
+            math::Vector4 clearColor = {};       // clear color  value
+            double clearDepth = 0.0;            // clear depth  value
+            uint32_t clearStencil = 0;          // clear stencil value
+        };
+
         class Driver
         {
         public:

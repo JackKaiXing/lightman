@@ -23,13 +23,19 @@
 #define PAIR_ARGS_2(M, X, Y, ...) M(X, Y), PAIR_ARGS_1(M, __VA_ARGS__)
 #define PAIR_ARGS_3(M, X, Y, ...) M(X, Y), PAIR_ARGS_2(M, __VA_ARGS__)
 #define PAIR_ARGS_4(M, X, Y, ...) M(X, Y), PAIR_ARGS_3(M, __VA_ARGS__)
+#define PAIR_ARGS_5(M, X, Y, ...) M(X, Y), PAIR_ARGS_4(M, __VA_ARGS__)
+#define PAIR_ARGS_6(M, X, Y, ...) M(X, Y), PAIR_ARGS_5(M, __VA_ARGS__)
+#define PAIR_ARGS_7(M, X, Y, ...) M(X, Y), PAIR_ARGS_6(M, __VA_ARGS__)
+#define PAIR_ARGS_8(M, X, Y, ...) M(X, Y), PAIR_ARGS_7(M, __VA_ARGS__)
 
-#define PAIR_ARGS_N__(_0, E1, _1, E2, _2, E3, _3, E4, _4, X, ...) PAIR_ARGS_##X
-#define PAIR_ARGS_N(M, ...) PAIR_ARGS_N__(0, ##__VA_ARGS__, 4, E, 3, E, 2, E, 1, E, 0)(M, __VA_ARGS__)
+#define PAIR_ARGS_N__(_0, E1, _1, E2, _2, E3, _3, E4, _4, E5, _5, E6, _6, E7, _7, E8, _8, X, ...) PAIR_ARGS_##X
+#define PAIR_ARGS_N(M, ...) PAIR_ARGS_N__(0, ##__VA_ARGS__, 8, E, 7, E, 6, E, 5, E, 4, E, 3, E, 2, E, 1, E, 0)(M, __VA_ARGS__)
 
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_N(N, ...) \
     DECL_DRIVER_API(N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
+
+#define DECL_DRIVER_API_0(N)      DECL_DRIVER_API(N, int dummy=0, dummy)
 
 DECL_DRIVER_API_N(makeCurrent, backend::HwSwapChain*, schDraw)
 
@@ -57,6 +63,13 @@ DECL_DRIVER_API_N(draw, backend::HwProgram*, program, backend::HwRenderPrimitive
 DECL_DRIVER_API_N(bindUniformBuffer,
         uint32_t, index,
         backend::HwBufferObject*, ubh)
+DECL_DRIVER_API_N(beginRenderPass,
+        backend::HwRenderTarget*, rth,
+        const backend::RenderPassParams&, params)
+DECL_DRIVER_API_N(bindSamplers, uint32_t, index,
+        const backend::HwTexture*, th)
+
+DECL_DRIVER_API_0(endRenderPass)
 
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_R_N(R, N, ...) \
@@ -80,7 +93,23 @@ DECL_DRIVER_API_R_N(backend::HwIndexBuffer*, createIndexBuffer,
 DECL_DRIVER_API_R_N(backend::HwProgram*, createProgram,
         const std::string&, vertexShader,
         const std::string&, fragShader)
-
+DECL_DRIVER_API_R_N(backend::HwTexture*, createTexture,
+        backend::SamplerType, target,
+        uint8_t, levels,
+        backend::TextureFormat, format,
+        uint8_t, samples,
+        uint32_t, width,
+        uint32_t, height,
+        uint32_t, depth,
+        backend::TextureUsage, usage)
+DECL_DRIVER_API_R_N(backend::HwRenderTarget*, createRenderTarget,
+        backend::TargetBufferFlags, targetsFlags,
+        uint32_t, width,
+        uint32_t, height,
+        uint8_t, samples,
+        backend::MRT, color,
+        backend::TargetBufferInfo, depth,
+        backend::TargetBufferInfo, stencil)
 
 // ----------------------------------------------------------------------------
 
@@ -95,6 +124,7 @@ DECL_DRIVER_API_R_N(backend::HwProgram*, createProgram,
 #undef PARAM
 #undef ARG
 
+#undef DECL_DRIVER_API_0
 #undef DECL_DRIVER_API_N
 #undef DECL_DRIVER_API
 #undef DECL_DRIVER_API_R_N

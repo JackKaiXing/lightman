@@ -76,7 +76,7 @@ namespace lightman
             // https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
             int result = bluegl::bind();
             assert(!result);
-            return OpengGLDriver::create(this, nullptr);
+            return OpenGLDriver::create(this, nullptr);
         }
         Platform::SwapChain* CocoaOpenGLPlatform::CreateSwainChain(void* nativeWindow)
         {

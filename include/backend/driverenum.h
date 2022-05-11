@@ -112,6 +112,97 @@ namespace lightman
             VERTEX = 0,
             FRAGMENT = 1
         };
+
+        enum class TextureUsage : uint8_t
+        {
+            NONE                = 0x0,
+            COLOR_ATTACHMENT    = 0x1,
+            DEPTH_ATTACHMENT    = 0x2,
+            STENCIL_ATTACHMENT  = 0x4,
+            UPLOADABLE          = 0x8,
+            SAMPLEABLE          = 0x10,
+        };
+
+        enum class TextureFormat : uint16_t
+        {
+            // 8-bits per element
+            R8, R8_SNORM, R8UI, R8I, STENCIL8,
+
+            // 16-bits per element
+            R16F, R16UI, R16I,
+            RG8, RG8_SNORM, RG8UI, RG8I,
+            RGB565,
+            RGB9_E5, // 9995 is actually 32 bpp but it's here for historical reasons.
+            RGB5_A1,
+            RGBA4,
+            DEPTH16,
+
+            // 24-bits per element
+            RGB8, SRGB8, RGB8_SNORM, RGB8UI, RGB8I,
+            DEPTH24,
+
+            // 32-bits per element
+            R32F, R32UI, R32I,
+            RG16F, RG16UI, RG16I,
+            R11F_G11F_B10F,
+            RGBA8, SRGB8_A8,RGBA8_SNORM,
+            UNUSED, // used to be rgbm
+            RGB10_A2, RGBA8UI, RGBA8I,
+            DEPTH32F, DEPTH24_STENCIL8, DEPTH32F_STENCIL8,
+
+            // 48-bits per element
+            RGB16F, RGB16UI, RGB16I,
+
+            // 64-bits per element
+            RG32F, RG32UI, RG32I,
+            RGBA16F, RGBA16UI, RGBA16I,
+
+            // 96-bits per element
+            RGB32F, RGB32UI, RGB32I,
+
+            // 128-bits per element
+            RGBA32F, RGBA32UI, RGBA32I
+        };
+
+        enum class SamplerType : uint8_t
+        {
+            SAMPLER_2D,
+            SAMPLER_2D_ARRAY,
+            SAMPLER_CUBEMAP
+        };
+
+        enum class TargetBufferFlags : uint32_t
+        {
+            NONE = 0x0u,                            //!< No buffer selected.
+            COLOR0 = 0x00000001u,
+            COLOR1 = 0x00000002u,
+            COLOR2 = 0x00000004u,
+            COLOR3 = 0x00000008u,
+            COLOR4 = 0x00000010u,
+            COLOR5 = 0x00000020u,
+            COLOR6 = 0x00000040u,
+            COLOR7 = 0x00000080u,
+            COLOR_ALL = COLOR0 | COLOR1 | COLOR2 | COLOR3 | COLOR4 | COLOR5 | COLOR6 | COLOR7,
+            DEPTH   = 0x10000000u,
+            STENCIL = 0x20000000u,
+            DEPTH_AND_STENCIL = DEPTH | STENCIL,
+            ALL = COLOR_ALL | DEPTH | STENCIL
+        };
+
+        inline constexpr TargetBufferFlags getTargetBufferFlagsAt(size_t index) noexcept
+        {
+            if (index == 0u) return TargetBufferFlags::COLOR0;
+            if (index == 1u) return TargetBufferFlags::COLOR1;
+            if (index == 2u) return TargetBufferFlags::COLOR2;
+            if (index == 3u) return TargetBufferFlags::COLOR3;
+            if (index == 4u) return TargetBufferFlags::COLOR4;
+            if (index == 5u) return TargetBufferFlags::COLOR5;
+            if (index == 6u) return TargetBufferFlags::COLOR6;
+            if (index == 7u) return TargetBufferFlags::COLOR7;
+            if (index == 8u) return TargetBufferFlags::DEPTH;
+            if (index == 9u) return TargetBufferFlags::STENCIL;
+            return TargetBufferFlags::NONE;
+        }
     }
 }
 #endif // _LIGHTMAN_DRIVERENUM_H

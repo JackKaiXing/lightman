@@ -72,36 +72,36 @@ namespace lightman
             // glDeleteShader(FragmentShaderID);
         }
         // ----------------------------------------------------------------------------
-        backend::Driver* OpengGLDriver::create(backend::OpenGLPlatform* platform, void* sharedGLContext) noexcept
+        backend::Driver* OpenGLDriver::create(backend::OpenGLPlatform* platform, void* sharedGLContext) noexcept
         {
-            return new OpengGLDriver(platform, sharedGLContext);
+            return new OpenGLDriver(platform, sharedGLContext);
         }
-        OpengGLDriver::OpengGLDriver(backend::OpenGLPlatform* platform, void* sharedGLContext)
+        OpenGLDriver::OpenGLDriver(backend::OpenGLPlatform* platform, void* sharedGLContext)
         {
             m_platfrom = platform;
         }
-        backend::HwSwapChain* OpengGLDriver::CreateSwapChain(void* nativeWindow)
+        backend::HwSwapChain* OpenGLDriver::CreateSwapChain(void* nativeWindow)
         {
             backend::HwSwapChain* swapchain = new backend::HwSwapChain();
             swapchain->swapchain = m_platfrom->CreateSwainChain(nativeWindow);
             return swapchain;
         }
-        void OpengGLDriver::makeCurrent(backend::HwSwapChain* swapchain)
+        void OpenGLDriver::makeCurrent(backend::HwSwapChain* swapchain)
         {
             m_platfrom->MakeCurrent(swapchain->swapchain);
         }
-        void OpengGLDriver::Commit(backend::HwSwapChain* swapchain)
+        void OpenGLDriver::Commit(backend::HwSwapChain* swapchain)
         {
             m_platfrom->Commit(swapchain->swapchain);
         }
-        HwRenderPrimitive* OpengGLDriver::createRenderPrimitive()
+        HwRenderPrimitive* OpenGLDriver::createRenderPrimitive()
         {
             GLRenderPrimitive* result = new GLRenderPrimitive();
             glGenVertexArrays(1, &result->gl.vao);
             CHECK_GL_ERROR();
             return result;
         }
-        HwVertexBuffer* OpengGLDriver::createVertexBuffer(
+        HwVertexBuffer* OpenGLDriver::createVertexBuffer(
             uint8_t bufferCount,
             uint8_t attributeCount,
             uint32_t vertexCount,
@@ -115,7 +115,7 @@ namespace lightman
             
             return result;
         }
-        HwBufferObject* OpengGLDriver::createBufferObject(
+        HwBufferObject* OpenGLDriver::createBufferObject(
             uint32_t byteCount, 
             backend::BufferObjectBinding bindingType,
             backend::BufferUsage usage)
@@ -133,7 +133,7 @@ namespace lightman
 
             return result;
         }
-        void OpengGLDriver::updateBufferObject(backend::HwBufferObject* boh, void* data, size_t dataSize, uint32_t byteOffset)
+        void OpenGLDriver::updateBufferObject(backend::HwBufferObject* boh, void* data, size_t dataSize, uint32_t byteOffset)
         {
             GLBufferObject* bo = static_cast<GLBufferObject*>(boh);
 
@@ -160,7 +160,7 @@ namespace lightman
             }
             CHECK_GL_ERROR();
         }
-        void OpengGLDriver::setVertexBufferObject(backend::HwVertexBuffer* vbh,
+        void OpenGLDriver::setVertexBufferObject(backend::HwVertexBuffer* vbh,
             uint32_t index, backend::HwBufferObject* bufferObject)
         {
             GLVertexBuffer* vb = static_cast<GLVertexBuffer *>(vbh);
@@ -174,7 +174,7 @@ namespace lightman
             CHECK_GL_ERROR();
 
         }
-        HwIndexBuffer* OpengGLDriver::createIndexBuffer(backend::ElementType elementType,
+        HwIndexBuffer* OpenGLDriver::createIndexBuffer(backend::ElementType elementType,
             uint32_t indexCount, backend::BufferUsage usage)
         {
             GLIndexBuffer* result = new GLIndexBuffer();
@@ -190,7 +190,7 @@ namespace lightman
 
             return result;
         }
-        void OpengGLDriver::updateIndexBuffer(backend::HwIndexBuffer* ibh,
+        void OpenGLDriver::updateIndexBuffer(backend::HwIndexBuffer* ibh,
             void* data, size_t dataSize, uint32_t byteOffset)
         {   
             if(ibh)
@@ -203,7 +203,7 @@ namespace lightman
                 CHECK_GL_ERROR();
             }
         }
-        void OpengGLDriver::setRenderPrimitiveBuffer(backend::HwRenderPrimitive* rph,
+        void OpenGLDriver::setRenderPrimitiveBuffer(backend::HwRenderPrimitive* rph,
             backend::HwVertexBuffer* vbh, backend::HwIndexBuffer* ibh)
         {
             if(rph && vbh && ibh)
@@ -261,7 +261,7 @@ namespace lightman
             CHECK_GL_ERROR();
         }
 
-        void OpengGLDriver::draw(backend::HwProgram * program, backend::HwRenderPrimitive* rph)
+        void OpenGLDriver::draw(backend::HwProgram * program, backend::HwRenderPrimitive* rph)
         {
             GLRenderPrimitive* rp = static_cast<GLRenderPrimitive *>(rph);
             GLProgram * glprogram = static_cast<GLProgram *>(program);
@@ -275,23 +275,221 @@ namespace lightman
             CHECK_GL_ERROR();
         }
 
-        backend::HwProgram* OpengGLDriver::createProgram(const std::string& vertexShader, const std::string& fragShader)
+        backend::HwProgram* OpenGLDriver::createProgram(const std::string& vertexShader, const std::string& fragShader)
         {
             GLProgram* result = new GLProgram();
             result->LoadShaders(vertexShader, fragShader);
 
-            // TODO remove below test code
-            unsigned int targetUniformIndex = glGetUniformBlockIndex(result->gl.program, "targetUniform");   
-            glUniformBlockBinding(result->gl.program, targetUniformIndex, 0);
-
             return result;
         }
-        void OpengGLDriver::bindUniformBuffer(uint32_t index, backend::HwBufferObject* ubh)
+        void OpenGLDriver::bindUniformBuffer(uint32_t index, backend::HwBufferObject* ubh)
         {
             GLBufferObject* ub = static_cast<GLBufferObject *>(ubh);
             assert(ub->gl.binding == GL_UNIFORM_BUFFER);
             glBindBufferRange(ub->gl.binding, GLuint(index), ub->gl.id, 0, ub->byteCount);
             CHECK_GL_ERROR();
         }
+        backend::HwTexture* OpenGLDriver::createTexture(
+            backend::SamplerType target,
+            uint8_t levels,
+            backend::TextureFormat format,
+            uint8_t samples,
+            uint32_t width,
+            uint32_t height,
+            uint32_t depth,
+            backend::TextureUsage usage)
+        {
+            GLTexture* result = new GLTexture();
+            result->samples = samples;
+            result->width = width;
+            result->height = height;
+            result->depth = depth;
+            result->levels = levels;
+            result->format = format;
+            result->usage = usage;
+
+            if (usage == backend::TextureUsage::SAMPLEABLE)
+            {
+                glGenTextures(1, &result->gl.id);
+
+                result->gl.internalFormat = OpenGLUtils::GetInternalFormat(format);
+                assert(result->gl.internalFormat);
+
+                switch (target)
+                {
+                case SamplerType::SAMPLER_2D:
+                    result->gl.target = GL_TEXTURE_2D;
+                    break;
+                
+                default:
+                    assert(0); // TODO other types
+                }
+
+                if (result->samples > 1)
+                {
+                    // TODO MulitSamples
+                }
+
+                glBindTexture(result->gl.target, result->gl.id);
+                // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glActiveTexture.xhtml
+                switch (result->gl.target)
+                {
+                case GL_TEXTURE_2D:
+                    // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexStorage2D.xhtml
+                    glTexStorage2D(result->gl.target, GLsizei(result->levels), result->gl.internalFormat,
+                        GLsizei(result->width), GLsizei(result->height));
+                    break;
+                
+                default:
+                    assert(0); // TODO other types
+                }
+                glBindTexture(result->gl.target, 0);
+            }
+            else
+            {
+                // https://www.khronos.org/opengl/wiki/Renderbuffer_Object
+                // http://www.songho.ca/opengl/gl_fbo.html#renderbuffer
+                // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenRenderbuffers.xhtml
+                assert((uint8_t)usage & ((uint8_t)TextureUsage::COLOR_ATTACHMENT + (uint8_t)TextureUsage::DEPTH_ATTACHMENT + (uint8_t)TextureUsage::STENCIL_ATTACHMENT) );
+
+                result->gl.internalFormat = OpenGLUtils::GetInternalFormat(format);
+                result->gl.target = GL_RENDERBUFFER;
+                glGenRenderbuffers(1, &result->gl.id);
+                glBindRenderbuffer(GL_RENDERBUFFER, result->gl.id);
+                if (result->samples > 1)
+                {
+                    // TODO MulitSamples
+                }
+                else
+                {
+                    glRenderbufferStorage(GL_RENDERBUFFER, result->gl.internalFormat, result->width, result->height);
+                }
+                glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            }
+            
+            CHECK_GL_ERROR();
+            return result;
+        }
+        void OpenGLDriver::framebufferTexture(backend::TargetBufferInfo const& binfo,
+            GLRenderTarget const* rt, GLenum attachment)
+        {
+            GLTexture* t = static_cast<GLTexture*>(binfo.m_tex);
+            glBindFramebuffer(GL_FRAMEBUFFER, rt->gl.fbo);
+            
+            switch (t->target) {
+                case backend::SamplerType::SAMPLER_2D:
+                    {
+                        if (binfo.m_tex->usage == backend::TextureUsage::SAMPLEABLE)
+                        {
+                            // https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glFramebufferTexture2D.xml
+                            glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, t->gl.id, binfo.m_level);
+                        }
+                        else
+                        {
+                            glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, t->gl.id);
+                        }
+                    }
+                    break;
+                    
+                default:
+                    break;
+            }
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            
+            CHECK_GL_ERROR();
+        }
+        backend::HwRenderTarget* OpenGLDriver::createRenderTarget(
+            backend::TargetBufferFlags targetsFlags,
+            uint32_t width,
+            uint32_t height,
+            uint8_t samples,
+            backend::MRT color,
+            backend::TargetBufferInfo depth,
+            backend::TargetBufferInfo stencil)
+        {
+            GLRenderTarget * result = new GLRenderTarget();
+            result->height = height;
+            result->width = width;
+            result->gl.samples = samples;
+            result->targets = targetsFlags;
+
+            glGenFramebuffers(1, &result->gl.fbo);
+            
+            if ((uint32_t)(backend::TargetBufferFlags::COLOR_ALL) & (uint32_t)result->targets)
+            {
+                GLenum bufs[HwRenderTarget::MAX_SUPPORTED_RENDER_TARGET_COUNT] = { GL_NONE };
+                for (size_t i = 0; i < HwRenderTarget::MAX_SUPPORTED_RENDER_TARGET_COUNT; i++)
+                {
+                    if((uint32_t)(getTargetBufferFlagsAt(i)) & (uint32_t)result->targets)
+                    {
+                        result->gl.color[i] = static_cast<GLTexture*>(color[i].m_tex);
+                        framebufferTexture(color[i], result, GL_COLOR_ATTACHMENT0 + i);
+                        bufs[i] = GL_COLOR_ATTACHMENT0 + i;
+                    }
+                }
+                // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawBuffers.xhtml
+                glBindFramebuffer(GL_FRAMEBUFFER, result->gl.fbo);
+                glDrawBuffers(HwRenderTarget::MAX_SUPPORTED_RENDER_TARGET_COUNT, bufs);
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                CHECK_GL_ERROR();
+            }
+
+            if ((uint32_t)(backend::TargetBufferFlags::DEPTH) & (uint32_t)result->targets)
+            {
+                result->gl.depth = static_cast<GLTexture*>(depth.m_tex);
+                framebufferTexture(depth, result, GL_DEPTH_ATTACHMENT);
+            }
+
+            if ((uint32_t)(backend::TargetBufferFlags::STENCIL) & (uint32_t)result->targets)
+            {
+                result->gl.stencil = static_cast<GLTexture*>(stencil.m_tex);
+                framebufferTexture(stencil, result, GL_STENCIL_ATTACHMENT);
+            }
+            
+            return result;
+        }
+        void OpenGLDriver::clearWithRasterPipe(TargetBufferFlags clearFlags, math::Vector4 const& linearColor, GLfloat depth, GLint stencil) noexcept
+        {
+            /*if ((uint32_t)clearFlags & (uint32_t)TargetBufferFlags::COLOR0)
+            {
+                glClearBufferfv(GL_COLOR, 0, linearColor.v);
+            }
+            if ((uint32_t)clearFlags & (uint32_t)TargetBufferFlags::DEPTH)
+            {
+                glClearBufferfv(GL_DEPTH, 0, &depth);
+            }
+            // TODO OTHER RASTERSTATE
+            glEnable(GL_DEPTH_TEST);*/
+            glClearColor(0.0, 1.0, 0.0, 1.0);
+            glEnable(GL_DEPTH_TEST);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            CHECK_GL_ERROR();
+        }
+        void OpenGLDriver::beginRenderPass(backend::HwRenderTarget* rth, const backend::RenderPassParams& params)
+        {
+            GLRenderTarget* rt = static_cast<GLRenderTarget*>(rth);
+            
+            glBindFramebuffer(GL_FRAMEBUFFER, rt->gl.fbo);
+            const TargetBufferFlags clearFlags = TargetBufferFlags((uint32_t)params.flags.clear & (uint32_t)rt->targets);
+            if ((uint32_t)clearFlags > 0) {
+                clearWithRasterPipe(clearFlags, params.clearColor, params.clearDepth, params.clearStencil);
+            }
+            glViewport(params.viewport.getLeft(),params.viewport.getBottom(),params.viewport.getWidth(),params.viewport.getHeight());
+        }
+
+        void OpenGLDriver::endRenderPass(int)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            CHECK_GL_ERROR();
+        }
+
+       void OpenGLDriver::bindSamplers(uint32_t index, const backend::HwTexture* th)
+       {
+           const GLTexture* tex = static_cast<const GLTexture*>(th);
+           glActiveTexture(GL_TEXTURE0 + index);
+           glBindTexture(tex->gl.target, tex->gl.id);
+           //glBindTexture(tex->gl.target, 0); // TODO ?
+           CHECK_GL_ERROR();
+       }
     }
 }
