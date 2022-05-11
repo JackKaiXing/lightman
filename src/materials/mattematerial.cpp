@@ -56,15 +56,12 @@ namespace lightman
                 mat4 InverseMMatrix; \n \
                 float uTestColor; \n \
             }; \n \
-            out float lightIntensity; \n \
             out vec3 Normal; \n \
             void main() \n \
             { \n \
-                lightIntensity = 1.0; \n \
                 #if defined(HAS_ATTRIBUTE_TANGENTS) \n \
                     vec4 transformedTangent = InverseMMatrix * vec4(tangent, 0.0); \n \
-                    lightIntensity *= max(dot(vec3(0.0,0.0,1.0),transformedTangent.xyz), 0.0); \n \
-                    Normal = normalize(transformedTangent.xyz)/ 2.0 + 0.5; \n \
+                    Normal = normalize(transformedTangent.xyz); \n \
                 #endif \n \
                 gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
             }";
@@ -86,12 +83,20 @@ namespace lightman
         if (index & backend::VertexAttribute::UV1)
             ss << "#define " << "HAS_ATTRIBUTE_UV1" << "\n";
 
-        static const std::string fragmengShader = "out vec4 color; \n \
-        in float lightIntensity; \n \
+        static const std::string fragmengShader = "#define RECIPROCAL_PI 0.3183098861837907 \n \
+        layout (location = 0) out vec4 color; \n \
         in vec3 Normal; \n \
+        vec3 LinearTosRGB( in vec3 value ) { \n \
+            return vec3( mix( pow( value.rgb, vec3( 0.41666 ) ) * 1.055 - vec3( 0.055 ), value.rgb * 12.92, vec3( lessThanEqual( value.rgb, vec3( 0.0031308 ) ) ) )); \n \
+        } \n \
         void main() \n \
         { \n \
-            color.rgb =	Normal; \n \
+            vec3 ambientLightColor = vec3(0.6283, 0.6283, 0.6283); \n \
+            vec3 LightColor = vec3(3.1416, 3.1416, 3.1416); \n \
+            vec3 lightDirection = vec3(0.6767, 0.2120, 0.7051); \n \
+            color.rgb =	(dot(Normal,lightDirection) / 2.0 + 0.5) * LightColor + ambientLightColor; \n \
+            color.rgb *= RECIPROCAL_PI; \n \
+            color.rgb = LinearTosRGB(color.rgb); \n \
             color.a = 1.0; \n \
         }";
         ss << fragmengShader;
