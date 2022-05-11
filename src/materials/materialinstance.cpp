@@ -54,7 +54,6 @@ namespace lightman
             SetParameterImpl(offset, stride, (void*)&value);
             m_needToUpdateUniformBuffer = true;
         }
-        m_needToUpdateUniformBuffer = true;
     }
     template<>
     void MaterialInstance:: SetParameter(const char* name, math::Matrix4X4 const& value)
