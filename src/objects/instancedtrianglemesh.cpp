@@ -78,7 +78,7 @@ void InstancedTriangleMesh::UpdateProgram(HwProgram* program)
     m_needToUpdateProgram = true;
 }
 
-void InstancedTriangleMesh::PrepareForRasterGPU(GPURenderer* renderer)
+void InstancedTriangleMesh::PrepareForRasterGPU()
 {
     if(m_mesh)
         m_mesh->PrepareForRasterGPU();

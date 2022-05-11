@@ -23,7 +23,7 @@ namespace lightman
         void SetMaterialInstance(MaterialInstance * mi);
         void SetMesh(std::string name, Mesh* mesh);
         Mesh* GetMesh();
-        void PrepareForRasterGPU(GPURenderer* renderer);
+        void PrepareForRasterGPU();
         void Draw();
         MaterialInstance* GetMaterialInstance();
         void setPVTransform(const Matrix4X4& pvmatrix);
