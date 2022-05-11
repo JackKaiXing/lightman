@@ -55,6 +55,8 @@ WhyLoadOpenGlmanually?: https://github.com/google/filament/issues/652, \https://
 Why GLEXT for GLCOREAARB?: https://stackoverflow.com/questions/54913829/where-is-glcorearb-h-supposed-to-come-from-and-where-is-it-supposed-to-live-in
 Sync: https://www.khronos.org/opengl/wiki/Sync_Object
 SwapBuffers: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-swapbuffers
+FrameBuffers: https://learnopengl.com/Advanced-OpenGL/Framebuffers
+Deferred Shading: https://learnopengl.com/Advanced-Lighting/Deferred-Shading
 
 >>**Android OPENGL ES**
 External_Texture: https://source.android.google.cn/devices/graphics/arch-st?hl=zh-cn
@@ -79,3 +81,16 @@ ThreeJS: https://threejs.org/examples/#webgl_geometry_teapot
 
 >>**Matrixs**
 Online Calculator: https://www.symbolab.com/solver/matrix-calculator
+
+>>**Graphics Debug Tool**
+Tools: https://www.khronos.org/opengl/wiki/Debugging_Tools
+General Macos Graphics Tool: https://developer.apple.com/library/archive/technotes/tn2178/_index.html,
+https://www.reddit.com/r/opengl/comments/o7tj13/opengl_profiler_for_macos/
+Summary: https://apitrace.github.io/#download
+
+>>**Lighting Models**
+Blinn-Phonn: https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model, https://learnopengl.com/code_viewer.php?code=advanced-lighting/blinn_phong&type=fragment, https://threejs.org/examples/#webgl_geometry_teapot
+
+>>**Anti-Aliasing**
+Summary: https://www.techspot.com/article/2219-how-to-3d-rendering-anti-aliasing/
+FXAA: https://developer.download.nvidia.cn/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf, https://en.wikipedia.org/wiki/Fast_approximate_anti-aliasing
