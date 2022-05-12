@@ -5,6 +5,7 @@
 #include "view/view.h"
 #include "materials/materialtypeheaders.h"
 #include "engine/engine.h"
+#include "utils/fileoperator.h"
 
 namespace lightman
 {
@@ -41,14 +42,45 @@ namespace lightman
                 gl_Position = vec4(position, 1.0f); \n \
                 uv = position.xy / 2.0 + 0.5; \n \
             }";
-        std::string fragmentShaderString = "#version 330 core \n \
-            uniform sampler2D geometryTex; \n \
-            out vec4 color; \n \
-            in vec2 uv; \n \
-            void main() \n \
+        std::string fragmentShaderString = "#version 330 core \n";
+        std::string fxaaShader = FileOperator::GetFileAsString("/Users/XK/Desktop/Projects/lightman/shaders.h/fxaa.fs");
+        fragmentShaderString += fxaaShader;
+        fragmentShaderString += "uniform sampler2D geometryTex; \n \
+        out vec4 color; \n \
+        in vec2 uv; \n \
+        void main() \n \
             { \n \
-                color.rgb = texture(geometryTex, uv).rgb; \n \
-                //color.rgb = vec3(uv.x, uv.y, 1.0); \n \
+                // First, compute an exact upper bound for the area we need to sample from. \n \
+                // The render target may be larger than the viewport that was used for scene \n \
+                // rendering, so we cannot rely on the wrap mode alone. \n \
+                highp vec2 fboSize = vec2(textureSize(geometryTex, 0)); \n \
+                highp vec2 invSize = 1.0 / fboSize;  \n \
+                highp vec2 halfTexel = 0.5 * invSize;  \n \
+                highp vec2 viewportSize = fboSize; // TODO get viewport size \n \
+                // The clamp needs to be over-aggressive by a half-texel due to bilinear sampling. \n \
+                highp vec2 excessSize = 0.5 + fboSize - viewportSize; \n \
+                highp vec2 upperBound = 1.0 - excessSize * invSize; \n \
+                // Next, compute the coordinates of the texel center and its bounding box. \n \
+                // There is no need to clamp the min corner since the wrap mode will do \n \
+                // it automatically. \n \
+                // variable_vertex is already interpolated to pixel center by the GPU  \n \
+                highp vec2 texelCenter = min(uv, upperBound);  \n \
+                highp vec2 texelMaxCorner = min(uv + halfTexel, upperBound);  \n \
+                highp vec2 texelMinCorner = uv - halfTexel;  \n \
+                color = fxaa(  \n \
+                        texelCenter,  \n \
+                        vec4(texelMinCorner, texelMaxCorner),  \n \
+                        geometryTex,  \n \
+                        invSize,             // FxaaFloat4 fxaaConsoleRcpFrameOpt,  \n \
+                        2.0 * invSize,       // FxaaFloat4 fxaaConsoleRcpFrameOpt2,  \n \
+                        8.0,                 // FxaaFloat fxaaConsoleEdgeSharpness,  \n \
+        #if defined(G3D_FXAA_PATCHES) && G3D_FXAA_PATCHES == 1  \n \
+                        0.08,                // FxaaFloat fxaaConsoleEdgeThreshold,  \n \
+        #else  \n \
+                        0.125,               // FxaaFloat fxaaConsoleEdgeThreshold,  \n \
+        #endif  \n \
+                        0.04                 // FxaaFloat fxaaConsoleEdgeThresholdMin  \n \
+                );  \n \
                 color.a = 1.0; \n \
             }";
         m_postprocessing_fxaa = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString);
