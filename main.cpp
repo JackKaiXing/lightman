@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <assert.h>
-#include <iostream>
 #include <vector>
 #include <sstream>
 
