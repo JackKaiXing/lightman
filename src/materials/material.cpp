@@ -32,11 +32,46 @@ namespace lightman
     }
     Material::MaterialType Material::StringToMaterialType(const std::string& name)
     {
+        // TODO: after verify the path tracing renderer, this will be removed to accompany with real word materials
         if (name.compare("matte") == 0)
             return MaterialType::MATTE;
-        else
-            return MaterialType::MATTE; // TODO Others
-        
+        else if(name.compare("mirror") == 0)
+            return MaterialType::MIRROR;
+        else if(name.compare("glass") == 0)
+            return MaterialType::GLASS;
+        else if(name.compare("glossy") == 0)
+            return MaterialType::GLOSSY;
+        else if(name.compare("archglass") == 0)
+            return MaterialType::ARCHGLASS;
+        else if(name.compare("mix") == 0)
+            return MaterialType::MIX;
+        else if(name.compare("nullmat") == 0)
+            return MaterialType::NULLMAT;
+        else if(name.compare("mattetranslucent") == 0)
+            return MaterialType::MATTETRANSLUCENT;
+        else if(name.compare("metal2") == 0)
+            return MaterialType::METAL2;
+        else if(name.compare("roughglass") == 0)
+            return MaterialType::ROUGHGLASS;
+        else if(name.compare("velvet") == 0)
+            return MaterialType::VELVET;
+        else if(name.compare("cloth") == 0)
+            return MaterialType::CLOTH;
+        else if(name.compare("carpaint") == 0)
+            return MaterialType::CARPAINT;
+        else if(name.compare("roughmatte") == 0)
+            return MaterialType::ROUGHMATTE;
+        else if(name.compare("roughmattetranslucent") == 0)
+            return MaterialType::ROUGHMATTETRANSLUCENT;
+        else if(name.compare("glossytranslucent") == 0)
+            return MaterialType::GLOSSYTRANSLUCENT;
+        else if(name.compare("glossycoating") == 0)
+            return MaterialType::GLOSSYCOATING;
+        else if(name.compare("disney") == 0)
+            return MaterialType::DISNEY;
+        else if(name.compare("twosided") == 0)
+            return MaterialType::TWOSIDED;
+            
         return MaterialType::MAX_MATERIALTYPE_COUNT; // Erro String Name
     }
     void Material::InitUniformBlockInfo(const std::vector<UniformDefine> uDefines)

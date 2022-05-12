@@ -26,7 +26,25 @@ namespace lightman
         // for convenient usage of enum, https://riptutorial.com/c/example/6564/typedef-enum
         typedef enum
         {
-            MATTE, GLASS,
+            MATTE = 0,
+            MIRROR,
+            GLASS,
+            ARCHGLASS,
+            MIX,
+            NULLMAT,
+            MATTETRANSLUCENT,
+            GLOSSY2,
+            METAL2, 
+            ROUGHGLASS, 
+            VELVET, 
+            CLOTH, 
+            CARPAINT, 
+            ROUGHMATTE,
+            ROUGHMATTETRANSLUCENT, 
+            GLOSSYTRANSLUCENT, 
+            GLOSSYCOATING, 
+            DISNEY,
+            TWOSIDED,
             MAX_MATERIALTYPE_COUNT
         }MaterialType;
 
