@@ -39,8 +39,8 @@ namespace lightman
             return MaterialType::MIRROR;
         else if(name.compare("glass") == 0)
             return MaterialType::GLASS;
-        else if(name.compare("glossy") == 0)
-            return MaterialType::GLOSSY;
+        else if(name.compare("glossy2") == 0)
+            return MaterialType::GLOSSY2;
         else if(name.compare("archglass") == 0)
             return MaterialType::ARCHGLASS;
         else if(name.compare("mix") == 0)
