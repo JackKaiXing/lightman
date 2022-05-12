@@ -16,7 +16,7 @@ namespace lightman
         }
         return nullptr;
     }
-    InstancedTriangleMesh* Scene::AddMesh(const std::string& meshName)
+    InstancedTriangleMesh* Scene::AddGetMesh(const std::string& meshName)
     {
         auto iter = m_iMeshes.find(meshName);
         if( iter != m_iMeshes.end())

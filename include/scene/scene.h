@@ -19,7 +19,7 @@ namespace lightman
     {
         public:
             InstancedTriangleMesh* GetMesh(const std::string& meshName);
-            InstancedTriangleMesh* AddMesh(const std::string& meshName);
+            InstancedTriangleMesh* AddGetMesh(const std::string& meshName);
         friend class GPURenderer;
         protected:
             std::unordered_map<string, InstancedTriangleMesh*> GetInstanceMeshes();
