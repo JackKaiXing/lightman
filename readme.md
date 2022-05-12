@@ -94,3 +94,4 @@ Blinn-Phonn: https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model,
 >>**Anti-Aliasing**
 Summary: https://www.techspot.com/article/2219-how-to-3d-rendering-anti-aliasing/
 FXAA: https://developer.download.nvidia.cn/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf, https://en.wikipedia.org/wiki/Fast_approximate_anti-aliasing
+MSAA: https://learnopengl.com/Advanced-OpenGL/Anti-Aliasing, https://en.wikipedia.org/wiki/Multisample_anti-aliasing, (hardware supported)
