@@ -58,10 +58,18 @@ namespace lightman
             assert(0);
         }
 
+        // TODO after import material params and texture, do seperate materials implementations
         Material* result = nullptr;
         switch (type)
         {
         case Material::MaterialType::MATTE:
+        case Material::MaterialType::GLOSSY2:
+        case Material::MaterialType::MATTETRANSLUCENT:
+        case Material::MaterialType::METAL2:
+        case Material::MaterialType::ARCHGLASS:
+        case Material::MaterialType::VELVET:
+        case Material::MaterialType::MIX:
+        case Material::MaterialType::GLOSSYCOATING:
             result = new MatteMaterial(name);
             break;
         
