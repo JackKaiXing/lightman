@@ -58,7 +58,7 @@ namespace lightman
         virtual ~Material() = default;
         virtual MaterialType getMaterialType() = 0;
         static uint32_t GetProgramIndexBySupportedVertexAttribute(bool hasTangent, bool hasUV0, bool hasUV1);
-        static MaterialType StringToMaterialType(const std::string name);
+        static MaterialType StringToMaterialType(const std::string& name);
     friend class MaterialManager;
     protected:
         MaterialInstance* createMaterialInstance(const std::string& name);

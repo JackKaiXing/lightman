@@ -30,7 +30,7 @@ namespace lightman
 
         return index;
     }
-    Material::MaterialType Material::StringToMaterialType(const std::string name)
+    Material::MaterialType Material::StringToMaterialType(const std::string& name)
     {
         if (name.compare("matte") == 0)
             return MaterialType::MATTE;
