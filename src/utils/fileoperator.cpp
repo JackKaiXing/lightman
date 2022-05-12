@@ -13,6 +13,7 @@ namespace lightman
     {
         std::string FileOperator::GetFileAsString(const std::string filepath)
         {
+            // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
             std::ifstream infile;
             infile.open(filepath);
             if(!infile.is_open())
