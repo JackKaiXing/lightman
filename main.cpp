@@ -106,7 +106,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             lightman::InstancedTriangleMesh * iMesh = myScene->GetMesh(objectName);
             if(!iMesh)
             {
-                iMesh = myScene->AddMesh(objectName);
+                iMesh = myScene->AddGetMesh(objectName);
             }
 
             subline = subline.substr(pos+1,subline.length());
@@ -245,10 +245,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             else if (arrtibuteName.compare("material") == 0)
             {
                 string materialName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
-                materialName = "Spot11264181937048"; // TODO Remove
-                std::string materialInstancename = materialName + "_mi"; // TODO Remove
+                std::string materialInstancename = objectName + "_" + materialName;
                 lightman::MaterialInstance * mi = lightman::MaterialManager::GetInstance()->CreateMaterialInstance(
-                        lightman::MaterialManager::GetInstance()->GetMaterial(materialName),"");
+                        lightman::MaterialManager::GetInstance()->GetMaterial(materialName),materialInstancename);
                 lightman::InstancedTriangleMesh * iMesh = myScene->GetMesh(objectName);
                 iMesh->SetMaterialInstance(mi);
             }
@@ -307,7 +306,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             {
                 string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
                 lightman::MaterialManager::GetInstance()->CreateMaterial(
-                    lightman::Material::StringToMaterialType(arrtibuteValue),materialName);
+                    lightman::Material::StringToMaterialType(typeName),materialName);
             }
             // TODO other properties
         }
