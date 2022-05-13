@@ -103,4 +103,12 @@ namespace lightman
 
         return ss.str();
     }
+    
+    backend::UniformBlockInfo MatteMaterial::GetUniformBufferInfo()
+    {
+        // TODO config
+        backend::UniformBlockInfo info;
+        info.at(0) = "targetUniform";
+        return info;
+    }
 } // namespace lightman

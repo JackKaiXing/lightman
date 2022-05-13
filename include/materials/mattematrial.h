@@ -14,6 +14,7 @@ namespace lightman
         MaterialType getMaterialType() override { return Material::MaterialType::MATTE;};
         static std::string CreateVertexShaderString(uint32_t index);
         static std::string CreateFragmentShaderString(uint32_t index);
+        static backend::UniformBlockInfo GetUniformBufferInfo();
     private:
         
     };
