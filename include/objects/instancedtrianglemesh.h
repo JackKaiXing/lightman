@@ -17,7 +17,7 @@ namespace lightman
     class InstancedTriangleMesh : public InstancedObject
     {
     public:
-        InstancedTriangleMesh();
+        InstancedTriangleMesh(const std::string& name);
         ~InstancedTriangleMesh();
         void SetTransform(const Matrix4X4& m);
         void SetMaterialInstance(MaterialInstance * mi);
@@ -35,7 +35,8 @@ namespace lightman
         // tranfrom from model space to world space
         Matrix4X4 m_transform;
         Matrix4X4 m_PVTransform;
-        std::string m_meshName;
+        std::string m_name; // name of current instanced triangle mesh
+        std::string m_masterName; // name of the master triangle mesh
         TriangleMesh* m_mesh = nullptr;
         MaterialInstance * m_mInstance = nullptr;
         HwProgram* m_program = nullptr;

@@ -5,9 +5,9 @@
 namespace lightman
 {
 // ----------------------------------------------------------------------------
-InstancedTriangleMesh::InstancedTriangleMesh()
+InstancedTriangleMesh::InstancedTriangleMesh(const std::string& name)
 {
-
+    m_name = name;
 }
 InstancedTriangleMesh::~InstancedTriangleMesh()
 {
@@ -31,16 +31,31 @@ void InstancedTriangleMesh::setPVTransform(const Matrix4X4& pvmatrix)
 
 void InstancedTriangleMesh::SetMaterialInstance(MaterialInstance * mi)
 {
+    Material::MaterialType src = Material::MaterialType::MAX_MATERIALTYPE_COUNT;
     if (m_mInstance)
+    {
         m_mInstance->ReleaseRef();
+        src = m_mInstance->GetMaterial()->getMaterialType();
+    }
     
     m_mInstance = mi;
-    m_mInstance->IncreaseRef();
+    Material::MaterialType dst = Material::MaterialType::MAX_MATERIALTYPE_COUNT;
+    if(m_mInstance)
+    {
+        m_mInstance->IncreaseRef();
+        dst = m_mInstance->GetMaterial()->getMaterialType();
+    }
+
+    if(src != dst)
+    {
+        m_needToUpdateProgram = true;
+    }
+    
 }
 
 void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)
 {
-    m_meshName = name;
+    m_masterName = name;
     m_mesh = dynamic_cast<TriangleMesh*>(mesh);
 
     mesh->IncreaseRef();
@@ -53,7 +68,7 @@ Mesh* InstancedTriangleMesh::GetMesh()
 
 std::string InstancedTriangleMesh::GetName()
 {
-    return m_meshName;
+    return m_name;
 }
 
 MaterialInstance* InstancedTriangleMesh::GetMaterialInstance()
@@ -75,7 +90,8 @@ bool InstancedTriangleMesh::IsNeedToUpdateProgram()
 void InstancedTriangleMesh::UpdateProgram(HwProgram* program)
 {
     m_program = program; // TODO REF
-    m_needToUpdateProgram = true;
+    m_mInstance->BindUniformBlockToProgram(m_program);
+    m_needToUpdateProgram = false;
 }
 
 void InstancedTriangleMesh::PrepareForRasterGPU()
@@ -107,10 +123,8 @@ void InstancedTriangleMesh::Draw()
             // Normal Transformation, http://www.songho.ca/opengl/gl_normaltransform.html
             m_mInstance->SetParameter("InverseMMatrix",TransposeInverseMMatrix);
         }
-        m_mInstance->SetParameter("uTestColor",0.5f); // TODO Config
-        
+        m_mInstance->SetParameter("uTestColor",1.0f); // TODO Config
         m_mInstance->Commit();
-        m_mInstance->BindUniformBlockToProgram(m_program);
         m_mesh->Draw(m_program);
     }
 #ifdef DEBUG
