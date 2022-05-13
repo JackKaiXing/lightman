@@ -69,6 +69,7 @@ namespace lightman
     void MaterialInstance::BindUniformBlockToProgram(backend::HwProgram* program)
     {
         // TODO use the program? to remove const binding location
+        // currently we have only one uniformblock so default == 0
         Engine::GetInstance()->GetDriver()->bindUniformBuffer(0, m_uniformBufferHw);
     }
 
