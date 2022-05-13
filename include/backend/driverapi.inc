@@ -92,7 +92,8 @@ DECL_DRIVER_API_R_N(backend::HwIndexBuffer*, createIndexBuffer,
         backend::BufferUsage, usage)
 DECL_DRIVER_API_R_N(backend::HwProgram*, createProgram,
         const std::string&, vertexShader,
-        const std::string&, fragShader)
+        const std::string&, fragShader,
+        UniformBlockInfo, ubInfo)
 DECL_DRIVER_API_R_N(backend::HwTexture*, createTexture,
         backend::SamplerType, target,
         uint8_t, levels,

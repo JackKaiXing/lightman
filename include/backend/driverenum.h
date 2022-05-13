@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <array>
 
 namespace lightman
 {
@@ -73,6 +74,9 @@ namespace lightman
             VERTEX,
             UNIFORM
         };
+
+        static constexpr size_t UNIFORM_BLOCK_BINDING_COUNT = 8;
+        using UniformBlockInfo = std::array<std::string, UNIFORM_BLOCK_BINDING_COUNT>;
 
         enum class BufferUsage : uint8_t
         {

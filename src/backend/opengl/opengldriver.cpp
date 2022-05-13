@@ -64,6 +64,7 @@ namespace lightman
                 glGetProgramInfoLog(gl.program, InfoLogLength, NULL, &ProgramErrorMessage[0]);
                 printf("%s\n", &ProgramErrorMessage[0]);
             }
+            CHECK_GL_ERROR();
             
             // glDetachShader(gl.program, VertexShaderID);
             // glDetachShader(gl.program, FragmentShaderID);
@@ -275,11 +276,25 @@ namespace lightman
             CHECK_GL_ERROR();
         }
 
-        backend::HwProgram* OpenGLDriver::createProgram(const std::string& vertexShader, const std::string& fragShader)
+        backend::HwProgram* OpenGLDriver::createProgram(const std::string& vertexShader, const std::string& fragShader,
+            UniformBlockInfo ubInfo)
         {
             GLProgram* result = new GLProgram();
             result->LoadShaders(vertexShader, fragShader);
-
+            
+            for (GLuint binding = 0, n = ubInfo.size(); binding < n; binding++)
+            {
+                auto const& name = ubInfo[binding];
+                if (!name.empty())
+                {
+                    GLint index = glGetUniformBlockIndex(result->gl.program, name.c_str());
+                    if (index >= 0 && index != GL_INVALID_INDEX) {
+                        glUniformBlockBinding(result->gl.program, GLuint(index), binding);
+                    }
+                    CHECK_GL_ERROR();
+                }
+            }
+            
             return result;
         }
         void OpenGLDriver::bindUniformBuffer(uint32_t index, backend::HwBufferObject* ubh)
