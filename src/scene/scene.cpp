@@ -23,7 +23,7 @@ namespace lightman
         {
             return iter->second;
         }
-        auto result = new InstancedTriangleMesh();
+        auto result = new InstancedTriangleMesh(meshName);
         m_iMeshes.insert({meshName,result});
         return result;
     }
