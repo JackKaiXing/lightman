@@ -83,7 +83,8 @@ namespace lightman
                 );  \n \
                 color.a = 1.0; \n \
             }";
-        m_postprocessing_fxaa = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString);
+        UniformBlockInfo ubInfo;
+        m_postprocessing_fxaa = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString, ubInfo);
         std::vector<unsigned int> triIndexs = {0, 1, 2, 0, 2, 3};
         std::vector<float> points = 
             {-1.0, -1.0, 0.0,
@@ -134,12 +135,15 @@ namespace lightman
             currentMesh->PrepareForRasterGPU();
 
             // init/update program in case user set new MaterialInstance
-            if(currentMesh->IsNeedToUpdateProgram())
+            if(currentMesh->IsNeedToUpdateProgram() && currentMesh->GetMaterialInstance())
             {
                 Material::MaterialType type = currentMesh->GetMaterialInstance()->GetMaterial()->getMaterialType();
                 uint32_t index = currentMesh->GetProgramIndexBySupportedVertexAttribute();
                 HwProgram* program = GetProgram(type, index);
                 currentMesh->UpdateProgram(program);
+            }
+            else{
+                // TODO use default material
             }
 
             bool cameraInfoNeedToUpdate = true; // TODO replace
@@ -174,18 +178,20 @@ namespace lightman
         {
             std::string vertexShaderString;
             std::string fragmentShaderString;
+            UniformBlockInfo ubInfo;
             switch (type)
             {
             case Material::MaterialType::MATTE :
                 vertexShaderString = MatteMaterial::CreateVertexShaderString(index);
                 fragmentShaderString = MatteMaterial::CreateFragmentShaderString(index);
+                ubInfo = MatteMaterial::GetUniformBufferInfo();
                 break;
             
             default:
                 break;
             }
-
-            result = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString);
+            
+            result = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString, ubInfo);
             typedPrograms.insert({index, result});
         }
         else
