@@ -477,7 +477,8 @@ namespace lightman
         }
         void OpenGLDriver::clearWithRasterPipe(TargetBufferFlags clearFlags, math::Vector4 const& linearColor, GLfloat depth, GLint stencil) noexcept
         {
-            /*if ((uint32_t)clearFlags & (uint32_t)TargetBufferFlags::COLOR0)
+            glEnable(GL_DEPTH_TEST);
+            if ((uint32_t)clearFlags & (uint32_t)TargetBufferFlags::COLOR0)
             {
                 glClearBufferfv(GL_COLOR, 0, linearColor.v);
             }
@@ -485,11 +486,6 @@ namespace lightman
             {
                 glClearBufferfv(GL_DEPTH, 0, &depth);
             }
-            // TODO OTHER RASTERSTATE
-            glEnable(GL_DEPTH_TEST);*/
-            glClearColor(0.0, 1.0, 0.0, 1.0);
-            glEnable(GL_DEPTH_TEST);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             CHECK_GL_ERROR();
         }
         void OpenGLDriver::beginRenderPass(backend::HwRenderTarget* rth, const backend::RenderPassParams& params)

@@ -173,11 +173,11 @@ namespace lightman
 
         struct RenderPassParams
         {
-            RenderPassFlags flags{};            // clear options
-            lightman::Viewport viewport{};                //
+            RenderPassFlags flags{};             // clear options
+            lightman::Viewport viewport{};       // viewport size
             math::Vector4 clearColor = {};       // clear color  value
-            double clearDepth = 0.0;            // clear depth  value
-            uint32_t clearStencil = 0;          // clear stencil value
+            float clearDepth = 1.0;       // clear depth  value
+            uint32_t clearStencil = 0;           // clear stencil value
         };
 
         class Driver
