@@ -57,6 +57,7 @@ Sync: https://www.khronos.org/opengl/wiki/Sync_Object
 SwapBuffers: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-swapbuffers
 FrameBuffers: https://learnopengl.com/Advanced-OpenGL/Framebuffers
 Deferred Shading: https://learnopengl.com/Advanced-Lighting/Deferred-Shading
+Uniform Block: https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL, https://learnopengl.com/code_viewer_gh.php?code=src/4.advanced_opengl/8.advanced_glsl_ubo/advanced_glsl_ubo.cpp
 
 >>**Android OPENGL ES**
 External_Texture: https://source.android.google.cn/devices/graphics/arch-st?hl=zh-cn
@@ -88,8 +89,9 @@ General Macos Graphics Tool: https://developer.apple.com/library/archive/technot
 https://www.reddit.com/r/opengl/comments/o7tj13/opengl_profiler_for_macos/
 Summary: https://apitrace.github.io/#download
 
->>**Lighting Models**
+>>**GLSL**
 Blinn-Phonn: https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model, https://learnopengl.com/code_viewer.php?code=advanced-lighting/blinn_phong&type=fragment, https://threejs.org/examples/#webgl_geometry_teapot
+GLSL INCLUDE: https://github.com/knightcrawler25/GLSL-PathTracer/blob/master/src/core/ShaderIncludes.h
 
 >>**Anti-Aliasing**
 Summary: https://www.techspot.com/article/2219-how-to-3d-rendering-anti-aliasing/
