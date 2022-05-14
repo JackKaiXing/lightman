@@ -90,7 +90,7 @@ namespace lightman
         {
             CocoaGLSwapChain* swapchain = (CocoaGLSwapChain*)drawswapchain;
 
-            // TODO SWAPCHAIN CHANGE
+            // TODO SWAPCHAIN CHANGE FOR BOUND SIZE
             if(m_cocoaImpl->mCurrentSwapChain != swapchain)
             {
                 m_cocoaImpl->mCurrentSwapChain = swapchain;
