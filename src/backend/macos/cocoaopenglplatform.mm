@@ -86,7 +86,6 @@ namespace lightman
             CocoaGLSwapChain* swapChain = new CocoaGLSwapChain( nsView );
             return swapChain;
         }
-        static float accumulator = 0.0; // TODO DELETE
         void CocoaOpenGLPlatform::MakeCurrent(Platform::SwapChain* drawswapchain)
         {
             CocoaGLSwapChain* swapchain = (CocoaGLSwapChain*)drawswapchain;
@@ -99,11 +98,6 @@ namespace lightman
                 [m_cocoaImpl->m_openGLContext update];
             }
             [m_cocoaImpl->m_openGLContext makeCurrentContext];
-
-            accumulator = (accumulator+0.01) > 1.0 ? 0.0 : (accumulator+0.01); // TODO REMOVE
-            glClearColor(1.0*accumulator, 0.0, 0.0, 1.0);
-            glEnable(GL_DEPTH_TEST);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         void CocoaOpenGLPlatform::Commit(Platform::SwapChain* drawswapchain)
         {

@@ -28,6 +28,7 @@ namespace lightman
         Engine& operator=(Engine&&) = delete;
     
         backend::Driver * GetDriver() {return m_driver;};
+        backend::HwRenderTarget* GetDefaultRenderTarget(){return m_defaultRT;};
     protected:
         Engine(backend::BackendType backend) noexcept;
         ~Engine() = default;
@@ -35,6 +36,7 @@ namespace lightman
     private:
         backend::Platform * m_platform;
         backend::Driver * m_driver;
+        backend::HwRenderTarget* m_defaultRT;
     };
 }
 #endif // _LIGHTMAN_PLATFORM_H

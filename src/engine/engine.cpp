@@ -39,6 +39,8 @@ namespace lightman
         if (m_platform==nullptr)
             assert(0);
         m_driver = m_platform->CreateDriver();
+
+        m_defaultRT = m_driver->createDefaultRenderTarget();
     }
     SwapChain* Engine::CreateSwapChain(void* nativeWindow)
     {

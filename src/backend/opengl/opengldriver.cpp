@@ -413,6 +413,18 @@ namespace lightman
             
             CHECK_GL_ERROR();
         }
+        backend::HwRenderTarget* OpenGLDriver::createDefaultRenderTarget(int)
+        {
+            GLRenderTarget * result = new GLRenderTarget();
+            result->height = 0; // TODO
+            result->width = 0;
+            result->gl.samples = 1; // NO MULTIPLE SAMPLING
+            result->targets = TargetBufferFlags((uint32_t)TargetBufferFlags::COLOR0 | (uint32_t)TargetBufferFlags::DEPTH_AND_STENCIL);
+            
+            result->gl.fbo = 0;
+            
+            return result;
+        }
         backend::HwRenderTarget* OpenGLDriver::createRenderTarget(
             backend::TargetBufferFlags targetsFlags,
             uint32_t width,
@@ -489,7 +501,11 @@ namespace lightman
             if ((uint32_t)clearFlags > 0) {
                 clearWithRasterPipe(clearFlags, params.clearColor, params.clearDepth, params.clearStencil);
             }
-            glViewport(params.viewport.getLeft(),params.viewport.getBottom(),params.viewport.getWidth(),params.viewport.getHeight());
+            if (params.viewport.getWidth() > 0 && params.viewport.getHeight() > 0)
+            {
+                glViewport(params.viewport.getLeft(),params.viewport.getBottom(),
+                    params.viewport.getWidth(),params.viewport.getHeight());
+            }
         }
 
         void OpenGLDriver::endRenderPass(int)

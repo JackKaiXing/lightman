@@ -75,6 +75,8 @@ DECL_DRIVER_API_0(endRenderPass)
 #define DECL_DRIVER_API_R_N(R, N, ...) \
     DECL_DRIVER_API_RETURN(R, N, PAIR_ARGS_N(ARG, ##__VA_ARGS__), PAIR_ARGS_N(PARAM, ##__VA_ARGS__))
 
+#define DECL_DRIVER_API_R_0(R,N)      DECL_DRIVER_API_RETURN(R, N, int dummy=0, dummy)
+
 DECL_DRIVER_API_R_N(backend::HwSwapChain*, CreateSwapChain, void*, nativeWindow)
 DECL_DRIVER_API_R_N(backend::HwRenderPrimitive*, createRenderPrimitive)
 DECL_DRIVER_API_R_N(backend::HwVertexBuffer*, createVertexBuffer,
@@ -112,6 +114,7 @@ DECL_DRIVER_API_R_N(backend::HwRenderTarget*, createRenderTarget,
         backend::TargetBufferInfo, depth,
         backend::TargetBufferInfo, stencil)
 
+DECL_DRIVER_API_R_0(backend::HwRenderTarget*, createDefaultRenderTarget)
 // ----------------------------------------------------------------------------
 
 

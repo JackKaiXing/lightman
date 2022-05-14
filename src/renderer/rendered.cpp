@@ -119,7 +119,7 @@ namespace lightman
     }
     void GPURenderer::RenderFrame(View* view)
     {
-        // Draw Into Custom FBO
+        // ---------------------------------------------Draw Into Custom FBO-----------------------------------------
         Engine::GetInstance()->GetDriver()->beginRenderPass(m_mrt, m_mrtPP);
         
         // processing vertex arrays for all imesh for current scene
@@ -158,12 +158,15 @@ namespace lightman
             iter++;
         }
         
-        // End Draw Into Custom FBO
         Engine::GetInstance()->GetDriver()->endRenderPass();
+        // ---------------------------------------------End Draw Into Custom FBO-----------------------------------------
 
-        // post processing pass
+        // ---------------------------------------------Post Processing, Start Default FBO-------------------------------
+        Engine::GetInstance()->GetDriver()->beginRenderPass(Engine::GetInstance()->GetDefaultRenderTarget(), m_mrtPP);
         Engine::GetInstance()->GetDriver()->bindSamplers(0, m_colorTex);
         m_quad->Draw(m_postprocessing_fxaa);
+        Engine::GetInstance()->GetDriver()->endRenderPass();
+        // ---------------------------------------------Post Processing, End Default FBO---------------------------------
     }
     HwProgram* GPURenderer::GetProgram(Material::MaterialType type, uint32_t index)
     {
