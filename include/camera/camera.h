@@ -31,6 +31,8 @@ namespace lightman
         Matrix4X4 GetViewMatrix();
         Matrix4X4 GetProjectionMatrix();
         Matrix4X4 GetProjectionViewMatrix();
+        void SetCameraMovingConsumed(){isCameraMovingConsumed = true;};
+        bool IsCameraMovingConsumed(){return isCameraMovingConsumed;};
     protected:
         Camera();
         float m_near{};
@@ -43,6 +45,7 @@ namespace lightman
         Matrix4X4 m_cameraToWorld;
         Matrix4X4 m_cameraToScreen;
         Matrix4X4 m_worldToSreen;
+        bool isCameraMovingConsumed = false;
     };
 
     class PerspectiveCamera : public Camera

@@ -122,6 +122,16 @@ namespace lightman
         // ---------------------------------------------Draw Into Custom FBO-----------------------------------------
         Engine::GetInstance()->GetDriver()->beginRenderPass(m_mrt, m_mrtPP);
         
+        // processing camera moving
+        Matrix4X4 pvMatrix;
+        bool isNeedToUpdatePVMatrix = false;
+        if(! view->getCamera()->IsCameraMovingConsumed())
+        {
+            pvMatrix = view->getCamera()->GetProjectionViewMatrix();
+            view->getCamera()->SetCameraMovingConsumed();
+            isNeedToUpdatePVMatrix = true;
+        }
+        
         // processing vertex arrays for all imesh for current scene
         std::unordered_map<std::string, InstancedTriangleMesh*> imeshes= view->GetScene()->GetInstanceMeshes();
         std::unordered_map<std::string, InstancedTriangleMesh*>::iterator iter = imeshes.begin();
@@ -146,12 +156,8 @@ namespace lightman
                 // TODO use default material
             }
 
-            bool cameraInfoNeedToUpdate = true; // TODO replace
-            if(cameraInfoNeedToUpdate)
-            {
-                Matrix4X4 pvMatrix = view->getCamera()->GetProjectionViewMatrix();
+            if(isNeedToUpdatePVMatrix)
                 currentMesh->setPVTransform(pvMatrix);
-            }
 
             currentMesh->Draw();
 
