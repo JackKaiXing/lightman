@@ -82,27 +82,39 @@ void TriangleMesh::PrepareForRasterGPU()
     {
         if(m_declaredAttribute & (1 << i))
         {
+            HwBufferObject * bo = nullptr;
             uint32_t size = 0;
             void* data = nullptr;
             switch (i)
             {
             case backend::VertexAttribute::POSITION:
-                size = m_points.size() * sizeof(float);
-                data = (void*)m_points.data();
+                {
+                    size = m_points.size() * sizeof(float);
+                    data = (void*)m_points.data();
+                    m_posBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+                    bo = m_posBuffetObject;
+                }
                 break;
             case backend::VertexAttribute::TANGENTS:
-                size = m_normals.size() * sizeof(float);
-                data = (void*)m_normals.data();
+                {
+                    size = m_normals.size() * sizeof(float);
+                    data = (void*)m_normals.data();
+                    m_normalBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+                    bo = m_normalBuffetObject;
+                }
                 break;
             case backend::VertexAttribute::UV0:
-                size = m_uvs.size() * sizeof(float);
-                data = (void*)m_uvs.data();
+                {
+                    size = m_uvs.size() * sizeof(float);
+                    data = (void*)m_uvs.data();
+                    m_uvBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+                    bo = m_uvBuffetObject;
+                }
                 break;
             default:
                 break;
             }
-            HwBufferObject * bo = Engine::GetInstance()->GetDriver()->createBufferObject(size, 
-                backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+            
             Engine::GetInstance()->GetDriver()->updateBufferObject(bo, data, size, 0);
             // NOTE: i is in the order of VertexAttribute
             Engine::GetInstance()->GetDriver()->setVertexBufferObject(m_vertexBuffer,i,bo);
@@ -133,7 +145,6 @@ void TriangleMesh::SetAppliedTransform(const Matrix4X4& mat)
 {
     m_appliedTransform = mat;
     
-    // TODO UPDATE NORMAL Vertex Attribute Buffer
     // https://pbr-book.org/3ed-2018/Geometry_and_Transformations/Applying_Transformations#Transform::SwapsHandedness
     if (m_normals.size() > 0 && m_appliedTransform.SwapsHandedness())
     {
@@ -141,6 +152,15 @@ void TriangleMesh::SetAppliedTransform(const Matrix4X4& mat)
         for (size_t i = 0; i < m_normals.size(); i++)
         {
             m_normals.at(i) *= -1.0;
+        }
+
+        // UPDATE NORMAL Vertex Attribute Buffer
+        if (m_isRasterGPUInitialized)
+        {
+            uint32_t size = m_normals.size() * sizeof(float);
+            void* data = (void*)m_normals.data();
+
+            Engine::GetInstance()->GetDriver()->updateBufferObject(m_normalBuffetObject, data, size, 0);
         }
     }
 }

@@ -62,6 +62,9 @@ namespace lightman
             backend::HwVertexBuffer * m_vertexBuffer = nullptr;
             uint16_t m_declaredAttribute = 0;
             backend::AttributeArray m_attributeArray;
+            HwBufferObject * m_posBuffetObject = nullptr;
+            HwBufferObject * m_normalBuffetObject = nullptr;
+            HwBufferObject * m_uvBuffetObject = nullptr;
         };
     } // namespace geometry
     
