@@ -1,0 +1,6 @@
+#ifndef _LIGHTMAN_TEXTURETYPEHEADER_H
+#define _LIGHTMAN_TEXTURETYPEHEADER_H
+
+#include "texture/imagemaptexture.h"
+
+#endif _LIGHTMAN_TEXTURETYPEHEADER_H

@@ -15,6 +15,8 @@
 #include "objects/instancedtrianglemesh.h"
 #include "managers/meshmanager.h"
 #include "managers/materialmanager.h"
+#include "texture/texture.h"
+#include "texture/texturetypeheader.h"
 
 #include "ply/ply.h"
 
@@ -69,7 +71,14 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
 
     // camera paras
-    lightman::Camera::CameraType myprojection = lightman::Camera::CameraType::PERSPECTIVE;
+    lightman::Camera::CameraType projection = lightman::Camera::CameraType::PERSPECTIVE;
+
+    // init Texture Storage
+    // we do not store this inside lightman, a texture would belong reference by only its material,
+    // while would be not be shared between materials. Bacause I could not find meanings to share texture betweens materials.
+    // when the material is deleted, the textures it owns would be deleted too.
+    // Note the texture here is more like a textureNode, not a image.
+    std::unordered_map<std::string, lightman::Texture*> texturesOfLucScene;
 
     // hard coded, deprecated later
     string filePath = file.substr(0, file.find_last_of("/")+1);
@@ -314,7 +323,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             {
                 if (arrtibuteValue.compare("\"perspective\""))
                 {
-                    myprojection = lightman::Camera::CameraType::PERSPECTIVE;
+                    projection = lightman::Camera::CameraType::PERSPECTIVE;
                 }
             }
             else if(arrtibuteName.compare("fieldofview") == 0)
@@ -365,9 +374,34 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
         else if(objectType.compare("textures") == 0)
         {
             pos = subline.find_first_of(".");
-            string texturelName = subline.substr(0,pos);
+            string texturelName = subline.substr(0, pos);
+
+            subline = subline.substr(pos+1,subline.length());
+            pos = subline.find_first_of(" = ");
+            string arrtibuteName = subline.substr(0, pos);
+            string arrtibuteValue = subline.substr(pos+2, subline.length());
+
+            if (arrtibuteName.compare("type") == 0)
+            {
+                // parse and construct new texture
+                string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
+                lightman::TextureType type = lightman::Texture::StringToTextureType(typeName);
+                lightman::Texture * texture = nullptr;
+                switch (type)
+                {
+                case lightman::TextureType::IMAGEMAP:
+                    {
+                        lightman::ImagemapTexture * typedTexture = new lightman::ImagemapTexture(texturelName);
+                        texture = static_cast<lightman::Texture*>(typedTexture);
+                    }
+                    break;
+                
+                default:
+                    break;
+                }
+                texturesOfLucScene.insert({texturelName, texture});
+            }
         }
-        
     }
     scnfile.close();
 }
