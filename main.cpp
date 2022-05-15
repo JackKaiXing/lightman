@@ -30,6 +30,8 @@ public:
     unsigned int windowWidth = 394;
     unsigned int windowheight = 535;
     float contentScaleFactor = 1.0;
+    float myfov = 0.0, mynear = 0.0, myfar = 0.0, myfocaldistance=0.0;
+    float myeye[3], mytarget[3], myup[3];
 public:
     void ParseLuxCoreScene(const std::string& file);
 }myConfig;
@@ -63,19 +65,11 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 
 void AppConfig::ParseLuxCoreScene(const std::string& file)
 {
-    myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
-    contentScaleFactor = lightmangui::GetBackScaleFactor();
-    
     // get managers
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
 
-    // init members
-    myScene = new lightman::Scene();
-
     // camera paras
     lightman::Camera::CameraType myprojection = lightman::Camera::CameraType::PERSPECTIVE;
-    float myfov = 0.0, mynear = 0.0, myfar = 0.0, myfocaldistance=0.0;
-    float myeye[3], mytarget[3], myup[3];
 
     // hard coded, deprecated later
     string filePath = file.substr(0, file.find_last_of("/")+1);
@@ -370,28 +364,35 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
         }
         else if(objectType.compare("textures") == 0)
         {
-            //
+            pos = subline.find_first_of(".");
+            string texturelName = subline.substr(0,pos);
         }
         
     }
     scnfile.close();
-
-    myView = new lightman::View();
-    myView->SetScene(myScene);
-
-    myCamera = new lightman::PerspectiveCamera();
-    myCamera->LookAt(myeye, mytarget, myup);
-    myCamera->setProjection(myfov, mynear, myfar, (float)windowWidth / (float)windowheight,lightman::Camera::FovDirection::VERTICAL);
-    myView->SetCamera(myCamera);
-    
-    void* nativeWindow = lightmangui::GetNativeWindow();
-    mySwapChain = myEngine->CreateSwapChain(nativeWindow);
-    myRenderer = myEngine->CreateRender(uint32_t(windowWidth*contentScaleFactor), uint32_t(windowheight*contentScaleFactor), lightman::RenderType::RASTER_GPU);
 }
 
 void Setup()
 {
+    myConfig.myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
+    myConfig.contentScaleFactor = lightmangui::GetBackScaleFactor();
+    myConfig.myScene = new lightman::Scene();
+
     myConfig.ParseLuxCoreScene("/Users/XK/Downloads/LuxCore2.1Benchmark/LuxCoreScene/scene-src.scn");
+
+    myConfig.myView = new lightman::View();
+    myConfig.myView->SetScene(myConfig.myScene);
+
+    myConfig.myCamera = new lightman::PerspectiveCamera();
+    myConfig.myCamera->LookAt(myConfig.myeye, myConfig.mytarget, myConfig.myup);
+    myConfig.myCamera->setProjection(myConfig.myfov, myConfig.mynear, myConfig.myfar, 
+        (float)myConfig.windowWidth / (float)myConfig.windowheight,lightman::Camera::FovDirection::VERTICAL);
+    myConfig.myView->SetCamera(myConfig.myCamera);
+    
+    void* nativeWindow = lightmangui::GetNativeWindow();
+    myConfig.mySwapChain = myConfig.myEngine->CreateSwapChain(nativeWindow);
+    myConfig.myRenderer = myConfig.myEngine->CreateRender(uint32_t(myConfig.windowWidth*myConfig.contentScaleFactor), 
+        uint32_t(myConfig.windowheight*myConfig.contentScaleFactor), lightman::RenderType::RASTER_GPU);
 }
 void PreRender()
 {
