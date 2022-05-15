@@ -83,13 +83,13 @@ void TriangleMesh::PrepareForRasterGPU()
         if(m_declaredAttribute & (1 << i))
         {
             HwBufferObject * bo = nullptr;
-            uint32_t size = 0;
+            uint32_t size = sizeof(float);
             void* data = nullptr;
             switch (i)
             {
             case backend::VertexAttribute::POSITION:
                 {
-                    size = m_points.size() * sizeof(float);
+                    size *= m_points.size();
                     data = (void*)m_points.data();
                     m_posBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
                     bo = m_posBuffetObject;
@@ -97,7 +97,7 @@ void TriangleMesh::PrepareForRasterGPU()
                 break;
             case backend::VertexAttribute::TANGENTS:
                 {
-                    size = m_normals.size() * sizeof(float);
+                    size *= m_normals.size();
                     data = (void*)m_normals.data();
                     m_normalBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
                     bo = m_normalBuffetObject;
@@ -105,7 +105,7 @@ void TriangleMesh::PrepareForRasterGPU()
                 break;
             case backend::VertexAttribute::UV0:
                 {
-                    size = m_uvs.size() * sizeof(float);
+                    size *= m_uvs.size();
                     data = (void*)m_uvs.data();
                     m_uvBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
                     bo = m_uvBuffetObject;
