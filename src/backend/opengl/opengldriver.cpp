@@ -515,7 +515,6 @@ namespace lightman
            const GLTexture* tex = static_cast<const GLTexture*>(th);
            glActiveTexture(GL_TEXTURE0 + index);
            glBindTexture(tex->gl.target, tex->gl.id);
-           //glBindTexture(tex->gl.target, 0); // TODO ?
            CHECK_GL_ERROR();
        }
     }
