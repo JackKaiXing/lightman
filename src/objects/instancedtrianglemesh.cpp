@@ -89,7 +89,7 @@ bool InstancedTriangleMesh::IsNeedToUpdateProgram()
 
 void InstancedTriangleMesh::UpdateProgram(HwProgram* program)
 {
-    m_program = program; // TODO REF
+    m_program = program;
     m_mInstance->BindUniformBlockToProgram(m_program);
     m_needToUpdateProgram = false;
 }
