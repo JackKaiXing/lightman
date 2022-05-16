@@ -387,50 +387,46 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
                 lightman::TextureType type = lightman::Texture::StringToTextureType(typeName);
                 lightman::Texture * texture = nullptr;
+                void* typedTexture = nullptr;
                 switch (type)
                 {
                 case lightman::TextureType::IMAGEMAP_TEX:
                     {
-                        lightman::ImagemapTexture * typedTexture = new lightman::ImagemapTexture(texturelName);
-                        texture = static_cast<lightman::Texture*>(typedTexture);
+                        typedTexture = new lightman::ImagemapTexture(texturelName);
                     }
                     break;
                 case lightman::TextureType::MIX_TEX:
                     {
-                        lightman::MixTexture * typedTexture = new lightman::MixTexture(texturelName);
-                        texture = static_cast<lightman::Texture*>(typedTexture);
+                        typedTexture = new lightman::MixTexture(texturelName);
                     }
                     break;
                 case lightman::TextureType::SCALE_TEX:
                     {
-                        lightman::ScaleTexture * typedTexture = new lightman::ScaleTexture(texturelName);
-                        texture = static_cast<lightman::Texture*>(typedTexture);
+                        typedTexture = new lightman::ScaleTexture(texturelName);
                     }
                     break;
                 case lightman::TextureType::SUBTRACT_TEX:
                     {
-                        lightman::SubtractTexture * typedTexture = new lightman::SubtractTexture(texturelName);
-                        texture = static_cast<lightman::Texture*>(typedTexture);
+                        typedTexture = new lightman::SubtractTexture(texturelName);
                     }
                     break;
                 case lightman::TextureType::BAND_TEX:
                     {
-                        lightman::BandTexture * typedTexture = new lightman::BandTexture(texturelName);
-                        texture = static_cast<lightman::Texture*>(typedTexture);
+                        typedTexture = new lightman::BandTexture(texturelName);
                     }
                     break;
                 
                 case lightman::TextureType::FRESNELCOLOR_TEX:
                     {
-                        lightman::FresnelColorTexture * typedTexture = new lightman::FresnelColorTexture(texturelName);
-                        texture = static_cast<lightman::Texture*>(typedTexture);
+                        typedTexture = new lightman::FresnelColorTexture(texturelName);
                     }
                     break;
                 
                 default:
-                        assert(0);
+                    assert(0);
                     break;
                 }
+                texture = static_cast<lightman::Texture*>(typedTexture);
                 texturesOfLucScene.insert({texturelName, texture});
             }
         }
