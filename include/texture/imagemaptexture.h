@@ -12,7 +12,7 @@ namespace lightman
         ImagemapTexture(const std::string& name) : Texture(name){};
         ~ImagemapTexture(){};
 
-        TextureType GetType() const override {return TextureType::IMAGEMAP;};
+        TextureType GetType() const override {return TextureType::IMAGEMAP_TEX;};
     private:
     };
 }

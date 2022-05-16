@@ -389,14 +389,46 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 lightman::Texture * texture = nullptr;
                 switch (type)
                 {
-                case lightman::TextureType::IMAGEMAP:
+                case lightman::TextureType::IMAGEMAP_TEX:
                     {
                         lightman::ImagemapTexture * typedTexture = new lightman::ImagemapTexture(texturelName);
                         texture = static_cast<lightman::Texture*>(typedTexture);
                     }
                     break;
+                case lightman::TextureType::MIX_TEX:
+                    {
+                        lightman::MixTexture * typedTexture = new lightman::MixTexture(texturelName);
+                        texture = static_cast<lightman::Texture*>(typedTexture);
+                    }
+                    break;
+                case lightman::TextureType::SCALE_TEX:
+                    {
+                        lightman::ScaleTexture * typedTexture = new lightman::ScaleTexture(texturelName);
+                        texture = static_cast<lightman::Texture*>(typedTexture);
+                    }
+                    break;
+                case lightman::TextureType::SUBTRACT_TEX:
+                    {
+                        lightman::SubtractTexture * typedTexture = new lightman::SubtractTexture(texturelName);
+                        texture = static_cast<lightman::Texture*>(typedTexture);
+                    }
+                    break;
+                case lightman::TextureType::BAND_TEX:
+                    {
+                        lightman::BandTexture * typedTexture = new lightman::BandTexture(texturelName);
+                        texture = static_cast<lightman::Texture*>(typedTexture);
+                    }
+                    break;
+                
+                case lightman::TextureType::FRESNELCOLOR_TEX:
+                    {
+                        lightman::FresnelColorTexture * typedTexture = new lightman::FresnelColorTexture(texturelName);
+                        texture = static_cast<lightman::Texture*>(typedTexture);
+                    }
+                    break;
                 
                 default:
+                        assert(0);
                     break;
                 }
                 texturesOfLucScene.insert({texturelName, texture});
