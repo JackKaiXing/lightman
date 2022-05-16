@@ -11,6 +11,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/src SRC_PLY)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/platform/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/magicenum/include)
 
 # Shared Sources
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
@@ -62,8 +63,10 @@ if(APPLE AND NOT IOS)
 endif()
 
 # flags
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD 14)
+# set(CMAKE_CXX_STANDARD 11)
+# set(CMAKE_CXX_STANDARD 14)
+# magic_enum need to be C++17
+set(CMAKE_CXX_STANDARD 17)
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
