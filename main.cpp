@@ -19,6 +19,7 @@
 #include "texture/texturetypeheader.h"
 
 #include "ply/ply.h"
+#include "magicenum/magic_enum.hpp"
 
 struct AppConfig{
 public:
@@ -384,10 +385,18 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             if (arrtibuteName.compare("type") == 0)
             {
                 // parse and construct new texture
-                string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
-                lightman::TextureType type = lightman::Texture::StringToTextureType(typeName);
+                string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3) + "_tex";
+                std::transform(typeName.begin(), typeName.end(),typeName.begin(), ::toupper);
+                auto typeValue = magic_enum::enum_cast<lightman::TextureType>(typeName);
+                lightman::TextureType type;
+                if (typeValue.has_value())
+                    type = typeValue.value();
+                else
+                    assert(0);
                 lightman::Texture * texture = nullptr;
                 void* typedTexture = nullptr;
+                // C++ has no mechanism to create objects whose types are determined at runtime
+                // https://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name
                 switch (type)
                 {
                 case lightman::TextureType::IMAGEMAP_TEX:
@@ -415,7 +424,6 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         typedTexture = new lightman::BandTexture(texturelName);
                     }
                     break;
-                
                 case lightman::TextureType::FRESNELCOLOR_TEX:
                     {
                         typedTexture = new lightman::FresnelColorTexture(texturelName);
@@ -428,6 +436,86 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 }
                 texture = static_cast<lightman::Texture*>(typedTexture);
                 texturesOfLucScene.insert({texturelName, texture});
+            }
+            else
+            {
+                lightman::Texture* texture = texturesOfLucScene.find(texturelName)->second;
+                
+                switch (texture->GetType())
+                {
+                case lightman::TextureType::IMAGEMAP_TEX:
+                    {
+                        lightman::ImagemapTexture * typedTexture = dynamic_cast<lightman::ImagemapTexture*>(texture);
+                        if (arrtibuteName == "file")
+                        {
+                            std::cout << arrtibuteValue << std::endl;
+                        }
+                        else if (arrtibuteName == "gain")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "gamma")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "storage")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "mapping.type")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "mapping.uvindex")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "mapping.rotation")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "mapping.uvscale")
+                        {
+                            
+                        }
+                        else if (arrtibuteName == "mapping.uvdelta")
+                        {
+                            
+                        }
+                        else
+                            std::cout << "Unknown Parameter For Texture Type: " <<  magic_enum::enum_name(texture->GetType()) << std::endl;
+                    }
+                    break;
+                case lightman::TextureType::MIX_TEX:
+                    {
+                        lightman::MixTexture * typedTexture = dynamic_cast<lightman::MixTexture*>(texture);
+                    }
+                    break;
+                case lightman::TextureType::SCALE_TEX:
+                    {
+                        lightman::ScaleTexture * typedTexture = dynamic_cast<lightman::ScaleTexture*>(texture);
+                    }
+                    break;
+                case lightman::TextureType::SUBTRACT_TEX:
+                    {
+                        lightman::SubtractTexture * typedTexture = dynamic_cast<lightman::SubtractTexture*>(texture);
+                    }
+                    break;
+                case lightman::TextureType::BAND_TEX:
+                    {
+                        lightman::BandTexture * typedTexture = dynamic_cast<lightman::BandTexture*>(texture);
+                    }
+                    break;
+                case lightman::TextureType::FRESNELCOLOR_TEX:
+                    {
+                        lightman::FresnelColorTexture * typedTexture = dynamic_cast<lightman::FresnelColorTexture*>(texture);
+                    }
+                    break;
+                
+                default:
+                    assert(0);
+                    break;
+                }
             }
         }
     }
