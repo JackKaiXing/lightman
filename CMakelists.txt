@@ -5,6 +5,8 @@ project(LightMan)
 # include
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/stb/include)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/stb/src SRC_STB)
 
 # src TODO remove to be another porject
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
@@ -26,6 +28,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/camera SRC_CAMERA)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer SRC_RENDERER)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/managers SRC_MANAGER)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/materials SRC_MATERIALS)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/texture SRC_TEXTURES)
 
 
 # Cross-Platform:: Platform
@@ -77,6 +80,7 @@ enable_language(ASM)
 add_executable(${PROJECT_NAME}
     ${SRC_TEST} 
     ${SRC_PLY}
+    ${SRC_STB}
     ${SRC}
     ${SRC_SCENE}
     ${SRC_MATH}
@@ -92,6 +96,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_RENDERER}
     ${SRC_MANAGER}
     ${SRC_MATERIALS}
+    ${SRC_TEXTURES}
 )
 
 if(APPLE)
