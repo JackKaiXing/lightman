@@ -69,6 +69,8 @@ Placement New:https://en.cppreference.com/w/cpp/language/new#Placement_new, http
 Right Value:https://juejin.cn/post/6844903497075294216
 ParameterPack: https://en.cppreference.com/w/cpp/language/parameter_pack
 Mutable: https://en.cppreference.com/w/cpp/language/cv
+Enum: https://belaycpp.com/2021/08/24/best-ways-to-convert-an-enum-to-a-string/
+Magic_Enum: https://github.com/Neargye/magic_enum
 
 >>**ASM**
 Introduction:http://c.biancheng.net/asm/
