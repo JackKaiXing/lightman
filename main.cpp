@@ -15,6 +15,7 @@
 #include "objects/instancedtrianglemesh.h"
 #include "managers/meshmanager.h"
 #include "managers/materialmanager.h"
+#include "managers/imagemapmanager.h"
 #include "texture/texture.h"
 #include "texture/texturetypeheader.h"
 
@@ -70,6 +71,8 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
 {
     // get managers
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
+    lightman::ImagemapManager* imManager= lightman::ImagemapManager::GetInstance();
+    
 
     // camera paras
     lightman::Camera::CameraType projection = lightman::Camera::CameraType::PERSPECTIVE;
@@ -448,7 +451,14 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         lightman::ImagemapTexture * typedTexture = dynamic_cast<lightman::ImagemapTexture*>(texture);
                         if (arrtibuteName == "file")
                         {
-                            std::cout << arrtibuteValue << std::endl;
+                            std::string imageName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
+                            lightman::Imagemap* image = nullptr;
+                            image = imManager->GetImagemap(imageName);
+                            if (!image)
+                            {
+                                imManager->LoadImagemap(filePath, imageName);
+                            }
+                            
                         }
                         else if (arrtibuteName == "gain")
                         {
