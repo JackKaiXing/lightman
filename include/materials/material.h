@@ -24,9 +24,10 @@ namespace lightman
     {
     public:
         // for convenient usage of enum, https://riptutorial.com/c/example/6564/typedef-enum
-        typedef enum
+        typedef enum : uint32_t
         {
-            MATTE = 0,
+            // do not change this, since MaterialDefines need to load from 0 to MAX_MATERIALTYPE_COUNT
+            MATTE = 0, 
             MIRROR,
             GLASS,
             ARCHGLASS,
