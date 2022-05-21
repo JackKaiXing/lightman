@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
 #include "platformhandle.h"
 
@@ -115,8 +116,8 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
 {
     // get managers
     lightman::MeshManager* mManager = lightman::MeshManager::GetInstance();
-    lightman::ImagemapManager* imManager= lightman::ImagemapManager::GetInstance();
-    
+    lightman::ImagemapManager* imManager = lightman::ImagemapManager::GetInstance();
+    lightman::MaterialManager* mtManager = lightman::MaterialManager::GetInstance();
 
     // camera paras
     lightman::Camera::CameraType projection = lightman::Camera::CameraType::PERSPECTIVE;
@@ -297,8 +298,8 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             {
                 string materialName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
                 std::string materialInstancename = objectName + "_" + materialName;
-                lightman::MaterialInstance * mi = lightman::MaterialManager::GetInstance()->CreateMaterialInstance(
-                        lightman::MaterialManager::GetInstance()->GetMaterial(materialName),materialInstancename);
+                lightman::MaterialInstance * mi = mtManager->CreateMaterialInstance(
+                        mtManager->GetMaterial(materialName),materialInstancename);
                 lightman::InstancedTriangleMesh * iMesh = myScene->GetMesh(objectName);
                 iMesh->SetMaterialInstance(mi);
             }
@@ -356,10 +357,31 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             if (arrtibuteName.compare("type") == 0)
             {
                 string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
-                lightman::MaterialManager::GetInstance()->CreateMaterial(
-                    lightman::Material::StringToMaterialType(typeName),materialName);
+                std::transform(typeName.begin(), typeName.end(), typeName.begin(), ::toupper);
+
+                auto typeValue = magic_enum::enum_cast<lightman::Material::MaterialType>(typeName);
+                lightman::Material::MaterialType type = lightman::Material::MaterialType::MAX_MATERIALTYPE_COUNT;
+                if (typeValue.has_value())
+                    type = typeValue.value();
+
+                mtManager->CreateMaterial(type,materialName);
             }
-            // TODO other properties
+            else
+            {
+                lightman::Material * material = mtManager->GetMaterial(materialName);
+                
+                switch (material->getMaterialType())
+                {
+                    case lightman::Material::MaterialType::GLOSSY:
+                    {
+                        
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
         }
         else if(objectType.compare("camera") == 0)
         {
@@ -433,7 +455,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             {
                 // parse and construct new texture
                 string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3) + "_tex";
-                std::transform(typeName.begin(), typeName.end(),typeName.begin(), ::toupper);
+                std::transform(typeName.begin(), typeName.end(), typeName.begin(), ::toupper);
                 auto typeValue = magic_enum::enum_cast<lightman::TextureType>(typeName);
                 lightman::TextureType type;
                 if (typeValue.has_value())
