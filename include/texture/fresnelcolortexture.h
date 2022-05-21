@@ -8,12 +8,15 @@ namespace lightman
     class FresnelColorTexture : public Texture
     {
     public:
-        FresnelColorTexture(){};
+        FresnelColorTexture() = delete;
         FresnelColorTexture(const std::string& name) : Texture(name){};
         ~FresnelColorTexture(){};
 
+        void SetKr(const Texture* kr);
+
         TextureType GetType() const override {return TextureType::FRESNELCOLOR_TEX;};
     private:
+        const Texture* m_Kr;
     };
 }
 

@@ -8,12 +8,14 @@ namespace lightman
     class BandTexture : public Texture
     {
     public:
-        BandTexture(){};
+        BandTexture() = delete;
         BandTexture(const std::string& name) : Texture(name){};
         ~BandTexture(){};
+        void SetAmount(const Texture* amount);
 
         TextureType GetType() const override {return TextureType::BAND_TEX;};
     private:
+        const Texture* m_amount;
     };
 }
 

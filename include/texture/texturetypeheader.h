@@ -6,8 +6,8 @@
 #include "texture/scaletexture.h"
 #include "texture/subtracttexture.h"
 #include "texture/bandtexture.h"
-#include "texture/fresnelcolor.h"
-#include "texture/constfloat.h"
-#include "texture/constfloat3.h"
+#include "texture/fresnelcolortexture.h"
+#include "texture/constfloattexture.h"
+#include "texture/constfloat3texture.h"
 
 #endif _LIGHTMAN_TEXTURETYPEHEADER_H

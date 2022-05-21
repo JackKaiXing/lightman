@@ -8,12 +8,18 @@ namespace lightman
     class MixTexture : public Texture
     {
     public:
-        MixTexture(){};
+        MixTexture() = delete;
         MixTexture(const std::string& name) : Texture(name){};
         ~MixTexture(){};
+        void SetAmount(const Texture * amount);
+        void SetTex1(const Texture * tex1);
+        void SetTex2(const Texture * tex2);
 
         TextureType GetType() const override {return TextureType::MIX_TEX;};
     private:
+        const Texture* m_amount;
+	    const Texture* m_tex1;
+	    const Texture* m_tex2;
     };
 }
 

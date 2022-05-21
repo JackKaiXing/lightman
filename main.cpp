@@ -86,7 +86,7 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::un
         float x = 0.0, y = 0.0, z = 0.0;
         ss >> x >> y >> z;
 
-        lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture();
+        lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture("default", x, y, z);
         result = texture;
     }
     else
@@ -101,7 +101,7 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::un
             std::stringstream ss(value);
             float x = 0.0;
             ss >> x;
-            lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture();
+            lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture("default", x);
             result = texture;
         }
     }
@@ -546,36 +546,70 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         lightman::MixTexture * typedTexture = dynamic_cast<lightman::MixTexture*>(texture);
                         if (arrtibuteName == "amount")
                         {
-                            GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue);
+                            typedTexture->SetAmount(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                            
                         }
                         else if (arrtibuteName == "texture1")
                         {
-                            GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue);
+                            typedTexture->SetTex1(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
                         }
                         else if (arrtibuteName == "texture2")
                         {
-                            GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue);
+                            typedTexture->SetTex2(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
                         }
                     }
                     break;
                 case lightman::TextureType::SCALE_TEX:
                     {
                         lightman::ScaleTexture * typedTexture = dynamic_cast<lightman::ScaleTexture*>(texture);
+                        if (arrtibuteName == "texture1")
+                        {
+                            typedTexture->SetTex1(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                        }
+                        else if (arrtibuteName == "texture2")
+                        {
+                            typedTexture->SetTex2(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                        }
                     }
                     break;
                 case lightman::TextureType::SUBTRACT_TEX:
                     {
                         lightman::SubtractTexture * typedTexture = dynamic_cast<lightman::SubtractTexture*>(texture);
+                        if (arrtibuteName == "texture1")
+                        {
+                            typedTexture->SetTex1(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                        }
+                        else if (arrtibuteName == "texture2")
+                        {
+                            typedTexture->SetTex2(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                        }
                     }
                     break;
                 case lightman::TextureType::BAND_TEX:
                     {
                         lightman::BandTexture * typedTexture = dynamic_cast<lightman::BandTexture*>(texture);
+                        if (arrtibuteName == "amount")
+                        {
+                            typedTexture->SetAmount(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                        }
                     }
                     break;
                 case lightman::TextureType::FRESNELCOLOR_TEX:
                     {
                         lightman::FresnelColorTexture * typedTexture = dynamic_cast<lightman::FresnelColorTexture*>(texture);
+                        if (arrtibuteName == "kr")
+                        {
+                            typedTexture->SetKr(
+                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                        }
                     }
                     break;
                 
