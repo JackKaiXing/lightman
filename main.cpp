@@ -38,6 +38,8 @@ public:
     float myeye[3], mytarget[3], myup[3];
 public:
     void ParseLuxCoreScene(const std::string& file);
+    lightman::Texture* GetOrCreateTextureFromAttributeValue(const std::unordered_map<std::string, lightman::Texture*>& texturesOfLucScene,
+        const std::string& attributeValue);
 }myConfig;
 
 // ----------------------------------------------------------------------------
@@ -67,6 +69,48 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 };
 // ----------------------------------------------------------------------------
 
+lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::unordered_map<std::string, lightman::Texture*>& texturesOfLucScene,
+        const std::string& attributeValue)
+{
+    lightman::Texture * result = nullptr;
+
+    // from "value" to value
+    std::string value = attributeValue.substr(2, attributeValue.length()-3);
+
+    int pos = 0;
+    pos = value.find_first_of(" ");
+    if( pos > 0 )
+    {
+        // if there is white space, it is a float3 texture with no name
+        std::stringstream ss(value);
+        float x = 0.0, y = 0.0, z = 0.0;
+        ss >> x >> y >> z;
+
+        lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture();
+        result = texture;
+    }
+    else
+    {
+        auto iter = texturesOfLucScene.find(value);
+        if( iter != texturesOfLucScene.end())
+            // it is the name of the texture created previously
+            result = iter->second;
+        else
+        {
+            // it is a const float texture
+            std::stringstream ss(value);
+            float x = 0.0;
+            ss >> x;
+            lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture();
+            result = texture;
+        }
+    }
+    
+    // if texture is still empty, we must be wrong with this parsing code
+    assert(result);
+
+    return result;
+}
 void AppConfig::ParseLuxCoreScene(const std::string& file)
 {
     // get managers
@@ -456,9 +500,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                             image = imManager->GetImagemap(imageName);
                             if (!image)
                             {
-                                imManager->LoadImagemap(filePath, imageName);
+                                image = imManager->LoadImagemap(filePath, imageName);
                             }
-                            
+                            typedTexture->SetImageMap(image);
                         }
                         else if (arrtibuteName == "gain")
                         {
@@ -493,12 +537,25 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                             
                         }
                         else
-                            std::cout << "Unknown Parameter For Texture Type: " <<  magic_enum::enum_name(texture->GetType()) << std::endl;
+                            std::cout << "Unknown Parameter: "<< arrtibuteName << "For Texture Type: " << 
+                            magic_enum::enum_name(texture->GetType()) << std::endl;
                     }
                     break;
                 case lightman::TextureType::MIX_TEX:
                     {
                         lightman::MixTexture * typedTexture = dynamic_cast<lightman::MixTexture*>(texture);
+                        if (arrtibuteName == "amount")
+                        {
+                            GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue);
+                        }
+                        else if (arrtibuteName == "texture1")
+                        {
+                            GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue);
+                        }
+                        else if (arrtibuteName == "texture2")
+                        {
+                            GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue);
+                        }
                     }
                     break;
                 case lightman::TextureType::SCALE_TEX:
