@@ -63,9 +63,9 @@ namespace lightman
         switch (type)
         {
         case Material::MaterialType::MATTE:
-        case Material::MaterialType::GLOSSY2:
+        case Material::MaterialType::GLOSSY:
         case Material::MaterialType::MATTETRANSLUCENT:
-        case Material::MaterialType::METAL2:
+        case Material::MaterialType::METAL:
         case Material::MaterialType::ARCHGLASS:
         case Material::MaterialType::VELVET:
         case Material::MaterialType::MIX:
