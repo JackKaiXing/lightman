@@ -33,8 +33,8 @@ namespace lightman
             MIX,
             NULLMAT,
             MATTETRANSLUCENT,
-            GLOSSY2,
-            METAL2, 
+            GLOSSY,
+            METAL, 
             ROUGHGLASS, 
             VELVET, 
             CLOTH, 
@@ -76,7 +76,6 @@ namespace lightman
         virtual ~Material() = default;
         virtual MaterialType getMaterialType() = 0;
         static uint32_t GetProgramIndexBySupportedVertexAttribute(bool hasTangent, bool hasUV0, bool hasUV1);
-        static MaterialType StringToMaterialType(const std::string& name);
     friend class MaterialManager;
     protected:
         MaterialInstance* createMaterialInstance(const std::string& name);
@@ -84,6 +83,7 @@ namespace lightman
         std::vector<UniformInfo> m_uniformsInfoList;
         uint32_t m_uniformsSize; // size in bytes
         std::unordered_map<std::string, uint32_t> m_uniformInfoMap; 
+        MaterialInstance* m_defaultMI = nullptr;
     };
     
 } // namespace lightman
