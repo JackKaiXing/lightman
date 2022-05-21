@@ -2,6 +2,7 @@
 #define _LIGHTMAN_IMAGEMAPTEXTURE_H
 
 #include "texture/texture.h"
+#include "texture/imagemap.h"
 
 namespace lightman
 {
@@ -13,7 +14,9 @@ namespace lightman
         ~ImagemapTexture(){};
 
         TextureType GetType() const override {return TextureType::IMAGEMAP_TEX;};
+        void SetImageMap(Imagemap* im);
     private:
+        Imagemap * m_imagemap = nullptr;
     };
 }
 
