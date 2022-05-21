@@ -9,7 +9,7 @@
 namespace lightman
 {
     typedef enum{
-        IMAGEMAP_TEX, MIX_TEX, SCALE_TEX, SUBTRACT_TEX,
+        CONSTFLOAT_TEX, CONSTFLOAT3_TEX, IMAGEMAP_TEX, MIX_TEX, SCALE_TEX, SUBTRACT_TEX,
 
         // procedural
         BAND_TEX, 
@@ -31,4 +31,4 @@ namespace lightman
         std::string m_name;
     };
 }
-#endif _LIGHTMAN_TEXTURE_H
+#endif //_LIGHTMAN_TEXTURE_H
