@@ -7,13 +7,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/stb/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/stb/src SRC_STB)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/magicenum/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/nlohmann/include)
 
 # src TODO remove to be another porject
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} SRC_TEST)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ply/src SRC_PLY)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/platform/)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/magicenum/include)
 
 # Shared Sources
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
