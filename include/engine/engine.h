@@ -31,7 +31,7 @@ namespace lightman
         backend::HwRenderTarget* GetDefaultRenderTarget(){return m_defaultRT;};
     protected:
         Engine(backend::BackendType backend) noexcept;
-        ~Engine() = default;
+        ~Engine();
 
     private:
         backend::Platform * m_platform;

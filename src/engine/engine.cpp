@@ -1,6 +1,7 @@
 
 #include "engine/engine.h"
 #include "managers/meshmanager.h"
+#include "materials/materialdefines.h"
 
 namespace lightman
 {
@@ -41,6 +42,14 @@ namespace lightman
         m_driver = m_platform->CreateDriver();
 
         m_defaultRT = m_driver->createDefaultRenderTarget();
+
+        std::string resourcePath = "/Users/XK/Desktop/Projects/lightman/assets/material/";
+        MaterialDefines::InitInstance(resourcePath);
+    }
+    Engine::~Engine()
+    {
+        // TODO other destory
+        MaterialDefines::DestoryInstance();
     }
     SwapChain* Engine::CreateSwapChain(void* nativeWindow)
     {
