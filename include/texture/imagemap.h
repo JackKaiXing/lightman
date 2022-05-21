@@ -4,9 +4,11 @@
 #include <cstdint>
 #include <cstddef>
 
+#include "utils/ref.h"
+
 namespace lightman
 {
-    class Imagemap
+    class Imagemap : public utils::Ref
     {
     public:
         enum class ComponentType : uint8_t
