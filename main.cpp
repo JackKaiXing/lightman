@@ -297,11 +297,8 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
             else if (arrtibuteName.compare("material") == 0)
             {
                 string materialName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
-                std::string materialInstancename = objectName + "_" + materialName;
-                lightman::MaterialInstance * mi = mtManager->CreateMaterialInstance(
-                        mtManager->GetMaterial(materialName),materialInstancename);
                 lightman::InstancedTriangleMesh * iMesh = myScene->GetMesh(objectName);
-                iMesh->SetMaterialInstance(mi);
+                iMesh->SetMaterial(mtManager->GetMaterial(materialName));
             }
             else if (arrtibuteName.compare("camerainvisible") == 0)
             {
