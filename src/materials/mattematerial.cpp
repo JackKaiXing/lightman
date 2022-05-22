@@ -1,37 +1,64 @@
 
 #include "materials/mattematrial.h"
+#include "engine/engine.h"
 
 #include <sstream>
 
 namespace lightman
 {
     MatteMaterial::MatteMaterial(const std::string& name) 
-        : Material(name)
+        : Material(name, nullptr, nullptr)
     {
-        // TODO read uniform config from outside
-        std::vector<UniformDefine> uDefines;
-        uDefines.push_back({"PVMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
-        uDefines.push_back({"InverseMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
-        
-        InitUniformBlockInfo(uDefines);
+    }
+    MatteMaterial::MatteMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+        : Material(name, bump, emission)
+    {
     }
     MatteMaterial::~MatteMaterial()
     {
-
     }
-    std::string MatteMaterial::CreateVertexShaderString(uint32_t index)
+    bool MatteMaterial::PrepareForRasterGPU()
+    {
+        if(m_isRasterGPUNeedUpdate)
+            return true;
+
+        std::vector<UniformDefine> uDefines;
+        // get shared uniform defines
+        GetSharedBlockInfo(uDefines);
+
+        // add custom uniform defines
+        // TO DO PARSE TEXTURE NODES TO GET UDEFINES
+        
+        // Init Block Infos
+        InitUniformBlockInfo(uDefines);
+
+        // update defaut materialInstance
+        UpdateDefaultMaterialInstance();
+
+        // TODO UPDATE MaterialInstance about uDefines
+
+        // Update Program
+        std::string vertexShaderString = CreateVertexShaderString();
+        std::string fragmentShaderString = CreateFragmentShaderString();
+        m_program = Engine::GetInstance()->GetDriver()->createProgram(
+            vertexShaderString, fragmentShaderString, GetUniformBufferInfo());
+
+        m_isRasterGPUNeedUpdate = true;
+        return true;
+    }
+    std::string MatteMaterial::CreateVertexShaderString()
     {
         // TODO Remove as outside config
         std::stringstream ss;
         ss << "#version 330 core" << "\n";
 
-        if (index & backend::VertexAttribute::TANGENTS)
+        if (true)
             ss << "#define " << "HAS_ATTRIBUTE_TANGENTS" << "\n";
         
-        if (index & backend::VertexAttribute::UV0)
+        if (true)
             ss << "#define " << "HAS_ATTRIBUTE_UV0" << "\n";
 
-        if (index & backend::VertexAttribute::UV1)
+        if (true)
             ss << "#define " << "HAS_ATTRIBUTE_UV1" << "\n";
 
         static const std::string vertexShader = "layout(location = 0) in vec3 position; \n \
@@ -67,18 +94,18 @@ namespace lightman
 
         return ss.str();
     }
-    std::string MatteMaterial::CreateFragmentShaderString(uint32_t index)
+    std::string MatteMaterial::CreateFragmentShaderString()
     {
         std::stringstream ss;
         ss << "#version 330 core" << "\n";
 
-        if (index & backend::VertexAttribute::TANGENTS)
+        if (true)
             ss << "#define " << "HAS_ATTRIBUTE_TANGENTS" << "\n";
         
-        if (index & backend::VertexAttribute::UV0)
+        if (true)
             ss << "#define " << "HAS_ATTRIBUTE_UV0" << "\n";
 
-        if (index & backend::VertexAttribute::UV1)
+        if (true)
             ss << "#define " << "HAS_ATTRIBUTE_UV1" << "\n";
 
         static const std::string fragmengShader = "#define RECIPROCAL_PI 0.3183098861837907 \n \

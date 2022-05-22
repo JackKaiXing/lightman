@@ -10,13 +10,15 @@ namespace lightman
     {
     public:
         MatteMaterial(const std::string& name);
+        MatteMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd);
         ~MatteMaterial();
         MaterialType getMaterialType() override { return Material::MaterialType::MATTE;};
-        static std::string CreateVertexShaderString(uint32_t index);
-        static std::string CreateFragmentShaderString(uint32_t index);
+        bool PrepareForRasterGPU() override;
+        std::string CreateVertexShaderString();
+        std::string CreateFragmentShaderString();
         static backend::UniformBlockInfo GetUniformBufferInfo();
     private:
-        
+        const Texture* m_kd = nullptr;          // diffuse color
     };
     
 } // namespace lightman
