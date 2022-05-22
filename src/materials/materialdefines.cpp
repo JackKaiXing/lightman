@@ -33,16 +33,20 @@ namespace lightman
     }
     MaterialDefines::MaterialDefines(const std::string& path)
     {
+        std::string fileName;
+        std::string filePath;
+        std::string jsonString;
+
         // HARD CODE: load all the defines for different types of material
         for (Material::MaterialType type = (Material::MaterialType)0; 
             type < Material::MaterialType::MAX_MATERIALTYPE_COUNT; 
             type = (Material::MaterialType)(uint32_t(type) + 1))
         {
-            std::string fileName = magic_enum::enum_name(type).data();
+            fileName = magic_enum::enum_name(type).data();
             std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::tolower);
-            std::string filePath = path + fileName + ".json";
+            filePath = path + fileName + ".json";
 
-            std::string jsonString = utils::FileOperator::GetFileAsString(filePath);
+            jsonString = utils::FileOperator::GetFileAsString(filePath);
             auto j3 = json::parse(jsonString);
             std::cout << j3["xingkai"] << std::endl;
         }

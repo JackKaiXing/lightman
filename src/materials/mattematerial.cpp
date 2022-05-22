@@ -12,8 +12,7 @@ namespace lightman
         std::vector<UniformDefine> uDefines;
         uDefines.push_back({"PVMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
         uDefines.push_back({"InverseMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
-        uDefines.push_back({"uTestColor", backend::UniformType::FLOAT, 1, backend::Precision::DEFAULT});
-
+        
         InitUniformBlockInfo(uDefines);
     }
     MatteMaterial::~MatteMaterial()
@@ -54,7 +53,6 @@ namespace lightman
             {\n \
                 mat4 PVMMatrix; \n \
                 mat4 InverseMMatrix; \n \
-                float uTestColor; \n \
             }; \n \
             out vec3 Normal; \n \
             void main() \n \

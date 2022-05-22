@@ -123,7 +123,6 @@ void InstancedTriangleMesh::Draw()
             // Normal Transformation, http://www.songho.ca/opengl/gl_normaltransform.html
             m_mInstance->SetParameter("InverseMMatrix",TransposeInverseMMatrix);
         }
-        m_mInstance->SetParameter("uTestColor",1.0f); // TODO Config
         m_mInstance->Commit();
         m_mesh->Draw(m_program);
     }
