@@ -43,12 +43,7 @@ namespace lightman
         bool BeginFrame(SwapChain *swapChain) override;
         void EndFrame() override;
         void RenderFrame(View* view) override;
-    friend class InstancedTriangleMesh;
-    protected:
-        backend::HwProgram* GetProgram(Material::MaterialType type, uint32_t index);
     private:
-        std::array<std::unordered_map<uint32_t, backend::HwProgram*>, 
-            Material::MaterialType::MAX_MATERIALTYPE_COUNT> m_programs;
         backend::HwRenderTarget* m_mrt = nullptr; // geometry off-screen rendering
         backend::HwTexture* m_colorTex = nullptr;
         backend::RenderPassParams m_mrtPP;

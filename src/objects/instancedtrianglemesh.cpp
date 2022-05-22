@@ -20,37 +20,48 @@ InstancedTriangleMesh::~InstancedTriangleMesh()
 void InstancedTriangleMesh::SetTransform(const Matrix4X4& m)
 {
     m_transform = m;
-    m_needToUpdateTransform = true;
+    
+    // TransposeInverseMMatrix.Transpose().Transpose();
+    // Normal Transformation, http://www.songho.ca/opengl/gl_normaltransform.html
+    m_transposeInverseMMatrix = m_transform * m_mesh->GetTransform();
+    m_transposeInverseMMatrix.Inverse();
+    m_transposeInverseMMatrix.Transpose();
 }
 
 void InstancedTriangleMesh::setPVTransform(const Matrix4X4& pvmatrix)
 {
-    m_PVTransform = pvmatrix;
-    m_needToUpdateTransform = true;
+    m_PVMTransform = pvmatrix * m_transform * m_mesh->GetTransform();
+}
+
+void InstancedTriangleMesh::SetMaterial(Material* mat)
+{
+    if (m_mInstance)
+    {
+        m_mInstance->ReleaseRef();
+        m_mInstance = nullptr;
+    }
+
+    if (m_material)
+        m_material->ReleaseRef();
+    
+    m_material = mat;
+    m_material->IncreaseRef();
 }
 
 void InstancedTriangleMesh::SetMaterialInstance(MaterialInstance * mi)
 {
-    Material::MaterialType src = Material::MaterialType::MAX_MATERIALTYPE_COUNT;
-    if (m_mInstance)
+    if (m_material)
     {
-        m_mInstance->ReleaseRef();
-        src = m_mInstance->GetMaterial()->getMaterialType();
+        m_material->ReleaseRef();
+        m_material = nullptr;
     }
+        
+    if (m_mInstance)
+        m_mInstance->ReleaseRef();
     
     m_mInstance = mi;
-    Material::MaterialType dst = Material::MaterialType::MAX_MATERIALTYPE_COUNT;
     if(m_mInstance)
-    {
         m_mInstance->IncreaseRef();
-        dst = m_mInstance->GetMaterial()->getMaterialType();
-    }
-
-    if(src != dst)
-    {
-        m_needToUpdateProgram = true;
-    }
-    
 }
 
 void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)
@@ -76,22 +87,15 @@ MaterialInstance* InstancedTriangleMesh::GetMaterialInstance()
     return m_mInstance;
 }
 
+bool InstancedTriangleMesh::hasMaterial()
+{
+    return m_mInstance || m_material;
+}
+
 uint32_t InstancedTriangleMesh::GetProgramIndexBySupportedVertexAttribute()
 {
     return Material::GetProgramIndexBySupportedVertexAttribute(
         m_mesh->HasNormal(),m_mesh->HasUV(), false);
-}
-
-bool InstancedTriangleMesh::IsNeedToUpdateProgram()
-{
-    return m_needToUpdateProgram;
-}
-
-void InstancedTriangleMesh::UpdateProgram(HwProgram* program)
-{
-    m_program = program;
-    m_mInstance->BindUniformBlockToProgram(m_program);
-    m_needToUpdateProgram = false;
 }
 
 void InstancedTriangleMesh::PrepareForRasterGPU()
@@ -102,29 +106,41 @@ void InstancedTriangleMesh::PrepareForRasterGPU()
     else    
         std::cout << "InstancedMesh does not have a valid source mesh" << std::endl;
 #endif
+
+    if (m_mInstance)
+        m_mInstance->GetMaterial()->PrepareForRasterGPU();
+
+    if (m_material)
+        m_material->PrepareForRasterGPU();
 }
 
 void InstancedTriangleMesh::Draw()
 {
     if(m_mesh)  
     {
-        if(m_needToUpdateTransform)
+        MaterialInstance * mi = nullptr;
+        if (m_mInstance)
+            mi = m_mInstance;
+        else
+            mi = m_material->GetDefaultMaterialInstance();
+        
+        /*
+            update uniforms : since material/materialinstance is shared between meshes,
+            there is great possibily that the uniform buffer should be updated.
+        */
         {
-            // The OpenGL Matrix Buffer is column first, https://stackoverflow.com/questions/17717600/confusion-between-c-and-opengl-matrix-order-row-major-vs-column-major
-            
-            Matrix4X4 mMatrix = m_transform * m_mesh->GetTransform();
-            
-            Matrix4X4 pvmMatrix = m_PVTransform * mMatrix;
+            // The OpenGL Matrix Buffer is column first,
+            // https://stackoverflow.com/questions/17717600/confusion-between-c-and-opengl-matrix-order-row-major-vs-column-major
+            Matrix4X4 pvmMatrix = m_PVMTransform;
             pvmMatrix.Transpose();
-            m_mInstance->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
+            Matrix4X4 transposeInverseMMatrix = m_transposeInverseMMatrix;
+            transposeInverseMMatrix.Transpose();
             
-            Matrix4X4 TransposeInverseMMatrix = mMatrix.Inverse();
-            // TransposeInverseMMatrix.Transpose().Transpose();
-            // Normal Transformation, http://www.songho.ca/opengl/gl_normaltransform.html
-            m_mInstance->SetParameter("InverseMMatrix",TransposeInverseMMatrix);
+            mi->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
+            mi->SetParameter("InverseMMatrix",transposeInverseMMatrix);
+            mi->Commit();
         }
-        m_mInstance->Commit();
-        m_mesh->Draw(m_program);
+        m_mesh->Draw(mi->GetMaterial()->GetProgram());
     }
 #ifdef DEBUG
     else    

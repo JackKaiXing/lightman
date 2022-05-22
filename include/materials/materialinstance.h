@@ -9,6 +9,7 @@ namespace lightman
 {
     // ----------------------------------------------------------------------------
     class Material;
+    class Engine;
     class MaterialInstance : public utils::Ref
     {
     public:
@@ -24,7 +25,6 @@ namespace lightman
         template<typename T>
         void SetParameter(const char* name, T const& value);
         void SetParameterImpl(uint32_t offset, uint32_t size, void* data);
-        void BindUniformBlockToProgram(backend::HwProgram* program);
 
     friend class Material;
     protected:

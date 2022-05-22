@@ -145,14 +145,8 @@ namespace lightman
             currentMesh->PrepareForRasterGPU();
 
             // init/update program in case user set new MaterialInstance
-            if(currentMesh->IsNeedToUpdateProgram() && currentMesh->GetMaterialInstance())
+            if(currentMesh->hasMaterial())
             {
-                Material::MaterialType type = currentMesh->GetMaterialInstance()->GetMaterial()->getMaterialType();
-                uint32_t index = currentMesh->GetProgramIndexBySupportedVertexAttribute();
-                HwProgram* program = GetProgram(type, index);
-                currentMesh->UpdateProgram(program);
-            }
-            else{
                 // TODO use default material
             }
 
@@ -173,40 +167,5 @@ namespace lightman
         m_quad->Draw(m_postprocessing_fxaa);
         Engine::GetInstance()->GetDriver()->endRenderPass();
         // ---------------------------------------------Post Processing, End Default FBO---------------------------------
-    }
-    HwProgram* GPURenderer::GetProgram(Material::MaterialType type, uint32_t index)
-    {
-        if(type >= Material::MaterialType::MAX_MATERIALTYPE_COUNT || type < 0 )
-            assert(0);
-
-        HwProgram* result = nullptr;
-
-        auto& typedPrograms = m_programs[type];
-        auto iter = typedPrograms.find(index);
-        if (iter == typedPrograms.end())
-        {
-            std::string vertexShaderString;
-            std::string fragmentShaderString;
-            UniformBlockInfo ubInfo;
-            switch (type)
-            {
-            case Material::MaterialType::MATTE :
-                vertexShaderString = MatteMaterial::CreateVertexShaderString(index);
-                fragmentShaderString = MatteMaterial::CreateFragmentShaderString(index);
-                ubInfo = MatteMaterial::GetUniformBufferInfo();
-                break;
-            
-            default:
-                break;
-            }
-            
-            result = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString, ubInfo);
-            typedPrograms.insert({index, result});
-        }
-        else
-            result = iter->second;
-
-        return result;
-        
     }
 }
