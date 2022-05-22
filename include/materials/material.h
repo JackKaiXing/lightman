@@ -7,6 +7,7 @@
 #include "backend/driverbase.h"
 #include "materials/materialinstance.h"
 #include "utils/ref.h"
+#include "texture/texture.h"
 
 namespace lightman
 {
@@ -74,10 +75,15 @@ namespace lightman
 
     public:
         Material() = default;
-        Material(const std::string& name);
-        virtual ~Material() = default;
+        Material(const std::string& name, const Texture* bump, const Texture* emission);
+        virtual ~Material();
         virtual MaterialType getMaterialType() = 0;
         static uint32_t GetProgramIndexBySupportedVertexAttribute(bool hasTangent, bool hasUV0, bool hasUV1);
+        virtual bool PrepareForRasterGPU() = 0;
+        void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines);
+        backend::HwProgram* GetProgram() {return m_program;};
+        void UpdateDefaultMaterialInstance();
+        MaterialInstance* GetDefaultMaterialInstance(){return m_defaultMI;};
     friend class MaterialManager;
     protected:
         MaterialInstance* createMaterialInstance(const std::string& name);
@@ -85,7 +91,13 @@ namespace lightman
         std::vector<UniformInfo> m_uniformsInfoList;
         uint32_t m_uniformsSize; // size in bytes
         std::unordered_map<std::string, uint32_t> m_uniformInfoMap; 
+        
         MaterialInstance* m_defaultMI = nullptr;
+        const Texture* m_bump = nullptr;            // normal
+        const Texture* m_emission = nullptr;        // emission
+        bool m_isRasterGPUNeedUpdate = false;       // flag for whether we should update raster program.
+        // since Material Node is included, there is tiny posibility for program to be shared between materials,so we give a program to each material.
+        backend::HwProgram* m_program = nullptr;    // raster program 
     };
     
 } // namespace lightman

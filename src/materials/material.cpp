@@ -4,9 +4,23 @@
 namespace lightman
 {
     // ----------------------------------------------------------------------------
-    Material::Material(const std::string& name)
+    Material::Material(const std::string& name, const Texture* bump, const Texture* emission)
     {
         m_name = name;
+        m_bump = bump;
+        m_emission = emission;
+    }
+    Material::~Material()
+    {
+        if (m_bump)
+            delete m_bump;
+        if (m_emission)
+            delete m_emission;
+    }
+    void Material::GetSharedBlockInfo(std::vector<UniformDefine>& uDefines)
+    {
+        uDefines.push_back({"PVMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
+        uDefines.push_back({"InverseMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
     }
     MaterialInstance* Material::createMaterialInstance(const std::string& name)
     {
@@ -29,6 +43,14 @@ namespace lightman
             index += 0x01 << backend::VertexAttribute::UV1;
 
         return index;
+    }
+    void Material::UpdateDefaultMaterialInstance()
+    {
+        if (m_defaultMI)
+        {
+            delete m_defaultMI;
+        }
+        m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance");
     }
     void Material::InitUniformBlockInfo(const std::vector<UniformDefine> uDefines)
     {
