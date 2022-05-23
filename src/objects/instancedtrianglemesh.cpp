@@ -138,6 +138,9 @@ void InstancedTriangleMesh::Draw()
             
             mi->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
             mi->SetParameter("InverseMMatrix",transposeInverseMMatrix);
+            mi->SetParameter("HasNormal", m_mesh->HasNormal()? 1 : 0);
+            mi->SetParameter("HasUV0",m_mesh->HasUV()? 1 : 0);
+            mi->SetParameter("HasUV1",false? 1 : 0);
             mi->Commit();
         }
         m_mesh->Draw(mi->GetMaterial()->GetProgram());
