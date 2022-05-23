@@ -10,7 +10,7 @@ namespace lightman
     // ----------------------------------------------------------------------------
     namespace ShaderString
     {
-        std::string GetVertexCommon();
+        std::string GetVertexAttribute();
         std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine);
     } // namespace ShaderString    
 } // namespace lightman

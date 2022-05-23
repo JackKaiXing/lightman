@@ -6,7 +6,7 @@ namespace lightman
     // ----------------------------------------------------------------------------
     namespace ShaderString
     {
-        std::string GetVertexCommon()
+        std::string GetVertexAttribute()
         {
             // opengl
             std::string result = 
