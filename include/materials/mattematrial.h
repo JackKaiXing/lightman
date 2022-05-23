@@ -14,9 +14,6 @@ namespace lightman
         ~MatteMaterial();
         MaterialType getMaterialType() override { return Material::MaterialType::MATTE;};
         bool PrepareForRasterGPU() override;
-        std::string CreateVertexShaderString();
-        std::string CreateFragmentShaderString();
-        static backend::UniformBlockInfo GetUniformBufferInfo();
     private:
         const Texture* m_kd = nullptr;          // diffuse color
     };

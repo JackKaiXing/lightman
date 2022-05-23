@@ -21,6 +21,9 @@ namespace lightman
     {
         uDefines.push_back({"PVMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
         uDefines.push_back({"InverseMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
+        uDefines.push_back({"HasNormal", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
+        uDefines.push_back({"HasUV0", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
+        uDefines.push_back({"HasUV1", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
     }
     MaterialInstance* Material::createMaterialInstance(const std::string& name)
     {

@@ -1,6 +1,7 @@
 
 #include "materials/mattematrial.h"
 #include "engine/engine.h"
+#include "materials/shader.h"
 
 #include <sstream>
 
@@ -37,79 +38,27 @@ namespace lightman
 
         // TODO UPDATE MaterialInstance about uDefines
 
-        // Update Program
-        std::string vertexShaderString = CreateVertexShaderString();
-        std::string fragmentShaderString = CreateFragmentShaderString();
-        m_program = Engine::GetInstance()->GetDriver()->createProgram(
-            vertexShaderString, fragmentShaderString, GetUniformBufferInfo());
-
-        m_isRasterGPUNeedUpdate = true;
-        return true;
-    }
-    std::string MatteMaterial::CreateVertexShaderString()
-    {
-        // TODO Remove as outside config
-        std::stringstream ss;
-        ss << "#version 330 core" << "\n";
-
-        if (true)
-            ss << "#define " << "HAS_ATTRIBUTE_TANGENTS" << "\n";
+        // Update shaders
+        backend::UniformBlockInfo bInfos = ShaderString::GetUniformBufferInfo();
         
-        if (true)
-            ss << "#define " << "HAS_ATTRIBUTE_UV0" << "\n";
-
-        if (true)
-            ss << "#define " << "HAS_ATTRIBUTE_UV1" << "\n";
-
-        static const std::string vertexShader = "layout(location = 0) in vec3 position; \n \
-            #if defined(HAS_ATTRIBUTE_TANGENTS) \n \
-                layout(location = 1) in vec3 tangent; \n \
-            #endif \n \
-            \n \
-            #if defined(HAS_ATTRIBUTE_UV0) \n \
-                layout(location = 2) in vec2 uv0; \n \
-                // uniform sampler2d texture0; // TODO \n \
-            #endif \n \
-            \n \
-            #if defined(HAS_ATTRIBUTE_UV1) \n \
-                layout(location = 3) in vec2 uv1; \n \
-                // uniform sampler2d texture1; \n \
-            #endif \n \
-            \n \
-            layout (std140) uniform targetUniform \n \
-            {\n \
-                mat4 PVMMatrix; \n \
-                mat4 InverseMMatrix; \n \
-            }; \n \
-            out vec3 Normal; \n \
+        std::string vertexShaderString = ShaderString::GetVertexAttribute();
+        vertexShaderString += ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
+        vertexShaderString += "out vec3 Normal; \n \
             void main() \n \
             { \n \
-                #if defined(HAS_ATTRIBUTE_TANGENTS) \n \
+                Normal = vec3(0.0,0.0,0.0); \n \
+                if(HasNormal > 0) \n \
+                { \n \
                     vec4 transformedTangent = InverseMMatrix * vec4(tangent, 0.0); \n \
                     Normal = normalize(transformedTangent.xyz); \n \
-                #endif \n \
+                } \n \
                 gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
             }";
-        ss << vertexShader;
 
-        return ss.str();
-    }
-    std::string MatteMaterial::CreateFragmentShaderString()
-    {
-        std::stringstream ss;
-        ss << "#version 330 core" << "\n";
-
-        if (true)
-            ss << "#define " << "HAS_ATTRIBUTE_TANGENTS" << "\n";
-        
-        if (true)
-            ss << "#define " << "HAS_ATTRIBUTE_UV0" << "\n";
-
-        if (true)
-            ss << "#define " << "HAS_ATTRIBUTE_UV1" << "\n";
-
-        static const std::string fragmengShader = "#define RECIPROCAL_PI 0.3183098861837907 \n \
-        layout (location = 0) out vec4 color; \n \
+        std::string fragmentShaderString = "#version 330 core \n \
+        #define RECIPROCAL_PI 0.3183098861837907 \n";
+        fragmentShaderString += ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
+        fragmentShaderString += "layout (location = 0) out vec4 color; \n \
         in vec3 Normal; \n \
         vec3 LinearTosRGB( in vec3 value ) { \n \
             return vec3( mix( pow( value.rgb, vec3( 0.41666 ) ) * 1.055 - vec3( 0.055 ), value.rgb * 12.92, vec3( lessThanEqual( value.rgb, vec3( 0.0031308 ) ) ) )); \n \
@@ -124,16 +73,12 @@ namespace lightman
             color.rgb = LinearTosRGB(color.rgb); \n \
             color.a = 1.0; \n \
         }";
-        ss << fragmengShader;
 
-        return ss.str();
-    }
-    
-    backend::UniformBlockInfo MatteMaterial::GetUniformBufferInfo()
-    {
-        // TODO config
-        backend::UniformBlockInfo info;
-        info.at(0) = "targetUniform";
-        return info;
+        // Update Program
+        m_program = Engine::GetInstance()->GetDriver()->createProgram(
+            vertexShaderString, fragmentShaderString, bInfos);
+
+        m_isRasterGPUNeedUpdate = true;
+        return true;
     }
 } // namespace lightman
