@@ -61,7 +61,7 @@ namespace lightman
         SetParameterNoType(name, (void*)&value);
     }
     template<>
-    void MaterialInstance:: SetParameter(const char* name, math::Matrix4X4 const& value)
+    void MaterialInstance::SetParameter(const char* name, math::Matrix4X4 const& value)
     {
         SetParameterNoType(name, (void*)&value.m_value);
     }
