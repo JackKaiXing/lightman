@@ -45,27 +45,29 @@ namespace lightman
         assert(offset + size <= m_uniforBufferCPU.dataSize);
         std::memcpy((uint8_t*)m_uniforBufferCPU.data + offset, data, size);
     }
-    template<>
-    void MaterialInstance::SetParameter(const char* name, float const& value)
+    void MaterialInstance::SetParameterNoType(const char* name, void* value)
     {
         if (m_material->HasUniform(name))
         {
-            // TO Remove Repeat
             uint32_t stride = 0, offset = 0;
             m_material->GetUniformOffsetAndStrideByName(name, offset, stride);
-            SetParameterImpl(offset, stride, (void*)&value);
+            SetParameterImpl(offset, stride, value);
             m_needToUpdateUniformBuffer = true;
         }
     }
     template<>
+    void MaterialInstance::SetParameter(const char* name, float const& value)
+    {
+        SetParameterNoType(name, (void*)&value);
+    }
+    template<>
     void MaterialInstance:: SetParameter(const char* name, math::Matrix4X4 const& value)
     {
-        if (m_material->HasUniform(name))
-        {
-            uint32_t stride = 0, offset = 0;
-            m_material->GetUniformOffsetAndStrideByName(name, offset, stride);
-            SetParameterImpl(offset, stride, (void*)value.m_value);
-            m_needToUpdateUniformBuffer = true;
-        }
+        SetParameterNoType(name, (void*)&value.m_value);
+    }
+    template<>
+    void MaterialInstance::SetParameter<int> (const char* name, int const& value)
+    {
+        SetParameterNoType(name, (void*)&value);
     }
 } // namespace lightman
