@@ -19,6 +19,7 @@
 #include "managers/imagemapmanager.h"
 #include "texture/texture.h"
 #include "texture/texturetypeheader.h"
+#include "materials/materialtypeheaders.h"
 
 #include "ply/ply.h"
 #include "magicenum/magic_enum.hpp"
@@ -37,10 +38,28 @@ public:
     float contentScaleFactor = 1.0;
     float myfov = 0.0, mynear = 0.0, myfar = 0.0, myfocaldistance=0.0;
     float myeye[3], mytarget[3], myup[3];
+
+    // init Texture Storage
+    // we do not store this inside lightman, a texture would belong reference by only its material,
+    // while would be not be shared between materials. Bacause I could not find meanings to share texture betweens materials.
+    // when the material is deleted, the textures it owns would be seted to nullptr.
+    // Note the texture here is more like a textureNode, not a image.
+    std::unordered_map<std::string, lightman::Texture*> mytexturesOfLucScene;
+private:
+    uint32_t myDefaultTextureCount = 0;
+
 public:
     void ParseLuxCoreScene(const std::string& file);
-    lightman::Texture* GetOrCreateTextureFromAttributeValue(const std::unordered_map<std::string, lightman::Texture*>& texturesOfLucScene,
-        const std::string& attributeValue);
+    lightman::Texture* GetOrCreateTextureFromAttributeValue(const std::string& attributeValue);
+    void ClearTextures()
+    {
+        for (auto iter = mytexturesOfLucScene.begin(); iter != mytexturesOfLucScene.end(); iter++)
+        {
+            delete iter->second;
+        }
+        mytexturesOfLucScene.clear();
+        
+    }
 }myConfig;
 
 // ----------------------------------------------------------------------------
@@ -70,8 +89,7 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 };
 // ----------------------------------------------------------------------------
 
-lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::unordered_map<std::string, lightman::Texture*>& texturesOfLucScene,
-        const std::string& attributeValue)
+lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::string& attributeValue)
 {
     lightman::Texture * result = nullptr;
 
@@ -89,11 +107,13 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::un
 
         lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture("default", x, y, z);
         result = texture;
+
+        mytexturesOfLucScene.insert({"defaultTexture_" + std::to_string(myDefaultTextureCount++), texture});
     }
     else
     {
-        auto iter = texturesOfLucScene.find(value);
-        if( iter != texturesOfLucScene.end())
+        auto iter = mytexturesOfLucScene.find(value);
+        if( iter != mytexturesOfLucScene.end())
             // it is the name of the texture created previously
             result = iter->second;
         else
@@ -104,6 +124,8 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::un
             ss >> x;
             lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture("default", x);
             result = texture;
+
+            mytexturesOfLucScene.insert({"defaultTexture_" + std::to_string(myDefaultTextureCount++), texture});
         }
     }
     
@@ -121,13 +143,6 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
 
     // camera paras
     lightman::Camera::CameraType projection = lightman::Camera::CameraType::PERSPECTIVE;
-
-    // init Texture Storage
-    // we do not store this inside lightman, a texture would belong reference by only its material,
-    // while would be not be shared between materials. Bacause I could not find meanings to share texture betweens materials.
-    // when the material is deleted, the textures it owns would be deleted too.
-    // Note the texture here is more like a textureNode, not a image.
-    std::unordered_map<std::string, lightman::Texture*> texturesOfLucScene;
 
     // hard coded, deprecated later
     string filePath = file.substr(0, file.find_last_of("/")+1);
@@ -370,11 +385,19 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 switch (material->getMaterialType())
                 {
                     case lightman::Material::MaterialType::GLOSSY:
-                    {
-                        
-                    }
+                        {
+                            
+                        }
                         break;
-                        
+                    case lightman::Material::MaterialType::MATTE:
+                        {
+                            lightman::MatteMaterial* typedMaterial = dynamic_cast<lightman::MatteMaterial*>(material);
+                            if (arrtibuteName == "kd")
+                            {
+                                //typedMaterial
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -501,11 +524,11 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                     break;
                 }
                 texture = static_cast<lightman::Texture*>(typedTexture);
-                texturesOfLucScene.insert({texturelName, texture});
+                mytexturesOfLucScene.insert({texturelName, texture});
             }
             else
             {
-                lightman::Texture* texture = texturesOfLucScene.find(texturelName)->second;
+                lightman::Texture* texture = mytexturesOfLucScene.find(texturelName)->second;
                 
                 switch (texture->GetType())
                 {
@@ -566,18 +589,18 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         if (arrtibuteName == "amount")
                         {
                             typedTexture->SetAmount(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                             
                         }
                         else if (arrtibuteName == "texture1")
                         {
                             typedTexture->SetTex1(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                         else if (arrtibuteName == "texture2")
                         {
                             typedTexture->SetTex2(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                     }
                     break;
@@ -587,12 +610,12 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         if (arrtibuteName == "texture1")
                         {
                             typedTexture->SetTex1(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                         else if (arrtibuteName == "texture2")
                         {
                             typedTexture->SetTex2(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                     }
                     break;
@@ -602,12 +625,12 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         if (arrtibuteName == "texture1")
                         {
                             typedTexture->SetTex1(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                         else if (arrtibuteName == "texture2")
                         {
                             typedTexture->SetTex2(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                     }
                     break;
@@ -617,7 +640,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         if (arrtibuteName == "amount")
                         {
                             typedTexture->SetAmount(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                     }
                     break;
@@ -627,7 +650,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         if (arrtibuteName == "kr")
                         {
                             typedTexture->SetKr(
-                                GetOrCreateTextureFromAttributeValue(texturesOfLucScene, arrtibuteValue));
+                                GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                         }
                     }
                     break;
@@ -691,12 +714,14 @@ void Destory()
     delete myConfig.myScene;
     delete myConfig.myCamera;
 
+    myConfig.ClearTextures();
+
     lightman::Engine::DestroyInstance();
 }
 
 int main(int argc, const char* argv[])
 {
     lightmangui::MainWindow(argc, argv, Setup, Render, myConfig.windowWidth, myConfig.windowheight);
-    Destory();
+    Destory(); // TODO not called for now
     return 0;
 }
