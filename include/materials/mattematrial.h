@@ -12,6 +12,7 @@ namespace lightman
         MatteMaterial(const std::string& name);
         MatteMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd);
         ~MatteMaterial();
+        void SetKd(const Texture* kd);
         MaterialType getMaterialType() override { return Material::MaterialType::MATTE;};
         bool PrepareForRasterGPU() override;
     private:

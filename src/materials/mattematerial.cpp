@@ -81,4 +81,8 @@ namespace lightman
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
+    void MatteMaterial::SetKd(const Texture* kd)
+    {
+        m_kd = kd;
+    }
 } // namespace lightman
