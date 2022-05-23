@@ -42,10 +42,16 @@ namespace lightman
         {
             return UniformTypeToShaderString_OPENGL(type);
         }
-
-        std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine)
+        backend::UniformBlockInfo GetUniformBufferInfo()
         {
-            std::string result = "layout (std140) uniform targetUniform \n \
+            backend::UniformBlockInfo info;
+            info.at(0) = "targetUniform";
+            return info;
+        }
+        std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine,
+            const std::string& UnoformBlockName)
+        {
+            std::string result = "layout (std140) uniform " + UnoformBlockName + "\n \
             {\n ";
             for (auto iter = uDefine.begin(); iter != uDefine.end(); iter++)
             {
