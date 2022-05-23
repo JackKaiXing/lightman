@@ -39,11 +39,12 @@ public:
     float myfov = 0.0, mynear = 0.0, myfar = 0.0, myfocaldistance=0.0;
     float myeye[3], mytarget[3], myup[3];
 
-    // init Texture Storage
-    // we do not store this inside lightman, a texture would belong reference by only its material,
-    // while would be not be shared between materials. Bacause I could not find meanings to share texture betweens materials.
-    // when the material is deleted, the textures it owns would be seted to nullptr.
-    // Note the texture here is more like a textureNode, not a image.
+    /*
+        init Texture Storage
+        Note the texture here is more like a textureNode, not a image.
+        No Need to store this inside of material, will create EditorMaterial to manage those Texture Node for each material.
+        Texture node between is not shared, no meanings to share.
+    */
     std::unordered_map<std::string, lightman::Texture*> mytexturesOfLucScene;
 private:
     uint32_t myDefaultTextureCount = 0;
@@ -394,7 +395,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                             lightman::MatteMaterial* typedMaterial = dynamic_cast<lightman::MatteMaterial*>(material);
                             if (arrtibuteName == "kd")
                             {
-                                //typedMaterial
+                                typedMaterial->SetKd(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                             }
                         }
                         break;
