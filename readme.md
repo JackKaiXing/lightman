@@ -13,7 +13,7 @@ https://www.glfw.org/download.html
 https://github.com/skaslev/gl3w/tree/master/src
 
 >>**JSON**
-https://github.com/nlohmann/json
+[Json Header Only](https://github.com/nlohmann/json)
 
 >>**GUI**
 https://github.com/juliettef/IconFontCppHeaders
@@ -99,3 +99,12 @@ GLSL INCLUDE: https://github.com/knightcrawler25/GLSL-PathTracer/blob/master/src
 Summary: https://www.techspot.com/article/2219-how-to-3d-rendering-anti-aliasing/
 FXAA: https://developer.download.nvidia.cn/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf, https://en.wikipedia.org/wiki/Fast_approximate_anti-aliasing
 MSAA: https://learnopengl.com/Advanced-OpenGL/Anti-Aliasing, https://en.wikipedia.org/wiki/Multisample_anti-aliasing, (hardware supported)
+
+>>**BRDF**
+[Retro Reflection](https://www.roadvista.com/retroreflection/)
+[What is BRDF?](http://wiki.nuaj.net/index.php?title=BRDF)
+[Disney BRDF Explorer](https://github.com/wdas/brdf)
+[MERL BREF DataSet](https://cdfg.csail.mit.edu/wojciech/brdfdatabase)
+[MERL BREF DataSet2](https://www.merl.com/brdf/)
+How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/mcmillan/pubs/sig03_matusik.pdf)
+[Lambert  Diffuse](https://en.wikipedia.org/wiki/Lambertian_reflectance), [Derivation of Lambert Diffuse](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/diffuse-lambertian-shading), [Derivation of Lambert Diffuse2](https://sakibsaikia.github.io/graphics/2019/09/10/Deriving-Lambertian-BRDF-From-First-Principles.html)
