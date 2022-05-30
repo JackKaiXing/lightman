@@ -35,7 +35,56 @@ void TriangleMesh::SetAttribute(backend::VertexAttribute attributeType, backend:
     m_attributeArray[attributeType].flags |= flags;
     m_attributeArray[attributeType].buffer = attributeType;
 }
+void TriangleMesh::GenerateVertexNormals()
+{
+    std::vector<uint32_t> vCount(m_points.size()/3, 0);
+    m_normals.clear();
+    m_normals.resize(m_points.size());
+    std::fill(m_normals.begin(), m_normals.end(), 0.0);
 
+    uint32_t v0, v1, v2;
+    Vector3 p0, p1, p2;
+    Vector3 p01, p21;
+    Vector3 n;
+    for (int i = 0, j = 0; i < m_triIndexs.size(); i = i + 3)
+    {
+        v0 = m_triIndexs.at(i + 0);
+        v1 = m_triIndexs.at(i + 1);
+        v2 = m_triIndexs.at(i + 2);
+        
+        p0.v[0] = m_points.at(3 * v0 + 0); p0.v[1] = m_points.at(3 * v0 + 1); p0.v[2] = m_points.at(3 * v0 + 2);
+        p1.v[0] = m_points.at(3 * v1 + 0); p1.v[1] = m_points.at(3 * v1 + 1); p1.v[2] = m_points.at(3 * v1 + 2);
+        p2.v[0] = m_points.at(3 * v2 + 0); p2.v[1] = m_points.at(3 * v2 + 1); p2.v[2] = m_points.at(3 * v2 + 2);
+
+        p01 = p0 - p1;
+        p21 = p2 - p1;
+
+        n = Vector3::Cross(p21, p01);
+
+        vCount.at(v0) += 1;
+        vCount.at(v1) += 1;
+        vCount.at(v2) += 1;
+
+        j = 0; m_normals.at(v0 * 3 + j) += n.v[j]; j++; m_normals.at(v0 * 3 + j) += n.v[j]; j++; m_normals.at(v0 * 3 + j) += n.v[j];
+        j = 0; m_normals.at(v1 * 3 + j) += n.v[j]; j++; m_normals.at(v1 * 3 + j) += n.v[j]; j++; m_normals.at(v1 * 3 + j) += n.v[j];
+        j = 0; m_normals.at(v2 * 3 + j) += n.v[j]; j++; m_normals.at(v2 * 3 + j) += n.v[j]; j++; m_normals.at(v2 * 3 + j) += n.v[j];
+    }
+
+    for (int i = 0; i < m_normals.size(); i = i + 3)
+    {
+        int j = i / 3;
+
+        uint32_t count = vCount.at(j);
+
+        m_normals.at(i + 0) /= count;
+        m_normals.at(i + 1) /= count;
+        m_normals.at(i + 2) /= count;
+    }
+
+    SetAttribute(backend::VertexAttribute::TANGENTS, backend::ElementType::FLOAT3, 
+        backend::Attribute::FLAG_NORMALIZED, 0, 0); 
+    
+}
 void TriangleMesh::InitNormals(std::vector<float>& normals)
 {
     assert(normals.size() == m_points.size());

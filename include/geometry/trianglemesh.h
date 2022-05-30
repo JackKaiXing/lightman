@@ -28,6 +28,7 @@ namespace lightman
         public:
             TriangleMesh(std::vector<unsigned int>& triIndexs, std::vector<float>& points);
             void InitNormals(std::vector<float>& normals);
+            void GenerateVertexNormals();
             void InitUVs(std::vector<float>& uvs);
             virtual ~TriangleMesh()
             {

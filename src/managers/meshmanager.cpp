@@ -54,6 +54,8 @@ namespace lightman
         TriangleMesh * mesh = new TriangleMesh(triIndexs,points);
         if (normals.size()>0)
             mesh->InitNormals(normals);
+        else
+            mesh->GenerateVertexNormals();
         if (uvs.size()>0)
             mesh->InitUVs(uvs);
 
