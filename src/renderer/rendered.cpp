@@ -124,11 +124,13 @@ namespace lightman
         
         // processing camera moving
         Matrix4X4 pvMatrix;
+        Vector3 cameraPos;
         bool isNeedToUpdatePVMatrix = false;
         if(! view->getCamera()->IsCameraMovingConsumed())
         {
             pvMatrix = view->getCamera()->GetProjectionViewMatrix();
             view->getCamera()->SetCameraMovingConsumed();
+            cameraPos = view->getCamera()->GetWorldPosition();
             isNeedToUpdatePVMatrix = true;
         }
         
@@ -151,7 +153,9 @@ namespace lightman
             }
 
             if(isNeedToUpdatePVMatrix)
-                currentMesh->setPVTransform(pvMatrix);
+            {
+                currentMesh->setPVTransform(pvMatrix, cameraPos);
+            }
 
             currentMesh->Draw();
 
