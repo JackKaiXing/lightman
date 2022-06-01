@@ -1,6 +1,7 @@
 
 #include "camera/camera.h"
 
+#include <assert.h>
 #include <iterator>
 #include <algorithm>
 #include "math/matrix4x4.h"
@@ -79,5 +80,15 @@ namespace lightman
     Matrix4X4 Camera::GetProjectionViewMatrix()
     {
         return m_worldToSreen;
+    }
+
+    Vector3 Camera::GetWorldPosition()
+    {
+        Vector3 result;
+        result.v[0] = m_cameraToWorld.m_value[0][3];
+        result.v[1] = m_cameraToWorld.m_value[1][3];
+        result.v[2] = m_cameraToWorld.m_value[2][3];
+
+        return result;
     }
 }

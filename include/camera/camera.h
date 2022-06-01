@@ -3,6 +3,7 @@
 
 #include "utils/ref.h"
 #include "math/matrix4x4.h"
+#include "math/vector.h"
 
 using namespace lightman::utils;
 using namespace lightman::math;
@@ -33,6 +34,7 @@ namespace lightman
         Matrix4X4 GetProjectionViewMatrix();
         void SetCameraMovingConsumed(){isCameraMovingConsumed = true;};
         bool IsCameraMovingConsumed(){return isCameraMovingConsumed;};
+        Vector3 GetWorldPosition();
     protected:
         Camera();
         float m_near{};
