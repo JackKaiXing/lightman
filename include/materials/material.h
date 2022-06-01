@@ -80,7 +80,6 @@ namespace lightman
         virtual MaterialType getMaterialType() = 0;
         static uint32_t GetProgramIndexBySupportedVertexAttribute(bool hasTangent, bool hasUV0, bool hasUV1);
         virtual bool PrepareForRasterGPU() = 0;
-        void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines);
         backend::HwProgram* GetProgram() {return m_program;};
         void UpdateDefaultMaterialInstance();
         MaterialInstance* GetDefaultMaterialInstance(){return m_defaultMI;};
