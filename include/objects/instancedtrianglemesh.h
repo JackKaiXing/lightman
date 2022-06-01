@@ -2,6 +2,7 @@
 #define _LIGHTMAN_INSTANCEDTRIANGLEMESH_H
 
 #include "math/matrix4x4.h"
+#include "math/vector.h"
 #include "geometry/trianglemesh.h"
 #include "objects/instancedobject.h"
 #include "materials/materialinstance.h"
@@ -28,7 +29,7 @@ namespace lightman
         void Draw();
         MaterialInstance* GetMaterialInstance();
         bool hasMaterial();
-        void setPVTransform(const Matrix4X4& pvmatrix);
+        void setPVTransform(const Matrix4X4& pvmatrix, const Vector3& cameraPos);
         uint32_t GetProgramIndexBySupportedVertexAttribute();
         std::string GetName();
     private:
@@ -36,6 +37,7 @@ namespace lightman
         Matrix4X4 m_transform;  // for instance
         Matrix4X4 m_transposeInverseMMatrix; // for normals
         Matrix4X4 m_PVMTransform; // for vertex
+        Vector3 m_cameraPos;
         std::string m_name; // name of current instanced triangle mesh
         std::string m_masterName; // name of the master triangle mesh
         TriangleMesh* m_mesh = nullptr;

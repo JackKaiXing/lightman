@@ -28,9 +28,10 @@ void InstancedTriangleMesh::SetTransform(const Matrix4X4& m)
     m_transposeInverseMMatrix.Transpose();
 }
 
-void InstancedTriangleMesh::setPVTransform(const Matrix4X4& pvmatrix)
+void InstancedTriangleMesh::setPVTransform(const Matrix4X4& pvmatrix, const Vector3& cameraPos)
 {
     m_PVMTransform = pvmatrix * m_transform * m_mesh->GetTransform();
+    m_cameraPos = cameraPos;
 }
 
 void InstancedTriangleMesh::SetMaterial(Material* mat)
@@ -141,6 +142,7 @@ void InstancedTriangleMesh::Draw()
             mi->SetParameter("HasNormal", m_mesh->HasNormal()? 1 : 0);
             mi->SetParameter("HasUV0",m_mesh->HasUV()? 1 : 0);
             mi->SetParameter("HasUV1",false? 1 : 0);
+            mi->SetParameter("cameraPos", m_cameraPos);
             mi->Commit();
         }
         m_mesh->Draw(mi->GetMaterial()->GetProgram());
