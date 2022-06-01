@@ -70,4 +70,9 @@ namespace lightman
     {
         SetParameterNoType(name, (void*)&value);
     }
+    template<>
+    void MaterialInstance::SetParameter<math::Vector3> (const char* name, math::Vector3 const& value)
+    {
+        SetParameterNoType(name, (void*)&value);
+    }
 } // namespace lightman

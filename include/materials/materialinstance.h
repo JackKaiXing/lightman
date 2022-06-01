@@ -42,6 +42,7 @@ namespace lightman
     template<> void MaterialInstance::SetParameter<float> (const char* name, float const& value);
     template<> void MaterialInstance::SetParameter<math::Matrix4X4> (const char* name, math::Matrix4X4 const& value);
     template<> void MaterialInstance::SetParameter<int> (const char* name, int const& value);
+    template<> void MaterialInstance::SetParameter<math::Vector3> (const char* name, math::Vector3 const& value);
     
 } // namespace lightman
 #endif // _LIGHTMAN_MATERIALINSTANCE_H
