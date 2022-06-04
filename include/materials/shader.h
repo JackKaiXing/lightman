@@ -12,7 +12,6 @@ namespace lightman
     {
         std::string GetVertexAttribute();
         std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine, const std::string& UnoformBlockName);
-        backend::UniformBlockInfo GetUniformBufferInfo();
         void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines);
         const std::string GetDisneyVertexShader();
         const std::string GetDisneyFragmentShader(const std::string& updateMaterialString);

@@ -39,8 +39,8 @@ namespace lightman
         // TODO UPDATE MaterialInstance about uDefines
 
         // Update shaders
-        backend::UniformBlockInfo bInfos = ShaderString::GetUniformBufferInfo();
-        
+        backend::UniformBlockInfo bInfos;
+        bInfos.at(0) = "targetUniform";
         std::string vertexShaderString = ShaderString::GetVertexAttribute();
         vertexShaderString += ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
         vertexShaderString += ShaderString::GetDisneyVertexShader();

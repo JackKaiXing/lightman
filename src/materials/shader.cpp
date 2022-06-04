@@ -45,12 +45,6 @@ namespace lightman
         {
             return UniformTypeToShaderString_OPENGL(type);
         }
-        backend::UniformBlockInfo GetUniformBufferInfo()
-        {
-            backend::UniformBlockInfo info;
-            info.at(0) = "targetUniform";
-            return info;
-        }
         std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine,
             const std::string& UnoformBlockName)
         {
