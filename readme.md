@@ -109,6 +109,7 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [ThreeJS Blinn-Phonn Shader](https://threejs.org/examples/#webgl_geometry_teapot)
 [Blinn Phong Energy Conservation1](https://www.rorydriscoll.com/2009/01/25/energy-conservation-in-games/)
 [Blinn Phong Energy Conservation2](http://www.farbrausch.de/~fg/stuff/phong.pdf)
+[Blinn Phong Energy Conservation3](http://www.thetenthplanet.de/archives/255)
 [Wrap Shading1](https://blog.csdn.net/pianpiansq/article/details/74453602)
 [Wrap Shading2](https://www.cnblogs.com/cpxnet/p/6075353.html)
 [Wrap Shading3](https://developer.nvidia.com/gpugems/gpugems/part-iii-materials/chapter-16-real-time-approximations-subsurface-scattering)
