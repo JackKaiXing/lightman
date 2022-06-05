@@ -115,6 +115,10 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [Wrap Shading3](https://developer.nvidia.com/gpugems/gpugems/part-iii-materials/chapter-16-real-time-approximations-subsurface-scattering)
 [Wrap Shading4](https://blog.selfshadow.com/2011/12/31/righting-wrap-part-1/)
 [Wrap Shading5](https://www.iro.umontreal.ca/~derek/files/jgt_wrap.pdf)
+[Disney BRDF](https://github.com/knightcrawler25/GLSL-PathTracer/blob/bcdd44e25298bcb39162c679e03710680afb90d5/src/shaders/common/disney.glsl)
+[Disney BRDF Explorer](https://github.com/wdas/brdf/blob/main/src/brdfs/disney.brdf)
+[Blender WorkBench BRDF](https://github.com/blender/blender/blob/master/source/blender/draw/engines/workbench/shaders/workbench_world_light_lib.glsl)
+
 
 >>**GLSL**
 [GLSL INCLUDE](https://github.com/knightcrawler25/GLSL-PathTracer/blob/master/src/core/ShaderIncludes.h)
