@@ -79,13 +79,17 @@ namespace lightman
     {
         return m_uniformInfoMap.find(name) != m_uniformInfoMap.end();
     }
-    void Material::GetUniformOffsetAndStrideByName(const std::string name, uint32_t& offset, uint32_t& stride)
+    void Material::GetUniformOffsetAndStrideByName(const std::string name, uint32_t& offset, uint32_t& stride, uint32_t count)
     {
         uint32_t index = m_uniformInfoMap.find(name)->second;
         if (index >=0 && index < m_uniformsInfoList.size())
         {
             stride = sizeof(uint32_t) * m_uniformsInfoList[index].stride;
             offset = sizeof(uint32_t) * m_uniformsInfoList[index].offset;
+            if (m_uniformsInfoList[index].size > count)
+            {
+                offset += count * sizeof(uint32_t) * StrideForType(m_uniformsInfoList[index].type);
+            }
         }
     }
     uint8_t Material::BaseAlignmentForType(backend::UniformType type) noexcept

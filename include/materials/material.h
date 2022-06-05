@@ -71,7 +71,7 @@ namespace lightman
         static uint8_t BaseAlignmentForType(backend::UniformType type) noexcept;
         static uint8_t StrideForType(backend::UniformType type) noexcept;
         bool HasUniform(const std::string name);
-        void GetUniformOffsetAndStrideByName(const std::string name, uint32_t& offset, uint32_t& stride);
+        void GetUniformOffsetAndStrideByName(const std::string name, uint32_t& offset, uint32_t& stride, uint32_t count);
 
     public:
         Material() = default;
