@@ -36,6 +36,9 @@ namespace lightman
                 case backend::UniformType::FLOAT3:
                     return "vec3";
                     break;
+                case backend::UniformType::FLOAT4:
+                    return "vec4";
+                    break;
                     
                 default:
                     break;
@@ -52,7 +55,10 @@ namespace lightman
             {\n ";
             for (auto iter = uDefine.begin(); iter != uDefine.end(); iter++)
             {
-                result += UniformTypeToShaderString(iter->type) + " " + iter->name + "; \n";
+                if (iter->size > 1)
+                    result += UniformTypeToShaderString(iter->type) + " " + iter->name + "[" + std::to_string(iter->size) + "]" + "; \n";
+                else
+                    result += UniformTypeToShaderString(iter->type) + " " + iter->name + "; \n";
             }
             result += "}; \n ";
             return result;
@@ -65,6 +71,15 @@ namespace lightman
             uDefines.push_back({"HasUV0", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
             uDefines.push_back({"HasUV1", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
             uDefines.push_back({"cameraPos", backend::UniformType::FLOAT3, 1, backend::Precision::DEFAULT});
+        }
+        const std::string GetFragmentShaderHead()
+        {
+            std::string result;
+
+            result = "#version 330 core \n \
+            layout (location = 0) out vec4 color; \n";
+            
+            return result;
         }
         const std::string GetDisneyVertexShader()
         {
@@ -94,9 +109,7 @@ namespace lightman
         {
             std::string result;
 
-            result = "#version 330 core \n \
-                layout (location = 0) out vec4 color; \n \
-                struct DisneyBRDFMaterialParas \n \
+            result = "struct DisneyBRDFMaterialParas \n \
                 { \n \
                     vec3 baseColor; \n \
                     float metallic; \n \
@@ -236,6 +249,183 @@ namespace lightman
                     \n \
                     vec3 lightDir = vec3(0.6767, 0.2120, 0.7051);\n \
                     color.rgb = DisneyBRDF(lightDir, vViewDir, vNormal, vTangent, vBitangent, paras);  \n \
+                    color.a = 1.0;  \n \
+                }";
+
+            return result;
+        }
+        void GetBlenderBlockInfo(std::vector<UniformDefine>& uDefines)
+        {
+            uDefines.push_back({"world_light_direction", backend::UniformType::FLOAT4, 4, backend::Precision::DEFAULT});
+            uDefines.push_back({"world_light_specular_color", backend::UniformType::FLOAT4, 4, backend::Precision::DEFAULT});
+            uDefines.push_back({"world_light_diffuse_color_wrap", backend::UniformType::FLOAT4, 4, backend::Precision::DEFAULT});
+            uDefines.push_back({"world_light_ambient_color", backend::UniformType::FLOAT4, 1, backend::Precision::DEFAULT});
+        }
+        const std::string GetBlenderVertexShader()
+        {
+            std::string result = "out vec3 vNormal; \n \
+                out vec3 vViewDir; \n \
+                void main() \n \
+                { \n \
+                    vec4 transformedTangent = InverseMMatrix * vec4(tangent, 0.0); \n \
+                    vNormal = normalize(transformedTangent.xyz); \n \
+                    \n \
+                    vViewDir = cameraPos - position; \n \
+                    vViewDir = normalize(vViewDir); \n \
+                    gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
+                }";
+            return result;
+        }
+        const std::string GetBlenderFragmentShader(const std::string& updateMaterialString)
+        {
+            // This is heavily relied on blender workbench shading design
+            // https://github.com/blender/blender/tree/master/source/blender/draw/engines/workbench
+
+            // fast_rcp
+            // https://github.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h
+
+            // wrap_shading
+            // https://www.iro.umontreal.ca/~derek/files/jgt_wrap.pdf
+            // https://developer.nvidia.com/gpugems/gpugems/part-iii-materials/chapter-16-real-time-approximations-subsurface-scattering
+            // https://www.cnblogs.com/cpxnet/p/6075353.html
+
+            // Energy Conservation or normalization factor for Blinn Phong Specular and Approximation   
+            // http://www.thetenthplanet.de/archives/255
+            // http://www.farbrausch.de/~fg/stuff/phong.pdf
+
+            // Energy COnservation for Blinn Phong Diffuse
+            // https://www.rorydriscoll.com/2009/01/25/energy-conservation-in-games/
+
+            std::string result;
+
+            result = "struct MaterialParas \n \
+                { \n \
+                    vec3 baseColor; \n \
+                    float metallic; \n \
+                    float roughness; \n \
+                } ; \n \
+                void InitMaterialParameters(inout MaterialParas paras) \n \
+                { \n \
+                    paras.baseColor = vec3(1.0f); \n \
+                    paras.metallic = 0.0f; \n \
+                    paras.roughness = 0.5f; \n \
+                } \n ";
+
+            if (updateMaterialString.size() > 0)
+                result += updateMaterialString;
+            else
+                result += "void UpdateUserMaterialParameters(inout MaterialParas paras) \n \
+                    { \n \
+                    }";
+            
+            result += "in vec3 vNormal; \n \
+                in vec3 vViewDir; \n \
+                vec4 fast_rcp(vec4 v) \n \
+                { \n \
+                    return intBitsToFloat(0x7eef370b - floatBitsToInt(v)); \n \
+                } \n \
+                \n \
+                void prep_specular(vec3 L, vec3 I, vec3 N, vec3 R, out float NL, out float wrapped_NL, out float spec_angle)\n \
+                {\n \
+                    wrapped_NL = dot(L, R);\n \
+                    vec3 half_dir = normalize(L + I);\n \
+                    spec_angle = clamp(dot(half_dir, N), 0.0, 1.0);\n \
+                    NL = clamp(dot(L, N), 0.0, 1.0);\n \
+                }\n \
+                /* Normalized Blinn shading */\n \
+                vec4 blinn_specular(vec4 shininess, vec4 spec_angle, vec4 NL)\n \
+                {\n \
+                    /* Pi is already divided in the light power. normalization_factor = (shininess + 8.0) / (8.0 * M_PI) */ \n \
+                    vec4 normalization_factor = shininess * 0.125 + 1.0; \n \
+                    vec4 spec_light = pow(spec_angle, shininess) * NL * normalization_factor; \n \
+                    return spec_light;\n \
+                }\n \
+                /* NL need to be unclamped. w in [0..1] range. */\n \
+                vec4 wrapped_lighting(vec4 NL, vec4 w)\n \
+                {\n \
+                    vec4 w_1 = w + 1.0;\n \
+                    vec4 denom = fast_rcp(w_1 * w_1);\n \
+                    return clamp((NL + w) * denom, 0.0, 1.0);\n \
+                }\n \
+                vec3 brdf_approx(vec3 spec_color, float roughness, float NV)\n \
+                {\n \
+                    /* Very rough own approx. We don't need it to be correct, just fast. Just simulate fresnel effect with roughness attenuation. */ \n \
+                    float fresnel = exp2(-8.35 * NV) * (1.0 - roughness);\n \
+                    return mix(spec_color, vec3(1.0), fresnel);\n \
+                }\n \
+                vec3 get_world_lighting(vec3 base_color, float roughness, float metallic, vec3 N, vec3 I)\n \
+                {\n \
+                    vec3 specular_color, diffuse_color;\n \
+                    diffuse_color = mix(base_color, vec3(0.0), metallic);\n \
+                    specular_color = mix(vec3(0.05), base_color, metallic);\n \
+                    vec3 specular_light = world_light_ambient_color.rgb;\n \
+                    vec3 diffuse_light = world_light_ambient_color.rgb;\n \
+                    vec4 wrap = vec4(world_light_diffuse_color_wrap[0].a, \n \
+                                    world_light_diffuse_color_wrap[1].a, \n \
+                                    world_light_diffuse_color_wrap[2].a, \n \
+                                    world_light_diffuse_color_wrap[3].a);\n \
+                    {\n \
+                        /* Prepare Specular computation. Eval 4 lights at once. */\n \
+                        vec3 R = -reflect(I, N);\n \
+                        vec4 spec_angle, spec_NL, wrap_NL;\n \
+                        prep_specular(world_light_direction[0].xyz, I, N, R, spec_NL.x, wrap_NL.x, spec_angle.x);\n \
+                        prep_specular(world_light_direction[1].xyz, I, N, R, spec_NL.y, wrap_NL.y, spec_angle.y);\n \
+                        prep_specular(world_light_direction[2].xyz, I, N, R, spec_NL.z, wrap_NL.z, spec_angle.z);\n \
+                        prep_specular(world_light_direction[3].xyz, I, N, R, spec_NL.w, wrap_NL.w, spec_angle.w);\n \
+                        \n \
+                        vec4 gloss = vec4(1.0 - roughness);\n \
+                        /* Reduce gloss for smooth light. (simulate bigger light) */\n \
+                        gloss *= 1.0 - wrap;\n \
+                        vec4 shininess = exp2(10.0 * gloss + 1.0);\n \
+                        \n \
+                        vec4 spec_light = blinn_specular(shininess, spec_angle, spec_NL);\n \
+                        \n \
+                        /* Simulate Env. light. */ \n \
+                        vec4 w = mix(wrap, vec4(1.0), roughness); \n \
+                        vec4 spec_env = wrapped_lighting(wrap_NL, w); \n \
+                        \n \
+                        spec_light = mix(spec_light, spec_env, wrap * wrap);\n \
+                        \n \
+                        /* Multiply result by lights specular colors. */\n \
+                        specular_light += spec_light.x * world_light_specular_color[0].rgb;\n \
+                        specular_light += spec_light.y * world_light_specular_color[1].rgb;\n \
+                        specular_light += spec_light.z * world_light_specular_color[2].rgb;\n \
+                        specular_light += spec_light.w * world_light_specular_color[3].rgb;\n \
+                        \n \
+                        float NV = clamp(dot(N, I), 0.0, 1.0);\n \
+                        specular_color = brdf_approx(specular_color, roughness, NV);\n \
+                    }\n \
+                    specular_light *= specular_color;\n \
+                    \n \
+                    /* Prepare diffuse computation. Eval 4 lights at once. */\n \
+                    vec4 diff_NL;\n \
+                    diff_NL.x = dot(world_light_direction[0].xyz, N);\n \
+                    diff_NL.y = dot(world_light_direction[1].xyz, N);\n \
+                    diff_NL.z = dot(world_light_direction[2].xyz, N);\n \
+                    diff_NL.w = dot(world_light_direction[3].xyz, N);\n \
+                    \n \
+                    vec4 diff_light = wrapped_lighting(diff_NL, wrap);\n \
+                    \n \
+                    /* Multiply result by lights diffuse colors. */\n \
+                    diffuse_light += diff_light.x * world_light_diffuse_color_wrap[0].rgb;\n \
+                    diffuse_light += diff_light.y * world_light_diffuse_color_wrap[1].rgb;\n \
+                    diffuse_light += diff_light.z * world_light_diffuse_color_wrap[2].rgb;\n \
+                    diffuse_light += diff_light.w * world_light_diffuse_color_wrap[3].rgb;\n \
+                    \n \
+                    /* Energy conservation with colored specular look strange. Limit this strangeness by using mono-chromatic specular intensity. */\n \
+                    float spec_energy = dot(specular_color, vec3(0.33333));\n \
+                    \n \
+                    diffuse_light *= diffuse_color * (1.0 - spec_energy);\n \
+                    \n \
+                    return diffuse_light + specular_light;\n \
+                }\n \
+                void main() \n \
+                { \n \
+                    MaterialParas paras;  \n \
+                    InitMaterialParameters(paras);  \n \
+                    UpdateUserMaterialParameters(paras);  \n \
+                    \n \
+                    color.rgb = get_world_lighting(paras.baseColor, paras.roughness, paras.metallic, vNormal, vViewDir);  \n \
                     color.a = 1.0;  \n \
                 }";
 
