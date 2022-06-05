@@ -1,6 +1,7 @@
 
 
 #include "objects/instancedtrianglemesh.h"
+#include "materials/shader.h"
 
 namespace lightman
 {
@@ -137,14 +138,14 @@ void InstancedTriangleMesh::Draw()
             Matrix4X4 transposeInverseMMatrix = m_transposeInverseMMatrix;
             transposeInverseMMatrix.Transpose();
             
-            mi->SetParameter("PVMMatrix",pvmMatrix); // TODO Config
-            mi->SetParameter("InverseMMatrix",transposeInverseMMatrix);
-            mi->SetParameter("HasNormal", m_mesh->HasNormal()? 1 : 0);
-            mi->SetParameter("HasUV0",m_mesh->HasUV()? 1 : 0);
-            mi->SetParameter("HasUV1",false? 1 : 0);
+            mi->SetParameter(ShaderString::SharedUniformName_PVMMatrix.c_str(),pvmMatrix);
+            mi->SetParameter(ShaderString::SharedUniformName_InverseMMatrix.c_str(),transposeInverseMMatrix);
+            mi->SetParameter(ShaderString::SharedUniformName_HasNormal.c_str(), m_mesh->HasNormal()? 1 : 0);
+            mi->SetParameter(ShaderString::SharedUniformName_HasUV0.c_str(),m_mesh->HasUV()? 1 : 0);
+            mi->SetParameter(ShaderString::SharedUniformName_HasUV1.c_str(),false? 1 : 0);
             {
                 // TO DO remove into a unique block for all raster objects
-                mi->SetParameter("cameraPos", m_cameraPos);
+                mi->SetParameter(ShaderString::SharedUniformName_CameraPos.c_str(), m_cameraPos);
 
                 Vector4 ambientColor = Vector4(0.1, 0.1, 0.1, 1.0);
                 mi->SetParameter("world_light_ambient_color", ambientColor);

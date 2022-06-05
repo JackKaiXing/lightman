@@ -65,12 +65,12 @@ namespace lightman
         }
         void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines)
         {
-            uDefines.push_back({"PVMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
-            uDefines.push_back({"InverseMMatrix", backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
-            uDefines.push_back({"HasNormal", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
-            uDefines.push_back({"HasUV0", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
-            uDefines.push_back({"HasUV1", backend::UniformType::INT, 1, backend::Precision::DEFAULT});
-            uDefines.push_back({"cameraPos", backend::UniformType::FLOAT3, 1, backend::Precision::DEFAULT});
+            uDefines.push_back({SharedUniformName_PVMMatrix, backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
+            uDefines.push_back({SharedUniformName_InverseMMatrix, backend::UniformType::MAT4, 1, backend::Precision::DEFAULT});
+            uDefines.push_back({SharedUniformName_HasNormal, backend::UniformType::INT, 1, backend::Precision::DEFAULT});
+            uDefines.push_back({SharedUniformName_HasUV0, backend::UniformType::INT, 1, backend::Precision::DEFAULT});
+            uDefines.push_back({SharedUniformName_HasUV1, backend::UniformType::INT, 1, backend::Precision::DEFAULT});
+            uDefines.push_back({SharedUniformName_CameraPos, backend::UniformType::FLOAT3, 1, backend::Precision::DEFAULT});
         }
         const std::string GetFragmentShaderHead()
         {

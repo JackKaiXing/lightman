@@ -10,6 +10,13 @@ namespace lightman
     // ----------------------------------------------------------------------------
     namespace ShaderString
     {
+        static const std::string SharedUniformName_PVMMatrix = "PVMMatrix";
+        static const std::string SharedUniformName_InverseMMatrix = "InverseMMatrix";
+        static const std::string SharedUniformName_HasNormal = "HasNormal";
+        static const std::string SharedUniformName_HasUV0 = "HasUV0";
+        static const std::string SharedUniformName_HasUV1 = "HasUV1";
+        static const std::string SharedUniformName_CameraPos = "cameraPos";
+
         std::string GetVertexAttribute();
         std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine, const std::string& UnoformBlockName);
         void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines);
