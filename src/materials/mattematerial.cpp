@@ -26,7 +26,8 @@ namespace lightman
         std::vector<UniformDefine> uDefines;
         // get shared uniform defines
         ShaderString::GetSharedBlockInfo(uDefines);
-
+        // get blender workbench uniform defines
+        ShaderString::GetBlenderBlockInfo(uDefines);
         // add custom uniform defines
         // TO DO PARSE TEXTURE NODES TO GET UDEFINES
         
@@ -36,16 +37,22 @@ namespace lightman
         // update defaut materialInstance
         UpdateDefaultMaterialInstance();
 
-        // TODO UPDATE MaterialInstance about uDefines
+        // update parameters of materialInstance about uDefines
 
-        // Update shaders
+        // uniform block shader
         backend::UniformBlockInfo bInfos;
         bInfos.at(0) = "targetUniform";
-        std::string vertexShaderString = ShaderString::GetVertexAttribute();
-        vertexShaderString += ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
-        vertexShaderString += ShaderString::GetDisneyVertexShader();
+        const std::string UniformShaderBlock = ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
 
-        std::string fragmentShaderString = ShaderString::GetDisneyFragmentShader("");
+        // vertex shader
+        std::string vertexShaderString = ShaderString::GetVertexAttribute();
+        vertexShaderString += UniformShaderBlock;
+        vertexShaderString += ShaderString::GetBlenderVertexShader();
+
+        // fragment shader
+        std::string fragmentShaderString = ShaderString::GetFragmentShaderHead();
+        fragmentShaderString += UniformShaderBlock;
+        fragmentShaderString += ShaderString::GetBlenderFragmentShader("");
 
         // Update Program
         m_program = Engine::GetInstance()->GetDriver()->createProgram(
