@@ -91,10 +91,6 @@ General Macos Graphics Tool: https://developer.apple.com/library/archive/technot
 https://www.reddit.com/r/opengl/comments/o7tj13/opengl_profiler_for_macos/
 Summary: https://apitrace.github.io/#download
 
->>**GLSL**
-Blinn-Phonn: https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model, https://learnopengl.com/code_viewer.php?code=advanced-lighting/blinn_phong&type=fragment, https://threejs.org/examples/#webgl_geometry_teapot
-GLSL INCLUDE: https://github.com/knightcrawler25/GLSL-PathTracer/blob/master/src/core/ShaderIncludes.h
-
 >>**Anti-Aliasing**
 Summary: https://www.techspot.com/article/2219-how-to-3d-rendering-anti-aliasing/
 FXAA: https://developer.download.nvidia.cn/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf, https://en.wikipedia.org/wiki/Fast_approximate_anti-aliasing
@@ -108,3 +104,19 @@ MSAA: https://learnopengl.com/Advanced-OpenGL/Anti-Aliasing, https://en.wikipedi
 [MERL BREF DataSet2](https://www.merl.com/brdf/)
 How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/mcmillan/pubs/sig03_matusik.pdf)
 [Lambert  Diffuse](https://en.wikipedia.org/wiki/Lambertian_reflectance), [Derivation of Lambert Diffuse](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/diffuse-lambertian-shading), [Derivation of Lambert Diffuse2](https://sakibsaikia.github.io/graphics/2019/09/10/Deriving-Lambertian-BRDF-From-First-Principles.html)
+[Blinn-Phonn](https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model)
+[Blinn-Phonn Shader](https://learnopengl.com/code_viewer.php?code=advanced-lighting/blinn_phong&type=fragment)
+[ThreeJS Blinn-Phonn Shader](https://threejs.org/examples/#webgl_geometry_teapot)
+[Blinn Phong Energy Conservation1](https://www.rorydriscoll.com/2009/01/25/energy-conservation-in-games/)
+[Blinn Phong Energy Conservation2](http://www.farbrausch.de/~fg/stuff/phong.pdf)
+[Wrap Shading1](https://blog.csdn.net/pianpiansq/article/details/74453602)
+[Wrap Shading2](https://www.cnblogs.com/cpxnet/p/6075353.html)
+[Wrap Shading3](https://developer.nvidia.com/gpugems/gpugems/part-iii-materials/chapter-16-real-time-approximations-subsurface-scattering)
+[Wrap Shading4](https://blog.selfshadow.com/2011/12/31/righting-wrap-part-1/)
+[Wrap Shading5](https://www.iro.umontreal.ca/~derek/files/jgt_wrap.pdf)
+
+>>**GLSL**
+[GLSL INCLUDE](https://github.com/knightcrawler25/GLSL-PathTracer/blob/master/src/core/ShaderIncludes.h)
+[GLSL UNIFORM Block](https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL)
+[GLSL Fast Approximation Math](https://github.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h)
+[GLSL Reinterprecast](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/floatBitsToInt.xhtml)
