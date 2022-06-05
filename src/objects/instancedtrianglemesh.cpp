@@ -142,7 +142,42 @@ void InstancedTriangleMesh::Draw()
             mi->SetParameter("HasNormal", m_mesh->HasNormal()? 1 : 0);
             mi->SetParameter("HasUV0",m_mesh->HasUV()? 1 : 0);
             mi->SetParameter("HasUV1",false? 1 : 0);
-            mi->SetParameter("cameraPos", m_cameraPos);
+            {
+                // TO DO remove into a unique block for all raster objects
+                mi->SetParameter("cameraPos", m_cameraPos);
+
+                Vector4 ambientColor = Vector4(0.1, 0.1, 0.1, 1.0);
+                mi->SetParameter("world_light_ambient_color", ambientColor);
+
+                Vector4 light0Direction = Vector4(-0.352546f, 0.170931f, -0.920051f, 1.0f);
+                Vector4 light0Spec = Vector4(0.266761f / math::L_PI, 0.266761f / math::L_PI, 0.266761f / math::L_PI, 1.0f);
+                Vector4 light0DiffuseWrap = Vector4(0.033103f, 0.033103f, 0.033103f, 0.526620f);
+                mi->SetParameter("world_light_direction", light0Direction, 0);
+                mi->SetParameter("world_light_specular_color", light0Spec, 0);
+                mi->SetParameter("world_light_diffuse_color_wrap", light0DiffuseWrap, 0);
+
+                Vector4 light1Direction = Vector4(-0.408163f, 0.346939f, 0.844415f, 1.0f);
+                Vector4 light1Spec = Vector4(0.599030f / math::L_PI, 0.599030f / math::L_PI, 0.599030f / math::L_PI, 1.0f);
+                Vector4 light1DiffuseWrap = Vector4(0.521083f, 0.521083f, 0.521083f, 0.000000f);
+                mi->SetParameter("world_light_direction", light1Direction, 1);
+                mi->SetParameter("world_light_specular_color", light1Spec, 1);
+                mi->SetParameter("world_light_diffuse_color_wrap", light1DiffuseWrap, 1);
+
+                Vector4 light2Direction = Vector4(0.521739f, 0.826087f, 0.212999f, 1.0f);
+                Vector4 light2Spec = Vector4(0.106102f / math::L_PI, 0.125981f / math::L_PI, 0.158523f / math::L_PI, 1.0f);
+                Vector4 light2DiffuseWrap = Vector4(0.038403f, 0.034357f, 0.049530f, 0.478261f);
+                mi->SetParameter("world_light_direction", light2Direction, 2);
+                mi->SetParameter("world_light_specular_color", light2Spec, 2);
+                mi->SetParameter("world_light_diffuse_color_wrap", light2DiffuseWrap, 2);
+
+                Vector4 light3Direction = Vector4(0.624519f, -0.562067f, -0.542269f, 1.0f);
+                Vector4 light3Spec = Vector4(0.106535f / math::L_PI, 0.084771f / math::L_PI, 0.066080f / math::L_PI, 1.0f);
+                Vector4 light3DiffuseWrap = Vector4(0.090838f, 0.082080f, 0.072255f, 0.200000f);
+                mi->SetParameter("world_light_direction", light3Direction, 3);
+                mi->SetParameter("world_light_specular_color", light3Spec, 3);
+                mi->SetParameter("world_light_diffuse_color_wrap", light3DiffuseWrap, 3);
+            }
+            
             mi->Commit();
         }
         m_mesh->Draw(mi->GetMaterial()->GetProgram());
