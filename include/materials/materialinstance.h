@@ -23,8 +23,8 @@ namespace lightman
         Material* GetMaterial();
         void Commit();
         template<typename T>
-        void SetParameter(const char* name, T const& value);
-        void SetParameterNoType(const char* name, void* value);
+        void SetParameter(const char* name, T const& value, uint32_t count = 0);
+        void SetParameterNoType(const char* name, void* value, uint32_t count);
         void SetParameterImpl(uint32_t offset, uint32_t size, void* data);
 
     friend class Material;
@@ -39,10 +39,11 @@ namespace lightman
         bool m_needToUpdateUniformBuffer = true;
     };
     
-    template<> void MaterialInstance::SetParameter<float> (const char* name, float const& value);
-    template<> void MaterialInstance::SetParameter<math::Matrix4X4> (const char* name, math::Matrix4X4 const& value);
-    template<> void MaterialInstance::SetParameter<int> (const char* name, int const& value);
-    template<> void MaterialInstance::SetParameter<math::Vector3> (const char* name, math::Vector3 const& value);
+    template<> void MaterialInstance::SetParameter<float> (const char* name, float const& value, uint32_t count);
+    template<> void MaterialInstance::SetParameter<math::Matrix4X4> (const char* name, math::Matrix4X4 const& value, uint32_t count);
+    template<> void MaterialInstance::SetParameter<int> (const char* name, int const& value, uint32_t count);
+    template<> void MaterialInstance::SetParameter<math::Vector3> (const char* name, math::Vector3 const& value, uint32_t count);
+    template<> void MaterialInstance::SetParameter<math::Vector4> (const char* name, math::Vector4 const& value, uint32_t count);
     
 } // namespace lightman
 #endif // _LIGHTMAN_MATERIALINSTANCE_H

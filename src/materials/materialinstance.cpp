@@ -45,34 +45,39 @@ namespace lightman
         assert(offset + size <= m_uniforBufferCPU.dataSize);
         std::memcpy((uint8_t*)m_uniforBufferCPU.data + offset, data, size);
     }
-    void MaterialInstance::SetParameterNoType(const char* name, void* value)
+    void MaterialInstance::SetParameterNoType(const char* name, void* value, uint32_t count)
     {
         if (m_material->HasUniform(name))
         {
             uint32_t stride = 0, offset = 0;
-            m_material->GetUniformOffsetAndStrideByName(name, offset, stride);
+            m_material->GetUniformOffsetAndStrideByName(name, offset, stride, count);
             SetParameterImpl(offset, stride, value);
             m_needToUpdateUniformBuffer = true;
         }
     }
     template<>
-    void MaterialInstance::SetParameter(const char* name, float const& value)
+    void MaterialInstance::SetParameter(const char* name, float const& value, uint32_t count)
     {
-        SetParameterNoType(name, (void*)&value);
+        SetParameterNoType(name, (void*)&value, count);
     }
     template<>
-    void MaterialInstance::SetParameter(const char* name, math::Matrix4X4 const& value)
+    void MaterialInstance::SetParameter(const char* name, math::Matrix4X4 const& value, uint32_t count)
     {
-        SetParameterNoType(name, (void*)&value.m_value);
+        SetParameterNoType(name, (void*)&value.m_value, count);
     }
     template<>
-    void MaterialInstance::SetParameter<int> (const char* name, int const& value)
+    void MaterialInstance::SetParameter<int> (const char* name, int const& value, uint32_t count)
     {
-        SetParameterNoType(name, (void*)&value);
+        SetParameterNoType(name, (void*)&value, count);
     }
     template<>
-    void MaterialInstance::SetParameter<math::Vector3> (const char* name, math::Vector3 const& value)
+    void MaterialInstance::SetParameter<math::Vector3> (const char* name, math::Vector3 const& value, uint32_t count)
     {
-        SetParameterNoType(name, (void*)&value);
+        SetParameterNoType(name, (void*)&value, count);
+    }
+    template<>
+    void MaterialInstance::SetParameter<math::Vector4> (const char* name, math::Vector4 const& value, uint32_t count)
+    {
+        SetParameterNoType(name, (void*)&value, count);
     }
 } // namespace lightman
