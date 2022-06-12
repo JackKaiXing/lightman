@@ -123,7 +123,7 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::st
             std::stringstream ss(value);
             float x = 0.0;
             ss >> x;
-            lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture("default", x);
+            lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture("param"+ std::to_string(myDefaultTextureCount), x);
             result = texture;
 
             mytexturesOfLucScene.insert({"defaultTexture_" + std::to_string(myDefaultTextureCount++), texture});
@@ -452,7 +452,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                             lightman::GlossyCoatingMaterial* typedMaterial = dynamic_cast<lightman::GlossyCoatingMaterial*>(material);
                             if (arrtibuteName == "base")
                             {
-                                typedMaterial->SetBase(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                                // base materials
                             }
                         }
                         break;
