@@ -1,21 +1,21 @@
 
-#include "materials/mattematrial.h"
+#include "materials/velvetmaterial.h"
 #include "materials/shader.h"
 
 namespace lightman
 {
-    MatteMaterial::MatteMaterial(const std::string& name) 
+    VelvetMaterial::VelvetMaterial(const std::string& name) 
         : Material(name, nullptr, nullptr)
     {
     }
-    MatteMaterial::MatteMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+    VelvetMaterial::VelvetMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
         : Material(name, bump, emission)
     {
     }
-    MatteMaterial::~MatteMaterial()
+    VelvetMaterial::~VelvetMaterial()
     {
     }
-    bool MatteMaterial::PrepareForRasterGPU()
+    bool VelvetMaterial::PrepareForRasterGPU()
     {
         if(m_isRasterGPUNeedUpdate)
             return true;
@@ -42,7 +42,7 @@ namespace lightman
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
-    void MatteMaterial::SetKd(const Texture* kd)
+    void VelvetMaterial::SetKd(const Texture* kd)
     {
         m_kd = kd;
     }

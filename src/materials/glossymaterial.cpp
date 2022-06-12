@@ -1,21 +1,21 @@
 
-#include "materials/mattematrial.h"
+#include "materials/glossymaterial.h"
 #include "materials/shader.h"
 
 namespace lightman
 {
-    MatteMaterial::MatteMaterial(const std::string& name) 
+    GlossyMaterial::GlossyMaterial(const std::string& name) 
         : Material(name, nullptr, nullptr)
     {
     }
-    MatteMaterial::MatteMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
-        : Material(name, bump, emission)
+    GlossyMaterial::GlossyMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+        : Material(name,NULL,NULL)
     {
     }
-    MatteMaterial::~MatteMaterial()
+    GlossyMaterial::~GlossyMaterial()
     {
     }
-    bool MatteMaterial::PrepareForRasterGPU()
+    bool GlossyMaterial::PrepareForRasterGPU()
     {
         if(m_isRasterGPUNeedUpdate)
             return true;
@@ -42,7 +42,7 @@ namespace lightman
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
-    void MatteMaterial::SetKd(const Texture* kd)
+    void GlossyMaterial::SetKd(const Texture* kd)
     {
         m_kd = kd;
     }

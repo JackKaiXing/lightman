@@ -1,21 +1,21 @@
 
-#include "materials/mattematrial.h"
+#include "materials/glossycoatingmaterial.h"
 #include "materials/shader.h"
 
 namespace lightman
 {
-    MatteMaterial::MatteMaterial(const std::string& name) 
+    GlossyCoatingMaterial::GlossyCoatingMaterial(const std::string& name) 
         : Material(name, nullptr, nullptr)
     {
     }
-    MatteMaterial::MatteMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+    GlossyCoatingMaterial::GlossyCoatingMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
         : Material(name, bump, emission)
     {
     }
-    MatteMaterial::~MatteMaterial()
+    GlossyCoatingMaterial::~GlossyCoatingMaterial()
     {
     }
-    bool MatteMaterial::PrepareForRasterGPU()
+    bool GlossyCoatingMaterial::PrepareForRasterGPU()
     {
         if(m_isRasterGPUNeedUpdate)
             return true;
@@ -23,11 +23,11 @@ namespace lightman
         // prepare uniform buffer with custom texture nodes
         std::vector<const Texture*> customTextures;
         std::string UpdateUserMaterialParameters;
-        if (m_kd)
+        if (m_base)
         {
-            customTextures.push_back(m_kd);
-            backend::UniformType type = m_kd->GetShaderString(UpdateUserMaterialParameters);
-            UpdateUserMaterialParameters += "paras.baseColor = " + m_kd->GetName() + ";\n";
+            customTextures.push_back(m_base);
+            backend::UniformType type = m_base->GetShaderString(UpdateUserMaterialParameters);
+            UpdateUserMaterialParameters += "paras.baseColor = " + m_base->GetName() + ";\n";
         }
         PrepareForRasterGPUBase(customTextures, UpdateUserMaterialParameters);
 
@@ -36,14 +36,14 @@ namespace lightman
             ;
         if (m_emission)
             ;
-        if (m_kd)
+        if (m_base)
             ;
 
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
-    void MatteMaterial::SetKd(const Texture* kd)
+    void GlossyCoatingMaterial::SetBase(const Texture* base)
     {
-        m_kd = kd;
+        m_base = base;
     }
 } // namespace lightman
