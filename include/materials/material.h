@@ -74,6 +74,7 @@ namespace lightman
         virtual MaterialType getMaterialType() = 0;
         static uint32_t GetProgramIndexBySupportedVertexAttribute(bool hasTangent, bool hasUV0, bool hasUV1);
         virtual bool PrepareForRasterGPU() = 0;
+        void PrepareForRasterGPUBase(const std::vector<const Texture*>& customTextures, const std::string& UpdateUserMaterialParameters);
         backend::HwProgram* GetProgram() {return m_program;};
         void UpdateDefaultMaterialInstance();
         MaterialInstance* GetDefaultMaterialInstance(){return m_defaultMI;};

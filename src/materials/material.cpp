@@ -1,5 +1,6 @@
 
 #include "materials/material.h"
+#include "engine/engine.h"
 
 namespace lightman
 {
@@ -91,6 +92,51 @@ namespace lightman
                 offset += count * sizeof(uint32_t) * StrideForType(m_uniformsInfoList[index].type);
             }
         }
+    }
+    void Material::PrepareForRasterGPUBase(const std::vector<const Texture*>& customTextures, const std::string& UpdateUserMaterialParameters)
+    {
+        std::vector<UniformDefine> uDefines;
+        // get shared uniform defines
+        ShaderString::GetSharedBlockInfo(uDefines);
+        // get blender workbench uniform defines
+        ShaderString::GetBlenderBlockInfo(uDefines);
+        // add custom uniform defines
+        if (m_bump)
+            m_bump->GetBlockInfo(uDefines);
+        if (m_emission)
+            m_emission->GetBlockInfo(uDefines);
+
+        for (size_t i = 0; i < customTextures.size(); i++)
+            customTextures.at(i)->GetBlockInfo(uDefines);
+        
+        // Init Block Infos
+        InitUniformBlockInfo(uDefines);
+
+        // update defaut materialInstance
+        UpdateDefaultMaterialInstance();
+
+        // uniform block shader
+        backend::UniformBlockInfo bInfos;
+        bInfos.at(0) = "targetUniform";
+        const std::string UniformShaderBlock = ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
+
+        // vertex shader
+        std::string vertexShaderString = ShaderString::GetVertexAttribute();
+        vertexShaderString += UniformShaderBlock;
+        vertexShaderString += ShaderString::GetBlenderVertexShader();
+
+        // fragment shader
+        std::string fragmentShaderString = ShaderString::GetFragmentShaderHead();
+        fragmentShaderString += UniformShaderBlock;
+        if (m_bump)
+            ;
+        if (m_emission)
+            ;
+        fragmentShaderString += ShaderString::GetBlenderFragmentShader(UpdateUserMaterialParameters);
+
+        // Update Program
+        m_program = Engine::GetInstance()->GetDriver()->createProgram(
+            vertexShaderString, fragmentShaderString, bInfos);
     }
     uint8_t Material::BaseAlignmentForType(backend::UniformType type) noexcept
     {
