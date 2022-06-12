@@ -17,6 +17,8 @@ namespace lightman
         static const std::string SharedUniformName_HasUV1 = "HasUV1";
         static const std::string SharedUniformName_CameraPos = "cameraPos";
 
+        std::string UniformTypeToShaderString(backend::UniformType type);
+
         std::string GetVertexAttribute();
         std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine, const std::string& UnoformBlockName);
         void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines);

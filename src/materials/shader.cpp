@@ -26,22 +26,19 @@ namespace lightman
             switch (type) {
                 case backend::UniformType::MAT4:
                     return "mat4";
-                    break;
                 case backend::UniformType::INT:
                     return "int";
-                    break;
                 case backend::UniformType::BOOL:
                     return "bool";
-                    break;
+                case backend::UniformType::FLOAT:
+                    return "float";
                 case backend::UniformType::FLOAT3:
                     return "vec3";
-                    break;
                 case backend::UniformType::FLOAT4:
                     return "vec4";
-                    break;
                     
                 default:
-                    break;
+                    return "";;
             }
         }
         std::string UniformTypeToShaderString(backend::UniformType type)
@@ -304,6 +301,10 @@ namespace lightman
                     float metallic; \n \
                     float roughness; \n \
                 } ; \n \
+                float Luminance(vec3 c) \n \
+                { \n \
+                    return 0.212671 * c.x + 0.715160 * c.y + 0.072169 * c.z; \n \
+                } \n \
                 void InitMaterialParameters(inout MaterialParas paras) \n \
                 { \n \
                     paras.baseColor = vec3(1.0f); \n \
@@ -311,12 +312,11 @@ namespace lightman
                     paras.roughness = 0.5f; \n \
                 } \n ";
 
+            result += "void UpdateUserMaterialParameters(inout MaterialParas paras) \n \
+                    { \n";
             if (updateMaterialString.size() > 0)
                 result += updateMaterialString;
-            else
-                result += "void UpdateUserMaterialParameters(inout MaterialParas paras) \n \
-                    { \n \
-                    }";
+            result += "} \n";
             
             result += "in vec3 vNormal; \n \
                 in vec3 vViewDir; \n \
