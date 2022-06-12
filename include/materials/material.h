@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "materials/uniformdefines.h"
 #include "backend/driverbase.h"
 #include "materials/materialinstance.h"
 #include "utils/ref.h"
@@ -12,15 +13,8 @@
 namespace lightman
 {
     // ----------------------------------------------------------------------------
-    struct UniformDefine
-    {
-        std::string name;
-        backend::UniformType type;
-        uint32_t size;
-        backend::Precision precision;
-    };
-
     class MaterialInstance;
+    class Texture;
     class Material : public utils::Ref
     {
     public:
