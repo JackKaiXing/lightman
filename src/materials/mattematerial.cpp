@@ -29,7 +29,12 @@ namespace lightman
         // get blender workbench uniform defines
         ShaderString::GetBlenderBlockInfo(uDefines);
         // add custom uniform defines
-        // TO DO PARSE TEXTURE NODES TO GET UDEFINES
+        if (m_bump)
+            m_bump->GetBlockInfo(uDefines);
+        if (m_emission)
+            m_emission->GetBlockInfo(uDefines);
+        if (m_kd)
+            m_kd->GetBlockInfo(uDefines);
         
         // Init Block Infos
         InitUniformBlockInfo(uDefines);
@@ -38,6 +43,12 @@ namespace lightman
         UpdateDefaultMaterialInstance();
 
         // update parameters of materialInstance about uDefines
+        if (m_bump)
+            ;
+        if (m_emission)
+            ;
+        if (m_kd)
+            ;
 
         // uniform block shader
         backend::UniformBlockInfo bInfos;
@@ -52,7 +63,18 @@ namespace lightman
         // fragment shader
         std::string fragmentShaderString = ShaderString::GetFragmentShaderHead();
         fragmentShaderString += UniformShaderBlock;
-        fragmentShaderString += ShaderString::GetBlenderFragmentShader("");
+        std::string UpdateUserMaterialParameters;
+        if (m_bump)
+            ;
+        if (m_emission)
+            ;
+        if (m_kd)
+        {
+            backend::UniformType type = m_kd->GetShaderString(UpdateUserMaterialParameters);
+            UpdateUserMaterialParameters += "paras.baseColor = " + m_kd->GetName() + ";\n";
+        }
+            
+        fragmentShaderString += ShaderString::GetBlenderFragmentShader(UpdateUserMaterialParameters);
 
         // Update Program
         m_program = Engine::GetInstance()->GetDriver()->createProgram(
