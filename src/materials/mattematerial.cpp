@@ -73,7 +73,6 @@ namespace lightman
             backend::UniformType type = m_kd->GetShaderString(UpdateUserMaterialParameters);
             UpdateUserMaterialParameters += "paras.baseColor = " + m_kd->GetName() + ";\n";
         }
-            
         fragmentShaderString += ShaderString::GetBlenderFragmentShader(UpdateUserMaterialParameters);
 
         // Update Program
