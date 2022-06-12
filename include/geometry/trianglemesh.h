@@ -13,7 +13,6 @@
 
 #include "backend/driverbase.h"
 
-using namespace lightman::color;
 using namespace lightman::math;
 using namespace lightman::backend;
 
