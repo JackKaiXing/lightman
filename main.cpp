@@ -106,7 +106,7 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::st
         float x = 0.0, y = 0.0, z = 0.0;
         ss >> x >> y >> z;
 
-        lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture("default", x, y, z);
+        lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture("param" + std::to_string(myDefaultTextureCount), x, y, z);
         result = texture;
 
         mytexturesOfLucScene.insert({"defaultTexture_" + std::to_string(myDefaultTextureCount++), texture});
@@ -642,6 +642,17 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         {
                             typedTexture->SetAmount(
                                 GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                        }
+                        if (arrtibuteName.find("offset") != std::string::npos)
+                        {
+                            typedTexture->AddOffset(std::atoi(arrtibuteValue.c_str()));
+                        }
+                        if (arrtibuteName.find("value") != std::string::npos)
+                        {
+                            std::stringstream ss(arrtibuteValue);
+                            float x = 0.0, y = 0.0, z = 0.0;
+                            ss >> x >> y >> z;
+                            typedTexture->AddValue({x,y,z});
                         }
                     }
                     break;
