@@ -387,7 +387,11 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 {
                     case lightman::Material::MaterialType::GLOSSY:
                         {
-                            
+                            lightman::GlossyMaterial* typedMaterial = dynamic_cast<lightman::GlossyMaterial*>(material);
+                            if (arrtibuteName == "kd")
+                            {
+                                typedMaterial->SetKd(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
                         }
                         break;
                     case lightman::Material::MaterialType::MATTE:
@@ -396,6 +400,59 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                             if (arrtibuteName == "kd")
                             {
                                 typedMaterial->SetKd(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                        }
+                        break;
+                    case lightman::Material::MaterialType::METAL:
+                        {
+                            lightman::MetalMaterial* typedMaterial = dynamic_cast<lightman::MetalMaterial*>(material);
+                            if (arrtibuteName == "fresnel")
+                            {
+                                typedMaterial->SetFresnel(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                        }
+                        break;
+                    case lightman::Material::MaterialType::MATTETRANSLUCENT:
+                        {
+                            lightman::MatteTranslucentMaterial* typedMaterial = dynamic_cast<lightman::MatteTranslucentMaterial*>(material);
+                            if (arrtibuteName == "kr")
+                            {
+                                typedMaterial->SetKr(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                            if (arrtibuteName == "kt")
+                            {
+                                typedMaterial->SetKt(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                        }
+                        break;
+                    case lightman::Material::MaterialType::GLASS:
+                        {
+                            lightman::GlassMaterial* typedMaterial = dynamic_cast<lightman::GlassMaterial*>(material);
+                            if (arrtibuteName == "kr")
+                            {
+                                typedMaterial->SetKr(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                            if (arrtibuteName == "kt")
+                            {
+                                typedMaterial->SetKt(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                        }
+                        break;
+                    case lightman::Material::MaterialType::VELVET:
+                        {
+                            lightman::VelvetMaterial* typedMaterial = dynamic_cast<lightman::VelvetMaterial*>(material);
+                            if (arrtibuteName == "kd")
+                            {
+                                typedMaterial->SetKd(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
+                            }
+                        }
+                        break;
+                    case lightman::Material::MaterialType::GLOSSYCOATING:
+                        {
+                            lightman::GlossyCoatingMaterial* typedMaterial = dynamic_cast<lightman::GlossyCoatingMaterial*>(material);
+                            if (arrtibuteName == "base")
+                            {
+                                typedMaterial->SetBase(GetOrCreateTextureFromAttributeValue(arrtibuteValue));
                             }
                         }
                         break;

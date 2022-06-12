@@ -1,6 +1,6 @@
 
 #include "managers/materialmanager.h"
-#include "materials/mattematrial.h"
+#include "materials/materialtypeheaders.h"
 #include <iostream>
 
 namespace lightman
@@ -63,13 +63,28 @@ namespace lightman
         switch (type)
         {
         case Material::MaterialType::MATTE:
+            result = new MatteMaterial(name);
+            break;
         case Material::MaterialType::GLOSSY:
-        case Material::MaterialType::MATTETRANSLUCENT:
+            result = new GlossyMaterial(name);
+            break;
         case Material::MaterialType::METAL:
+            result = new MetalMaterial(name);
+            break;
+        case Material::MaterialType::MATTETRANSLUCENT:
+            result = new MatteTranslucentMaterial(name);
+            break;
+        case Material::MaterialType::GLASS:
         case Material::MaterialType::ARCHGLASS:
+            result = new GlassMaterial(name);
+            break;
         case Material::MaterialType::VELVET:
-        case Material::MaterialType::MIX:
+            result = new VelvetMaterial(name);
+            break;
         case Material::MaterialType::GLOSSYCOATING:
+            result = new GlossyCoatingMaterial(name);
+            break;
+        case Material::MaterialType::MIX:
             result = new MatteMaterial(name);
             break;
         
