@@ -13,8 +13,14 @@ namespace lightman
         ~ConstFloat3Texture(){};
 
         TextureType GetType() const override {return TextureType::CONSTFLOAT3_TEX;};
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override;
+        backend::UniformType GetShaderString(std::string& result) const override;
+        bool IsAllowedExposeAsUniform() const override {return true;};
+
+        void setExposeAsUniform(bool enable);
     private:
         float m_value[3];
+        bool m_enableExpose = false;
     };
 }
 

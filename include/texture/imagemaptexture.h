@@ -14,10 +14,16 @@ namespace lightman
         ~ImagemapTexture(){};
 
         TextureType GetType() const override {return TextureType::IMAGEMAP_TEX;};
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override{}; // TODO Texture Block
+        backend::UniformType GetShaderString(std::string& result) const override;
         void SetImageMap(Imagemap* im);
+        bool IsAllowedExposeAsUniform() const override {return true;};
+
+        void setExposeAsUniform(bool enable);
     private:
         Imagemap * m_imagemap = nullptr;
+        bool m_enableExpose = false;
     };
 }
 
-#endif _LIGHTMAN_IMAGEMAPTEXTURE_H
+#endif // _LIGHTMAN_IMAGEMAPTEXTURE_H

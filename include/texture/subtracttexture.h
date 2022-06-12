@@ -16,10 +16,13 @@ namespace lightman
         void SetTex2(const Texture * tex2);
 
         TextureType GetType() const override {return TextureType::SUBTRACT_TEX;};
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override;
+        backend::UniformType GetShaderString(std::string& result) const override;
+        bool IsAllowedExposeAsUniform() const override {return false;};
     private:
         const Texture* m_tex1;
 	    const Texture* m_tex2;
     };
 }
 
-#endif _LIGHTMAN_SUBTRACTTEXTURE_H
+#endif // _LIGHTMAN_SUBTRACTTEXTURE_H

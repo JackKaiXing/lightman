@@ -15,9 +15,13 @@ namespace lightman
         void SetKr(const Texture* kr);
 
         TextureType GetType() const override {return TextureType::FRESNELCOLOR_TEX;};
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override;
+        backend::UniformType GetShaderString(std::string& result) const override;
+        bool IsAllowedExposeAsUniform() const override {return false;};
+
     private:
         const Texture* m_Kr;
     };
 }
 
-#endif _LIGHTMAN_FRESNELCOLORTEXTURE_H
+#endif // _LIGHTMAN_FRESNELCOLORTEXTURE_H

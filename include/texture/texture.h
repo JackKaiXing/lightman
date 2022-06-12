@@ -2,8 +2,11 @@
 #define _LIGHTMAN_TEXTURE_H
 
 #include <string>
+#include <vector>
 #include "assert.h"
 
+#include "materials/uniformdefines.h"
+#include "materials/shader.h"
 #include "utils/ref.h"
 
 namespace lightman
@@ -26,6 +29,12 @@ namespace lightman
         virtual ~Texture(){};
 
         virtual TextureType GetType() const = 0;
+        virtual void GetBlockInfo(std::vector<UniformDefine>& uDefines) const = 0;
+        virtual backend::UniformType GetShaderString(std::string& result) const = 0;
+        virtual bool IsAllowedExposeAsUniform() const = 0;
+        std::string GetName() const {return m_name;};
+
+        static bool CheckTypeForBinaryOperation(backend::UniformType type1, backend::UniformType type2, backend::UniformType& result);
         
     private:
         std::string m_name;
