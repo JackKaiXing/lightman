@@ -5,41 +5,47 @@
 
 namespace lightman
 {
-    uint32_t Imagemap::GetComponentSize(ComponentType type)
+    uint32_t Imagemap::GetComponentSize(backend::TextureFormat type)
     {
         switch (type)
         {
-        case ComponentType::R8:
+        case backend::TextureFormat::R8:
             return 1;
             break;
-        case ComponentType::RGB8:
+        case backend::TextureFormat::RGB8:
             return 3;
             break;
-        case ComponentType::RGBA8:
+        case backend::TextureFormat::RGBA8:
             return 1;
-            break;
-        case ComponentType::R32:
-            return 4;
-            break;
-        case ComponentType::RGB32:
-            return 12;
-            break;
-        case ComponentType::RGBA32:
-            return 16;
             break;
         
         default:
             break;
         }
     }
-    Imagemap::Imagemap(void* data, uint32_t w, uint32_t h, ComponentType type, ImagemapUsage usage)
+    backend::SamplerFormat Imagemap::GetSamplerFormat()
+    {
+        return backend::SamplerFormat::FLOAT;
+    }
+    Imagemap::Imagemap(std::string name, void* data, uint32_t w, uint32_t h, backend::TextureFormat type, 
+        backend::PixelDataFormat pixelFormat, backend::PixelDataType pixelType,
+        backend::SamplerType samplerType, ImagemapUsage usage)
     {
         uint32_t size = w * h * GetComponentSize(type);
         m_data = (void*)malloc(size);
         std::memcpy(m_data, data, size);
 
+        m_name = name;
+        m_samplerType = samplerType;
+        m_TextureFormatType = type;
         m_width = w;
         m_height = h;
+        m_pixelFormat = pixelFormat;
+        m_pixelType = pixelType;
+    }
+    uint32_t Imagemap::GetDataSize()
+    {
+        return m_width * m_height * GetComponentSize(m_TextureFormatType);
     }
     Imagemap::~Imagemap()
     {
