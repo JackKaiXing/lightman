@@ -3,24 +3,24 @@
 
 namespace lightman
 {
-    void BandTexture::SetAmount(const Texture* amount)
+    void BandNode::SetAmount(const Texture* amount)
     {
         m_amount = amount;
     }
-    void BandTexture::AddOffset(float offset)
+    void BandNode::AddOffset(float offset)
     {
         m_offsets.push_back(offset);
     }
-    void BandTexture::AddValue(Color value)
+    void BandNode::AddValue(Color value)
     {
         m_values.push_back(value);
     }
-    void BandTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
+    void BandNode::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
         // values and offsets would be seen as const to shaders, would not be changed, so no uniform for bandTexture
         m_amount->GetBlockInfo(uDefines,sDefines); // check amount texture
     }
-    bool BandTexture::CheckInputType(backend::UniformType type) const
+    bool BandNode::CheckInputType(backend::UniformType type) const
     {
         if (type == backend::UniformType::FLOAT  ||
             type == backend::UniformType::FLOAT3 ||
@@ -30,7 +30,7 @@ namespace lightman
         }
         return false;
     }
-    backend::UniformType BandTexture::GetShaderString(std::string& result) const
+    backend::UniformType BandNode::GetShaderString(std::string& result) const
     {
         backend::UniformType type = m_amount->GetShaderString(result);
         if (CheckInputType(type))

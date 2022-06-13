@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_FRESNELCOLORTEXTURE_H
 #define _LIGHTMAN_FRESNELCOLORTEXTURE_H
 
-#include "texture/texture.h"
+#include "materialnode/node.h"
 
 namespace lightman
 {

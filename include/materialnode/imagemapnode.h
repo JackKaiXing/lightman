@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_IMAGEMAPTEXTURE_H
 #define _LIGHTMAN_IMAGEMAPTEXTURE_H
 
-#include "texture/texture.h"
+#include "materialnode/node.h"
 #include "texture/imagemap.h"
 #include "backend/driverbase.h"
 

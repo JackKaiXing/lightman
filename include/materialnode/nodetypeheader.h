@@ -1,13 +1,13 @@
-#ifndef _LIGHTMAN_TEXTURETYPEHEADER_H
-#define _LIGHTMAN_TEXTURETYPEHEADER_H
+#ifndef _LIGHTMAN_NODETYPEHEADER_H
+#define _LIGHTMAN_NODETYPEHEADER_H
 
-#include "texture/imagemaptexture.h"
-#include "texture/mixtexture.h"
-#include "texture/scaletexture.h"
-#include "texture/subtracttexture.h"
-#include "texture/bandtexture.h"
-#include "texture/fresnelcolortexture.h"
-#include "texture/constfloattexture.h"
-#include "texture/constfloat3texture.h"
+#include "materialnode/imagemapnode.h"
+#include "materialnode/mixnode.h"
+#include "materialnode/scalenode.h"
+#include "materialnode/subtractnode.h"
+#include "materialnode/bandnode.h"
+#include "materialnode/fresnelcolornode.h"
+#include "materialnode/constfloatnode.h"
+#include "materialnode/constfloat3node.h"
 
-#endif _LIGHTMAN_TEXTURETYPEHEADER_H
+#endif _LIGHTMAN_NODETYPEHEADER_H

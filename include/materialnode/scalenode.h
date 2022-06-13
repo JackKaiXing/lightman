@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_SCALETEXTURE_H
 #define _LIGHTMAN_SCALETEXTURE_H
 
-#include "texture/texture.h"
+#include "materialnode/node.h"
 
 namespace lightman
 {

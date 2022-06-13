@@ -1,17 +1,17 @@
-#ifndef _LIGHTMAN_BANDTEXTURE_H
-#define _LIGHTMAN_BANDTEXTURE_H
+#ifndef _LIGHTMAN_BANDNODE_H
+#define _LIGHTMAN_BANDNODE_H
 
-#include "texture/texture.h"
+#include "materialnode/node.h"
 #include "color/color.h"
 
 namespace lightman
 {
-    class BandTexture : public Texture
+    class BandNode : public Texture
     {
     public:
-        BandTexture() = delete;
-        BandTexture(const std::string& name) : Texture(name){};
-        ~BandTexture(){};
+        BandNode() = delete;
+        BandNode(const std::string& name) : Texture(name){};
+        ~BandNode(){};
         void SetAmount(const Texture* amount);
         void AddOffset(float offset);
         void AddValue(Color value);
@@ -29,4 +29,4 @@ namespace lightman
     };
 }
 
-#endif // _LIGHTMAN_BANDTEXTURE_H
+#endif // _LIGHTMAN_BANDNODE_H

@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_SUBTRACTTEXTURE_H
 #define _LIGHTMAN_SUBTRACTTEXTURE_H
 
-#include "texture/texture.h"
+#include "materialnode/node.h"
 
 namespace lightman
 {

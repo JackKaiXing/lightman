@@ -1,7 +1,7 @@
 #ifndef _LIGHTMAN_CONSTFLOAT3TEXTURE_H
 #define _LIGHTMAN_CONSTFLOAT3TEXTURE_H
 
-#include "texture/texture.h"
+#include "materialnode/node.h"
 
 namespace lightman
 {

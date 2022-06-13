@@ -17,7 +17,7 @@
 #include "managers/meshmanager.h"
 #include "managers/materialmanager.h"
 #include "managers/imagemapmanager.h"
-#include "texture/texture.h"
+#include "materialnode/node.h"
 #include "texture/texturetypeheader.h"
 #include "materials/materialtypeheaders.h"
 
@@ -568,7 +568,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                     break;
                 case lightman::TextureType::BAND_TEX:
                     {
-                        typedTexture = new lightman::BandTexture(texturelName);
+                        typedTexture = new lightman::BandNode(texturelName);
                     }
                     break;
                 case lightman::TextureType::FRESNELCOLOR_TEX:
@@ -694,7 +694,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                     break;
                 case lightman::TextureType::BAND_TEX:
                     {
-                        lightman::BandTexture * typedTexture = dynamic_cast<lightman::BandTexture*>(texture);
+                        lightman::BandNode * typedTexture = dynamic_cast<lightman::BandNode*>(texture);
                         if (arrtibuteName == "amount")
                         {
                             typedTexture->SetAmount(

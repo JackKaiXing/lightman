@@ -8,7 +8,7 @@
 #include "backend/driverbase.h"
 #include "materials/materialinstance.h"
 #include "utils/ref.h"
-#include "texture/texture.h"
+#include "materialnode/node.h"
 
 namespace lightman
 {
