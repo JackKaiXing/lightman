@@ -11,10 +11,10 @@ namespace lightman
     {
         m_tex2 = tex2;
     }
-    void ScaleTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines) const
+    void ScaleTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
-        m_tex1->GetBlockInfo(uDefines);
-        m_tex2->GetBlockInfo(uDefines);
+        m_tex1->GetBlockInfo(uDefines, sDefines);
+        m_tex2->GetBlockInfo(uDefines, sDefines);
     }
     backend::UniformType ScaleTexture::GetShaderString(std::string& result) const
     {

@@ -29,7 +29,7 @@ namespace lightman
         virtual ~Texture(){};
 
         virtual TextureType GetType() const = 0;
-        virtual void GetBlockInfo(std::vector<UniformDefine>& uDefines) const = 0;
+        virtual void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const = 0;
         virtual backend::UniformType GetShaderString(std::string& result) const = 0;
         virtual bool IsAllowedExposeAsUniform() const = 0;
         std::string GetName() const {return m_name;};

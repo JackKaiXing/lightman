@@ -15,11 +15,11 @@ namespace lightman
     {
         m_tex2 = tex2;
     }
-    void MixTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines) const
+    void MixTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
-        m_amount->GetBlockInfo(uDefines);
-	    m_tex1->GetBlockInfo(uDefines);
-	    m_tex2->GetBlockInfo(uDefines);
+        m_amount->GetBlockInfo(uDefines, sDefines);
+	    m_tex1->GetBlockInfo(uDefines, sDefines);
+	    m_tex2->GetBlockInfo(uDefines, sDefines);
     }
     backend::UniformType MixTexture::GetShaderString(std::string& result) const
     {

@@ -8,7 +8,7 @@ namespace lightman
     {
         m_value = v;
     }
-    void ConstFloatTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines) const
+    void ConstFloatTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
         if (m_enableExpose)
             uDefines.push_back({GetName(), backend::UniformType::FLOAT, 1, backend::Precision::DEFAULT});

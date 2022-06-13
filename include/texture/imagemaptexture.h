@@ -3,6 +3,7 @@
 
 #include "texture/texture.h"
 #include "texture/imagemap.h"
+#include "backend/driverbase.h"
 
 namespace lightman
 {
@@ -14,7 +15,7 @@ namespace lightman
         ~ImagemapTexture(){};
 
         TextureType GetType() const override {return TextureType::IMAGEMAP_TEX;};
-        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override{}; // TODO Texture Block
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;
         backend::UniformType GetShaderString(std::string& result) const override;
         void SetImageMap(Imagemap* im);
         bool IsAllowedExposeAsUniform() const override {return true;};

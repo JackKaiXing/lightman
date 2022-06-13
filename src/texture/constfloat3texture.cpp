@@ -11,7 +11,7 @@ namespace lightman
         m_value[1] = y;
         m_value[2] = z;
     }
-    void ConstFloat3Texture::GetBlockInfo(std::vector<UniformDefine>& uDefines) const
+    void ConstFloat3Texture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
         // it is a uniform variable, we add it.
         if (m_enableExpose)

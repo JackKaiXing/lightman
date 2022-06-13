@@ -7,9 +7,9 @@ namespace lightman
     {
         m_Kr = kr;
     }
-    void FresnelColorTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines) const 
+    void FresnelColorTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const 
     {
-        m_Kr->GetBlockInfo(uDefines);
+        m_Kr->GetBlockInfo(uDefines, sDefines);
     }
     backend::UniformType FresnelColorTexture::GetShaderString(std::string& result) const
     {

@@ -15,10 +15,10 @@ namespace lightman
     {
         m_values.push_back(value);
     }
-    void BandTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines) const
+    void BandTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
         // values and offsets would be seen as const to shaders, would not be changed, so no uniform for bandTexture
-        m_amount->GetBlockInfo(uDefines); // check amount texture
+        m_amount->GetBlockInfo(uDefines,sDefines); // check amount texture
     }
     bool BandTexture::CheckInputType(backend::UniformType type) const
     {

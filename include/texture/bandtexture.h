@@ -17,7 +17,7 @@ namespace lightman
         void AddValue(Color value);
 
         TextureType GetType() const override {return TextureType::BAND_TEX;};
-        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override;
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;
         backend::UniformType GetShaderString(std::string& result) const override;
         bool IsAllowedExposeAsUniform() const override {return false;}; // offsets and values woudl be treated as const for now
 

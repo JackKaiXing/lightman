@@ -28,7 +28,7 @@ namespace lightman
             customTextures.push_back(m_fresnel);
             backend::UniformType type = m_fresnel->GetShaderString(UpdateUserMaterialParameters);
             UpdateUserMaterialParameters += "paras.baseColor = " + m_fresnel->GetName() + ";\n";
-            UpdateUserMaterialParameters += "paras.metallic = 1.0f;\n";
+            //UpdateUserMaterialParameters += "paras.metallic = 1.0f;\n";
         }
         PrepareForRasterGPUBase(customTextures, UpdateUserMaterialParameters);
 

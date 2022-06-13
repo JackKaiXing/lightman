@@ -16,7 +16,7 @@ namespace lightman
         void SetTex2(const Texture * tex2);
 
         TextureType GetType() const override {return TextureType::MIX_TEX;};
-        void GetBlockInfo(std::vector<UniformDefine>& uDefines) const override;
+        void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;
         backend::UniformType GetShaderString(std::string& result) const override;
         bool IsAllowedExposeAsUniform() const override {return false;};
     private:
