@@ -1,5 +1,5 @@
 
-#include "texture/imagemap.h"
+#include "materialnode/imagemap.h"
 #include  <cstring>
 #include  <stdlib.h>
 

@@ -8,7 +8,7 @@ namespace lightman
         : Material(name, nullptr, nullptr)
     {
     }
-    GlassMaterial::GlassMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+    GlassMaterial::GlassMaterial(const std::string& name, const Node* bump, const Node* emission, const Node* kd)
         : Material(name,NULL,NULL)
     {
     }
@@ -21,7 +21,7 @@ namespace lightman
             return true;
 
         // prepare uniform buffer with custom texture nodes
-        std::vector<const Texture*> customTextures;
+        std::vector<const Node*> customTextures;
         std::string UpdateUserMaterialParameters;
         if (m_kr)
         {
@@ -42,11 +42,11 @@ namespace lightman
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
-    void GlassMaterial::SetKr(const Texture* kr)
+    void GlassMaterial::SetKr(const Node* kr)
     {
         m_kr = kr;
     }
-    void GlassMaterial::SetKt(const Texture* kt)
+    void GlassMaterial::SetKt(const Node* kt)
     {
         m_kt = kt;
     }

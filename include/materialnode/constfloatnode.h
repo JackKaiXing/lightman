@@ -1,18 +1,18 @@
-#ifndef _LIGHTMAN_CONSTFLOATTEXTURE_H
-#define _LIGHTMAN_CONSTFLOATTEXTURE_H
+#ifndef _LIGHTMAN_CONSTFLOATNODE_H
+#define _LIGHTMAN_CONSTFLOATNODE_H
 
 #include "materialnode/node.h"
 
 namespace lightman
 {
-    class ConstFloatTexture : public Texture
+    class ConstFloatNode : public Node
     {
     public:
-        ConstFloatTexture() = delete;
-        ConstFloatTexture(const std::string& name, float v = 0);
-        ~ConstFloatTexture(){};
+        ConstFloatNode() = delete;
+        ConstFloatNode(const std::string& name, float v = 0);
+        ~ConstFloatNode(){};
 
-        TextureType GetType() const override {return TextureType::CONSTFLOAT_TEX;};
+        NodeType GetType() const override {return NodeType::CONSTFLOAT_TEX;};
         void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;
         backend::UniformType GetShaderString(std::string& result) const override;
         bool IsAllowedExposeAsUniform() const override {return true;};
@@ -24,4 +24,4 @@ namespace lightman
     };
 }
 
-#endif //_LIGHTMAN_CONSTFLOATTEXTURE_H
+#endif //_LIGHTMAN_CONSTFLOATNODE_H

@@ -1,29 +1,29 @@
-#ifndef _LIGHTMAN_MIXTEXTURE_H
-#define _LIGHTMAN_MIXTEXTURE_H
+#ifndef _LIGHTMAN_MIXNODE_H
+#define _LIGHTMAN_MIXNODE_H
 
 #include "materialnode/node.h"
 
 namespace lightman
 {
-    class MixTexture : public Texture
+    class MixNode : public Node
     {
     public:
-        MixTexture() = delete;
-        MixTexture(const std::string& name) : Texture(name){};
-        ~MixTexture(){};
-        void SetAmount(const Texture * amount);
-        void SetTex1(const Texture * tex1);
-        void SetTex2(const Texture * tex2);
+        MixNode() = delete;
+        MixNode(const std::string& name) : Node(name){};
+        ~MixNode(){};
+        void SetAmount(const Node * amount);
+        void SetTex1(const Node * tex1);
+        void SetTex2(const Node * tex2);
 
-        TextureType GetType() const override {return TextureType::MIX_TEX;};
+        NodeType GetType() const override {return NodeType::MIX_TEX;};
         void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;
         backend::UniformType GetShaderString(std::string& result) const override;
         bool IsAllowedExposeAsUniform() const override {return false;};
     private:
-        const Texture* m_amount;
-	    const Texture* m_tex1;
-	    const Texture* m_tex2;
+        const Node* m_amount;
+	    const Node* m_tex1;
+	    const Node* m_tex2;
     };
 }
 
-#endif // _LIGHTMAN_MIXTEXTURE_H
+#endif // _LIGHTMAN_MIXNODE_H

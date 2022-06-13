@@ -3,7 +3,7 @@
 
 namespace lightman
 {
-    bool Texture::CheckTypeForBinaryOperation(backend::UniformType type1, backend::UniformType type2, backend::UniformType& result)
+    bool Node::CheckTypeForBinaryOperation(backend::UniformType type1, backend::UniformType type2, backend::UniformType& result)
     {
         bool isTypeCompatible = false;
 

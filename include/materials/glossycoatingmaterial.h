@@ -10,13 +10,13 @@ namespace lightman
     {
     public:
         GlossyCoatingMaterial(const std::string& name);
-        GlossyCoatingMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd);
+        GlossyCoatingMaterial(const std::string& name, const Node* bump, const Node* emission, const Node* kd);
         ~GlossyCoatingMaterial();
-        void SetBase(const Texture* base);
+        void SetBase(const Node* base);
         MaterialType getMaterialType() override { return Material::MaterialType::GLOSSYCOATING;};
         bool PrepareForRasterGPU() override;
     private:
-        const Texture* m_base = nullptr;          // diffuse color
+        const Node* m_base = nullptr;          // diffuse color
     };
     
 } // namespace lightman

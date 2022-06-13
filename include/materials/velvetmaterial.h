@@ -10,13 +10,13 @@ namespace lightman
     {
     public:
         VelvetMaterial(const std::string& name);
-        VelvetMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd);
+        VelvetMaterial(const std::string& name, const Node* bump, const Node* emission, const Node* kd);
         ~VelvetMaterial();
-        void SetKd(const Texture* kd);
+        void SetKd(const Node* kd);
         MaterialType getMaterialType() override { return Material::MaterialType::VELVET;};
         bool PrepareForRasterGPU() override;
     private:
-        const Texture* m_kd = nullptr;          // diffuse color
+        const Node* m_kd = nullptr;          // diffuse color
     };
     
 } // namespace lightman

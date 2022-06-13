@@ -10,15 +10,15 @@ namespace lightman
     {
     public:
         GlassMaterial(const std::string& name);
-        GlassMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd);
+        GlassMaterial(const std::string& name, const Node* bump, const Node* emission, const Node* kd);
         ~GlassMaterial();
-        void SetKr(const Texture* kr);
-        void SetKt(const Texture* kt);
+        void SetKr(const Node* kr);
+        void SetKt(const Node* kt);
         MaterialType getMaterialType() override { return Material::MaterialType::GLASS;};
         bool PrepareForRasterGPU() override;
     private:
-        const Texture* m_kr = nullptr;          // reflection color
-        const Texture* m_kt = nullptr;          // transmission color
+        const Node* m_kr = nullptr;          // reflection color
+        const Node* m_kt = nullptr;          // transmission color
     };
     
 } // namespace lightman

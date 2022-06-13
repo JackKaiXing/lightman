@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "texture/imagemap.h"
+#include "materialnode/imagemap.h"
 #include "backend/driverbase.h"
 
 namespace lightman

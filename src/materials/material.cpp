@@ -6,7 +6,7 @@
 namespace lightman
 {
     // ----------------------------------------------------------------------------
-    Material::Material(const std::string& name, const Texture* bump, const Texture* emission)
+    Material::Material(const std::string& name, const Node* bump, const Node* emission)
     {
         m_name = name;
         m_bump = bump;
@@ -115,7 +115,7 @@ namespace lightman
             }
         }
     }
-    void Material::PrepareForRasterGPUBase(const std::vector<const Texture*>& customTextures, const std::string& UpdateUserMaterialParameters)
+    void Material::PrepareForRasterGPUBase(const std::vector<const Node*>& customTextures, const std::string& UpdateUserMaterialParameters)
     {
         std::vector<UniformDefine> uDefines;
         std::vector<SamplerDefine> sDefines;

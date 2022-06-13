@@ -14,7 +14,7 @@ namespace lightman
 {
     // ----------------------------------------------------------------------------
     class MaterialInstance;
-    class Texture;
+    class Node;
     class Material : public utils::Ref
     {
     public:
@@ -88,12 +88,12 @@ namespace lightman
 
     public:
         Material() = default;
-        Material(const std::string& name, const Texture* bump, const Texture* emission);
+        Material(const std::string& name, const Node* bump, const Node* emission);
         virtual ~Material();
         virtual MaterialType getMaterialType() = 0;
         static uint32_t GetProgramIndexBySupportedVertexAttribute(bool hasTangent, bool hasUV0, bool hasUV1);
         virtual bool PrepareForRasterGPU() = 0;
-        void PrepareForRasterGPUBase(const std::vector<const Texture*>& customTextures, const std::string& UpdateUserMaterialParameters);
+        void PrepareForRasterGPUBase(const std::vector<const Node*>& customTextures, const std::string& UpdateUserMaterialParameters);
         backend::HwProgram* GetProgram() {return m_program;};
         void UpdateDefaultMaterialInstance();
         MaterialInstance* GetDefaultMaterialInstance(){return m_defaultMI;};
@@ -108,8 +108,8 @@ namespace lightman
         std::unordered_map<std::string, uint32_t> m_samplerInfoMap; 
         
         MaterialInstance* m_defaultMI = nullptr;
-        const Texture* m_bump = nullptr;            // normal
-        const Texture* m_emission = nullptr;        // emission
+        const Node* m_bump = nullptr;            // normal
+        const Node* m_emission = nullptr;        // emission
         bool m_isRasterGPUNeedUpdate = false;       // flag for whether we should update raster program.
         // since Material Node is included, there is tiny posibility for program to be shared between materials,so we give a program to each material.
         backend::HwProgram* m_program = nullptr;    // raster program 

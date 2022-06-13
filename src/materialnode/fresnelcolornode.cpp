@@ -1,17 +1,17 @@
 
-#include "texture/fresnelcolortexture.h"
+#include "materialnode/fresnelcolornode.h"
 
 namespace lightman
 {
-    void FresnelColorTexture::SetKr(const Texture* kr)
+    void FresnelColorNode::SetKr(const Node* kr)
     {
         m_Kr = kr;
     }
-    void FresnelColorTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const 
+    void FresnelColorNode::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const 
     {
         m_Kr->GetBlockInfo(uDefines, sDefines);
     }
-    backend::UniformType FresnelColorTexture::GetShaderString(std::string& result) const
+    backend::UniformType FresnelColorNode::GetShaderString(std::string& result) const
     {
         backend::UniformType target = m_Kr->GetShaderString(result);
 

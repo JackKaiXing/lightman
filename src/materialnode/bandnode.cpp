@@ -1,9 +1,9 @@
 
-#include "texture/bandtexture.h"
+#include "materialnode/bandnode.h"
 
 namespace lightman
 {
-    void BandNode::SetAmount(const Texture* amount)
+    void BandNode::SetAmount(const Node* amount)
     {
         m_amount = amount;
     }

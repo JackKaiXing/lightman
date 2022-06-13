@@ -8,7 +8,7 @@ namespace lightman
         : Material(name, nullptr, nullptr)
     {
     }
-    MetalMaterial::MetalMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+    MetalMaterial::MetalMaterial(const std::string& name, const Node* bump, const Node* emission, const Node* kd) 
         : Material(name,NULL,NULL)
     {
     }
@@ -21,7 +21,7 @@ namespace lightman
             return true;
 
         // prepare uniform buffer with custom texture nodes
-        std::vector<const Texture*> customTextures;
+        std::vector<const Node*> customTextures;
         std::string UpdateUserMaterialParameters;
         if (m_fresnel)
         {
@@ -43,7 +43,7 @@ namespace lightman
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
-    void MetalMaterial::SetFresnel(const Texture* kfresnel)
+    void MetalMaterial::SetFresnel(const Node* kfresnel)
     {
         m_fresnel = kfresnel;
     }

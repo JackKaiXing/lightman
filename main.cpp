@@ -18,7 +18,7 @@
 #include "managers/materialmanager.h"
 #include "managers/imagemapmanager.h"
 #include "materialnode/node.h"
-#include "texture/texturetypeheader.h"
+#include "materialnode/nodetypeheader.h"
 #include "materials/materialtypeheaders.h"
 
 #include "ply/ply.h"
@@ -45,13 +45,13 @@ public:
         No Need to store this inside of material, will create EditorMaterial to manage those Texture Node for each material.
         Texture node between is not shared, no meanings to share.
     */
-    std::unordered_map<std::string, lightman::Texture*> mytexturesOfLucScene;
+    std::unordered_map<std::string, lightman::Node*> mytexturesOfLucScene;
 private:
     uint32_t myDefaultTextureCount = 0;
 
 public:
     void ParseLuxCoreScene(const std::string& file);
-    lightman::Texture* GetOrCreateTextureFromAttributeValue(const std::string& attributeValue);
+    lightman::Node* GetOrCreateTextureFromAttributeValue(const std::string& attributeValue);
     void ClearTextures()
     {
         for (auto iter = mytexturesOfLucScene.begin(); iter != mytexturesOfLucScene.end(); iter++)
@@ -90,9 +90,9 @@ PlyProperty face_props[] = { /* list of property information for a vertex */
 };
 // ----------------------------------------------------------------------------
 
-lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::string& attributeValue)
+lightman::Node* AppConfig::GetOrCreateTextureFromAttributeValue(const std::string& attributeValue)
 {
-    lightman::Texture * result = nullptr;
+    lightman::Node * result = nullptr;
 
     // from "value" to value
     std::string value = attributeValue.substr(2, attributeValue.length()-3);
@@ -106,7 +106,7 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::st
         float x = 0.0, y = 0.0, z = 0.0;
         ss >> x >> y >> z;
 
-        lightman::ConstFloat3Texture * texture = new lightman::ConstFloat3Texture("param" + std::to_string(myDefaultTextureCount), x, y, z);
+        lightman::ConstFloat3Node * texture = new lightman::ConstFloat3Node("param" + std::to_string(myDefaultTextureCount), x, y, z);
         result = texture;
 
         mytexturesOfLucScene.insert({"defaultTexture_" + std::to_string(myDefaultTextureCount++), texture});
@@ -123,7 +123,7 @@ lightman::Texture* AppConfig::GetOrCreateTextureFromAttributeValue(const std::st
             std::stringstream ss(value);
             float x = 0.0;
             ss >> x;
-            lightman::ConstFloatTexture * texture = new lightman::ConstFloatTexture("param"+ std::to_string(myDefaultTextureCount), x);
+            lightman::ConstFloatNode * texture = new lightman::ConstFloatNode("param"+ std::to_string(myDefaultTextureCount), x);
             result = texture;
 
             mytexturesOfLucScene.insert({"defaultTexture_" + std::to_string(myDefaultTextureCount++), texture});
@@ -534,46 +534,46 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 // parse and construct new texture
                 string typeName = arrtibuteValue.substr(2,arrtibuteValue.length()-3) + "_tex";
                 std::transform(typeName.begin(), typeName.end(), typeName.begin(), ::toupper);
-                auto typeValue = magic_enum::enum_cast<lightman::TextureType>(typeName);
-                lightman::TextureType type;
+                auto typeValue = magic_enum::enum_cast<lightman::NodeType>(typeName);
+                lightman::NodeType type;
                 if (typeValue.has_value())
                     type = typeValue.value();
                 else
                     assert(0);
-                lightman::Texture * texture = nullptr;
+                lightman::Node * texture = nullptr;
                 void* typedTexture = nullptr;
                 // C++ has no mechanism to create objects whose types are determined at runtime
                 // https://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name
                 switch (type)
                 {
-                case lightman::TextureType::IMAGEMAP_TEX:
+                case lightman::NodeType::IMAGEMAP_TEX:
                     {
-                        typedTexture = new lightman::ImagemapTexture(texturelName);
+                        typedTexture = new lightman::ImagemapNode(texturelName);
                     }
                     break;
-                case lightman::TextureType::MIX_TEX:
+                case lightman::NodeType::MIX_TEX:
                     {
-                        typedTexture = new lightman::MixTexture(texturelName);
+                        typedTexture = new lightman::MixNode(texturelName);
                     }
                     break;
-                case lightman::TextureType::SCALE_TEX:
+                case lightman::NodeType::SCALE_TEX:
                     {
-                        typedTexture = new lightman::ScaleTexture(texturelName);
+                        typedTexture = new lightman::ScaleNode(texturelName);
                     }
                     break;
-                case lightman::TextureType::SUBTRACT_TEX:
+                case lightman::NodeType::SUBTRACT_TEX:
                     {
-                        typedTexture = new lightman::SubtractTexture(texturelName);
+                        typedTexture = new lightman::SubtractNode(texturelName);
                     }
                     break;
-                case lightman::TextureType::BAND_TEX:
+                case lightman::NodeType::BAND_TEX:
                     {
                         typedTexture = new lightman::BandNode(texturelName);
                     }
                     break;
-                case lightman::TextureType::FRESNELCOLOR_TEX:
+                case lightman::NodeType::FRESNELCOLOR_TEX:
                     {
-                        typedTexture = new lightman::FresnelColorTexture(texturelName);
+                        typedTexture = new lightman::FresnelColorNode(texturelName);
                     }
                     break;
                 
@@ -581,18 +581,18 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                     assert(0);
                     break;
                 }
-                texture = static_cast<lightman::Texture*>(typedTexture);
+                texture = static_cast<lightman::Node*>(typedTexture);
                 mytexturesOfLucScene.insert({texturelName, texture});
             }
             else
             {
-                lightman::Texture* texture = mytexturesOfLucScene.find(texturelName)->second;
+                lightman::Node* texture = mytexturesOfLucScene.find(texturelName)->second;
                 
                 switch (texture->GetType())
                 {
-                case lightman::TextureType::IMAGEMAP_TEX:
+                case lightman::NodeType::IMAGEMAP_TEX:
                     {
-                        lightman::ImagemapTexture * typedTexture = dynamic_cast<lightman::ImagemapTexture*>(texture);
+                        lightman::ImagemapNode * typedTexture = dynamic_cast<lightman::ImagemapNode*>(texture);
                         if (arrtibuteName == "file")
                         {
                             std::string imageName = arrtibuteValue.substr(2,arrtibuteValue.length()-3);
@@ -641,9 +641,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                             magic_enum::enum_name(texture->GetType()) << std::endl;
                     }
                     break;
-                case lightman::TextureType::MIX_TEX:
+                case lightman::NodeType::MIX_TEX:
                     {
-                        lightman::MixTexture * typedTexture = dynamic_cast<lightman::MixTexture*>(texture);
+                        lightman::MixNode * typedTexture = dynamic_cast<lightman::MixNode*>(texture);
                         if (arrtibuteName == "amount")
                         {
                             typedTexture->SetAmount(
@@ -662,9 +662,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         }
                     }
                     break;
-                case lightman::TextureType::SCALE_TEX:
+                case lightman::NodeType::SCALE_TEX:
                     {
-                        lightman::ScaleTexture * typedTexture = dynamic_cast<lightman::ScaleTexture*>(texture);
+                        lightman::ScaleNode * typedTexture = dynamic_cast<lightman::ScaleNode*>(texture);
                         if (arrtibuteName == "texture1")
                         {
                             typedTexture->SetTex1(
@@ -677,9 +677,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         }
                     }
                     break;
-                case lightman::TextureType::SUBTRACT_TEX:
+                case lightman::NodeType::SUBTRACT_TEX:
                     {
-                        lightman::SubtractTexture * typedTexture = dynamic_cast<lightman::SubtractTexture*>(texture);
+                        lightman::SubtractNode * typedTexture = dynamic_cast<lightman::SubtractNode*>(texture);
                         if (arrtibuteName == "texture1")
                         {
                             typedTexture->SetTex1(
@@ -692,7 +692,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         }
                     }
                     break;
-                case lightman::TextureType::BAND_TEX:
+                case lightman::NodeType::BAND_TEX:
                     {
                         lightman::BandNode * typedTexture = dynamic_cast<lightman::BandNode*>(texture);
                         if (arrtibuteName == "amount")
@@ -713,9 +713,9 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                         }
                     }
                     break;
-                case lightman::TextureType::FRESNELCOLOR_TEX:
+                case lightman::NodeType::FRESNELCOLOR_TEX:
                     {
-                        lightman::FresnelColorTexture * typedTexture = dynamic_cast<lightman::FresnelColorTexture*>(texture);
+                        lightman::FresnelColorNode * typedTexture = dynamic_cast<lightman::FresnelColorNode*>(texture);
                         if (arrtibuteName == "kr")
                         {
                             typedTexture->SetKr(

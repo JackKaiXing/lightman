@@ -1,27 +1,27 @@
 
-#include "texture/mixtexture.h"
+#include "materialnode/mixnode.h"
 
 namespace lightman
 {
-    void MixTexture::SetAmount(const Texture * amount)
+    void MixNode::SetAmount(const Node * amount)
     {
         m_amount = amount;
     }
-    void MixTexture::SetTex1(const Texture * tex1)
+    void MixNode::SetTex1(const Node * tex1)
     {
         m_tex1 = tex1;
     }
-    void MixTexture::SetTex2(const Texture * tex2)
+    void MixNode::SetTex2(const Node * tex2)
     {
         m_tex2 = tex2;
     }
-    void MixTexture::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
+    void MixNode::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
         m_amount->GetBlockInfo(uDefines, sDefines);
 	    m_tex1->GetBlockInfo(uDefines, sDefines);
 	    m_tex2->GetBlockInfo(uDefines, sDefines);
     }
-    backend::UniformType MixTexture::GetShaderString(std::string& result) const
+    backend::UniformType MixNode::GetShaderString(std::string& result) const
     {
         backend::UniformType type0 = m_amount->GetShaderString(result);
         backend::UniformType type1 = m_tex1->GetShaderString(result);

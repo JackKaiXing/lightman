@@ -1,5 +1,5 @@
-#ifndef _LIGHTMAN_TEXTURE_H
-#define _LIGHTMAN_TEXTURE_H
+#ifndef _LIGHTMAN_Node_H
+#define _LIGHTMAN_Node_H
 
 #include <string>
 #include <vector>
@@ -19,16 +19,16 @@ namespace lightman
 
         // fresnel
         FRESNELCOLOR_TEX,
-    }TextureType;
+    }NodeType;
 
-    class Texture : public utils::Ref
+    class Node : public utils::Ref
     {
     public:
-        Texture(){};
-        Texture(const std::string& name) : m_name(name){};
-        virtual ~Texture(){};
+        Node(){};
+        Node(const std::string& name) : m_name(name){};
+        virtual ~Node(){};
 
-        virtual TextureType GetType() const = 0;
+        virtual NodeType GetType() const = 0;
         virtual void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const = 0;
         virtual backend::UniformType GetShaderString(std::string& result) const = 0;
         virtual bool IsAllowedExposeAsUniform() const = 0;
@@ -40,4 +40,4 @@ namespace lightman
         std::string m_name;
     };
 }
-#endif //_LIGHTMAN_TEXTURE_H
+#endif //_LIGHTMAN_Node_H

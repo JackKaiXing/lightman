@@ -8,7 +8,7 @@ namespace lightman
         : Material(name, nullptr, nullptr)
     {
     }
-    VelvetMaterial::VelvetMaterial(const std::string& name, const Texture* bump, const Texture* emission, const Texture* kd) 
+    VelvetMaterial::VelvetMaterial(const std::string& name, const Node* bump, const Node* emission, const Node* kd) 
         : Material(name, bump, emission)
     {
     }
@@ -21,7 +21,7 @@ namespace lightman
             return true;
 
         // prepare uniform buffer with custom texture nodes
-        std::vector<const Texture*> customTextures;
+        std::vector<const Node*> customTextures;
         std::string UpdateUserMaterialParameters;
         if (m_kd)
         {
@@ -42,7 +42,7 @@ namespace lightman
         m_isRasterGPUNeedUpdate = true;
         return true;
     }
-    void VelvetMaterial::SetKd(const Texture* kd)
+    void VelvetMaterial::SetKd(const Node* kd)
     {
         m_kd = kd;
     }

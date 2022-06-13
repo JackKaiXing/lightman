@@ -1,20 +1,20 @@
-#ifndef _LIGHTMAN_IMAGEMAPTEXTURE_H
-#define _LIGHTMAN_IMAGEMAPTEXTURE_H
+#ifndef _LIGHTMAN_IMAGEMAPTNODE_H
+#define _LIGHTMAN_IMAGEMAPTNODE_H
 
 #include "materialnode/node.h"
-#include "texture/imagemap.h"
+#include "materialnode/imagemap.h"
 #include "backend/driverbase.h"
 
 namespace lightman
 {
-    class ImagemapTexture : public Texture
+    class ImagemapNode : public Node
     {
     public:
-        ImagemapTexture(){};
-        ImagemapTexture(const std::string& name) : Texture(name){};
-        ~ImagemapTexture(){};
+        ImagemapNode(){};
+        ImagemapNode(const std::string& name) : Node(name){};
+        ~ImagemapNode(){};
 
-        TextureType GetType() const override {return TextureType::IMAGEMAP_TEX;};
+        NodeType GetType() const override {return NodeType::IMAGEMAP_TEX;};
         void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;
         backend::UniformType GetShaderString(std::string& result) const override;
         void SetImageMap(Imagemap* im);
@@ -27,4 +27,4 @@ namespace lightman
     };
 }
 
-#endif // _LIGHTMAN_IMAGEMAPTEXTURE_H
+#endif // _LIGHTMAN_IMAGEMAPTNODE_H
