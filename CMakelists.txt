@@ -29,7 +29,7 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/camera SRC_CAMERA)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer SRC_RENDERER)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/managers SRC_MANAGER)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/materials SRC_MATERIALS)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/texture SRC_TEXTURES)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/materialnode SRC_MNODES)
 
 
 # Cross-Platform:: Platform
@@ -97,7 +97,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_RENDERER}
     ${SRC_MANAGER}
     ${SRC_MATERIALS}
-    ${SRC_TEXTURES}
+    ${SRC_MNODES}
 )
 
 if(APPLE)
