@@ -509,13 +509,44 @@ namespace lightman
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             CHECK_GL_ERROR();
         }
+        void OpenGLDriver::update2DImage(
+            backend::HwTexture* th,
+            uint32_t level,
+            uint32_t xoffset,
+            uint32_t yoffset,
+            uint32_t width,
+            uint32_t height,
+            void* data,
+            size_t dataSize,
+            backend::PixelDataFormat format,
+            backend::PixelDataType type)
+        {
+            GLTexture* tex = static_cast<GLTexture *>(th);
 
-       void OpenGLDriver::bindSamplers(uint32_t index, const backend::HwTexture* th)
-       {
-           const GLTexture* tex = static_cast<const GLTexture*>(th);
-           glActiveTexture(GL_TEXTURE0 + index);
-           glBindTexture(tex->gl.target, tex->gl.id);
-           CHECK_GL_ERROR();
-       }
+            GLenum glformat = OpenGLUtils::getFormat(format);
+            GLenum gltype = OpenGLUtils::getType(type);
+
+            switch (tex->target)
+            {
+                case SamplerType::SAMPLER_2D:
+                    glBindTexture(tex->gl.target, tex->gl.id);
+                    glTexSubImage2D(tex->gl.target, GLint(level),
+                        GLint(xoffset), GLint(yoffset),
+                        width, height, glformat, gltype, data);
+                    break;
+            }
+        }
+        void OpenGLDriver::bindSamplers(uint32_t index, const backend::HwTexture* th)
+        {
+            const GLTexture* tex = static_cast<const GLTexture*>(th);
+            glActiveTexture(GL_TEXTURE0 + index);
+            glBindTexture(tex->gl.target, tex->gl.id);
+            CHECK_GL_ERROR();
+        }
+        backend::HwSamplerGroup* OpenGLDriver::createSamplerGroup()
+        {
+            GLSamplerGroup* result = new GLSamplerGroup();
+            return result;
+        }
     }
 }

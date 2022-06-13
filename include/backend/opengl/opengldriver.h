@@ -80,6 +80,9 @@ namespace lightman
 
             void* platformPImpl = nullptr;
         };
+        struct GLSamplerGroup : public backend::HwSamplerGroup
+        {
+        };
 
         struct GLRenderTarget : public backend::HwRenderTarget
         {

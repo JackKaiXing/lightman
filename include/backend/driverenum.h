@@ -168,11 +168,38 @@ namespace lightman
             RGBA32F, RGBA32UI, RGBA32I
         };
 
+        //! Pixel Data Format
+        enum class PixelDataFormat : uint8_t {
+            R,
+            RG,
+            RGB,
+            RGBA, 
+            // R_INTEGER, DEPTH_COMPONENT, DEPTH_STENCIL, ALPHA
+        };
+
+        //! Pixel Data Type
+        enum class PixelDataType : uint8_t {
+            UBYTE,
+            BYTE,
+            USHORT,
+            SHORT,
+            UINT,
+            INT,
+            FLOAT
+            // HALF, COMPRESSED, UINT_10F_11F_11F_REV, USHORT_565, UINT_2_10_10_10_REV
+        };
+
         enum class SamplerType : uint8_t
         {
             SAMPLER_2D,
             SAMPLER_2D_ARRAY,
             SAMPLER_CUBEMAP
+        };
+
+        enum class SamplerFormat : uint8_t {
+            INT = 0, 
+            UINT = 1,
+            FLOAT = 2
         };
 
         enum class TargetBufferFlags : uint32_t

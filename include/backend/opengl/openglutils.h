@@ -188,6 +188,33 @@ namespace lightman
                         return 0;
                 }
             }
+
+            constexpr inline GLenum getFormat(backend::PixelDataFormat format) noexcept
+            {
+                using PixelDataFormat = backend::PixelDataFormat;
+                switch (format)
+                {
+                    case PixelDataFormat::R:                return GL_RED;
+                    case PixelDataFormat::RG:               return GL_RG;
+                    case PixelDataFormat::RGB:              return GL_RGB;
+                    case PixelDataFormat::RGBA:             return GL_RGBA;
+                }
+            }
+
+            constexpr inline GLenum getType(backend::PixelDataType type) noexcept
+            {
+                using PixelDataType = backend::PixelDataType;
+                switch (type)
+                {
+                    case PixelDataType::UBYTE:                return GL_UNSIGNED_BYTE;
+                    case PixelDataType::BYTE:                 return GL_BYTE;
+                    case PixelDataType::USHORT:               return GL_UNSIGNED_SHORT;
+                    case PixelDataType::SHORT:                return GL_SHORT;
+                    case PixelDataType::UINT:                 return GL_UNSIGNED_INT;
+                    case PixelDataType::INT:                  return GL_INT;
+                    case PixelDataType::FLOAT:                return GL_FLOAT;
+                }
+            }
         };
 
         #ifdef DEBUG

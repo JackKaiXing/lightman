@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <array>
 #include <string>
+#include <vector>
 
 #include "backend/platform.h"
 #include "math/vector.h"
@@ -126,6 +127,11 @@ namespace lightman
             uint8_t samples : 4; // Sample count per pixel (should always be a power of 2)
             TextureFormat format{};
             TextureUsage usage{};
+        };
+        struct HwSamplerGroup : public HwBase
+        {
+            std::vector<backend::HwTexture*> texs;
+            // params
         };
         // ----------------------------------------------------------------------------
         // DriverBase

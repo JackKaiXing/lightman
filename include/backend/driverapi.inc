@@ -27,9 +27,11 @@
 #define PAIR_ARGS_6(M, X, Y, ...) M(X, Y), PAIR_ARGS_5(M, __VA_ARGS__)
 #define PAIR_ARGS_7(M, X, Y, ...) M(X, Y), PAIR_ARGS_6(M, __VA_ARGS__)
 #define PAIR_ARGS_8(M, X, Y, ...) M(X, Y), PAIR_ARGS_7(M, __VA_ARGS__)
+#define PAIR_ARGS_9(M, X, Y, ...) M(X, Y), PAIR_ARGS_8(M, __VA_ARGS__)
+#define PAIR_ARGS_10(M, X, Y, ...) M(X, Y), PAIR_ARGS_9(M, __VA_ARGS__)
 
-#define PAIR_ARGS_N__(_0, E1, _1, E2, _2, E3, _3, E4, _4, E5, _5, E6, _6, E7, _7, E8, _8, X, ...) PAIR_ARGS_##X
-#define PAIR_ARGS_N(M, ...) PAIR_ARGS_N__(0, ##__VA_ARGS__, 8, E, 7, E, 6, E, 5, E, 4, E, 3, E, 2, E, 1, E, 0)(M, __VA_ARGS__)
+#define PAIR_ARGS_N__(_0, E1, _1, E2, _2, E3, _3, E4, _4, E5, _5, E6, _6, E7, _7, E8, _8, E9, _9, E10, _10, X, ...) PAIR_ARGS_##X
+#define PAIR_ARGS_N(M, ...) PAIR_ARGS_N__(0, ##__VA_ARGS__, 10, E, 9, E, 8, E, 7, E, 6, E, 5, E, 4, E, 3, E, 2, E, 1, E, 0)(M, __VA_ARGS__)
 
 // ----------------------------------------------------------------------------
 #define DECL_DRIVER_API_N(N, ...) \
@@ -68,6 +70,17 @@ DECL_DRIVER_API_N(beginRenderPass,
         const backend::RenderPassParams&, params)
 DECL_DRIVER_API_N(bindSamplers, uint32_t, index,
         const backend::HwTexture*, th)
+DECL_DRIVER_API_N(update2DImage,
+        backend::HwTexture*, th,
+        uint32_t, level,
+        uint32_t, xoffset,
+        uint32_t, yoffset,
+        uint32_t, width,
+        uint32_t, height,
+        void*, data,
+        size_t, dataSize,
+        backend::PixelDataFormat, format,
+        backend::PixelDataType, type)
 
 DECL_DRIVER_API_0(endRenderPass)
 
@@ -114,6 +127,7 @@ DECL_DRIVER_API_R_N(backend::HwRenderTarget*, createRenderTarget,
         backend::TargetBufferInfo, depth,
         backend::TargetBufferInfo, stencil)
 
+DECL_DRIVER_API_R_N(backend::HwSamplerGroup*, createSamplerGroup)
 DECL_DRIVER_API_R_0(backend::HwRenderTarget*, createDefaultRenderTarget)
 // ----------------------------------------------------------------------------
 
