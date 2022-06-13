@@ -46,8 +46,10 @@ namespace lightman
             return UniformTypeToShaderString_OPENGL(type);
         }
         std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine,
+            const std::vector<SamplerDefine>& sDefine,
             const std::string& UnoformBlockName)
         {
+            // uniform block
             std::string result = "layout (std140) uniform " + UnoformBlockName + "\n \
             {\n ";
             for (auto iter = uDefine.begin(); iter != uDefine.end(); iter++)
@@ -58,6 +60,24 @@ namespace lightman
                     result += UniformTypeToShaderString(iter->type) + " " + iter->name + "; \n";
             }
             result += "}; \n ";
+            // texture block
+            int i = 0;
+            for (auto iter = sDefine.begin(); iter != sDefine.end(); iter++)
+            {
+                // result += "layout(binding = " + std::to_string(i) + ") "; // required version 420
+                result += "uniform ";
+                switch (iter->type)
+                {
+                case backend::SamplerType::SAMPLER_2D:
+                    result += "sampler2D ";
+                    break;
+                
+                default:
+                    break;
+                }
+                result += iter->name + ";\n";
+            }
+            
             return result;
         }
         void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines)
@@ -262,6 +282,7 @@ namespace lightman
         {
             std::string result = "out vec3 vNormal; \n \
                 out vec3 vViewDir; \n \
+                out vec2 vUV0; \n \
                 void main() \n \
                 { \n \
                     vec4 transformedTangent = InverseMMatrix * vec4(tangent, 0.0); \n \
@@ -269,6 +290,7 @@ namespace lightman
                     \n \
                     vViewDir = cameraPos - position; \n \
                     vViewDir = normalize(vViewDir); \n \
+                    vUV0 = uv0; \n \
                     gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
                 }";
             return result;
@@ -295,7 +317,10 @@ namespace lightman
 
             std::string result;
 
-            result = "struct MaterialParas \n \
+            result = "in vec3 vNormal; \n \
+                in vec3 vViewDir; \n \
+                in vec2 vUV0; \n \
+                struct MaterialParas \n \
                 { \n \
                     vec3 baseColor; \n \
                     float metallic; \n \
@@ -318,9 +343,7 @@ namespace lightman
                 result += updateMaterialString;
             result += "} \n";
             
-            result += "in vec3 vNormal; \n \
-                in vec3 vViewDir; \n \
-                vec4 fast_rcp(vec4 v) \n \
+            result += "vec4 fast_rcp(vec4 v) \n \
                 { \n \
                     return intBitsToFloat(0x7eef370b - floatBitsToInt(v)); \n \
                 } \n \
