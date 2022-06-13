@@ -37,6 +37,7 @@ namespace lightman
         backend::HwBufferObject* m_uniformBufferHw = nullptr;
         Blob m_uniforBufferCPU;
         bool m_needToUpdateUniformBuffer = true;
+        backend::HwSamplerGroup* m_SamplerGroup = nullptr;
     };
     
     template<> void MaterialInstance::SetParameter<float> (const char* name, float const& value, uint32_t count);

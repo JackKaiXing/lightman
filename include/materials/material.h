@@ -45,9 +45,10 @@ namespace lightman
             MAX_MATERIALTYPE_COUNT
         }MaterialType;
 
+        // -----------------------------Uniform Info--------------------------------
         // https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL
         struct UniformInfo {
-            std::string name;// name of this uniform
+            std::string name;   // name of this uniform
             uint16_t offset;    // offset in "uint32_t" of this uniform in the buffer
             uint8_t stride;     // stride in "uint32_t" to the next element
             backend::UniformType type;          // type of this uniform
@@ -61,11 +62,29 @@ namespace lightman
         };
         bool IsUniformEmpty() const {return m_uniformsInfoList.empty();};
         uint32_t GetUniformBlockSize() {return m_uniformsSize;};
-        void InitUniformBlockInfo(const std::vector<UniformDefine> uDefines);
         static uint8_t BaseAlignmentForType(backend::UniformType type) noexcept;
         static uint8_t StrideForType(backend::UniformType type) noexcept;
         bool HasUniform(const std::string name);
         void GetUniformOffsetAndStrideByName(const std::string name, uint32_t& offset, uint32_t& stride, uint32_t count);
+
+        // -----------------------------Sampler Info--------------------------------
+        struct SamplerInfo
+        {
+            std::string name;
+            std::string ImgName;
+            uint8_t offset;
+            backend::SamplerType type;
+            backend::SamplerFormat format;
+            bool multiSample = false;
+            backend::Precision precision;
+        };
+         bool IsSamplerEmpty() const {return m_uniformsInfoList.empty();};
+         uint32_t GetSamplerBlockSize() {return m_samplersInfoList.size();};
+         const std::vector<SamplerInfo>& GetSamplerInfoList(){return m_samplersInfoList;};
+
+    private:
+        void InitUniformBlockInfo(const std::vector<UniformDefine> uDefines);
+        void InitSamplerBlockInfo(const std::vector<SamplerDefine> sDefines);
 
     public:
         Material() = default;
@@ -85,6 +104,8 @@ namespace lightman
         std::vector<UniformInfo> m_uniformsInfoList;
         uint32_t m_uniformsSize; // size in bytes
         std::unordered_map<std::string, uint32_t> m_uniformInfoMap; 
+        std::vector<SamplerInfo> m_samplersInfoList;
+        std::unordered_map<std::string, uint32_t> m_samplerInfoMap; 
         
         MaterialInstance* m_defaultMI = nullptr;
         const Texture* m_bump = nullptr;            // normal

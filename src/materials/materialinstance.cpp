@@ -1,6 +1,7 @@
 
 #include "materials/materialinstance.h"
 #include "engine/engine.h"
+#include "managers/imagemapmanager.h"
 
 namespace lightman
 {
@@ -19,6 +20,17 @@ namespace lightman
         }
         // currently we have only one uniformblock so default == 0
         Engine::GetInstance()->GetDriver()->bindUniformBuffer(0, m_uniformBufferHw);
+
+        if (! m_material->IsSamplerEmpty())
+        {
+            auto infos = m_material->GetSamplerInfoList();
+            uint32_t size = m_material->GetSamplerBlockSize();
+            m_SamplerGroup = Engine::GetInstance()->GetDriver()->createSamplerGroup();
+            for (int i = 0; i < size; i++)
+            {
+                m_SamplerGroup->texs.push_back(ImagemapManager::GetInstance()->GetHwTexture(infos.at(i).ImgName));
+            }
+        }
     }
     MaterialInstance::~MaterialInstance()
     {
@@ -38,6 +50,14 @@ namespace lightman
             Engine::GetInstance()->GetDriver()->updateBufferObject(m_uniformBufferHw, 
                 m_uniforBufferCPU.data, m_uniforBufferCPU.dataSize, 0);
             m_needToUpdateUniformBuffer = false;
+        }
+        if (m_SamplerGroup->texs.size() > 0)
+        {
+            auto infos = m_material->GetSamplerInfoList();
+            for (int i = 0; i < infos.size(); i++)
+            {
+                Engine::GetInstance()->GetDriver()->bindSamplers(infos.at(i).offset, m_SamplerGroup->texs.at(i));
+            }
         }
     }
     void MaterialInstance::SetParameterImpl(uint32_t offset, uint32_t size, void* data)

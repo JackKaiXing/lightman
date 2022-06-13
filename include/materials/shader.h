@@ -20,7 +20,9 @@ namespace lightman
         std::string UniformTypeToShaderString(backend::UniformType type);
 
         std::string GetVertexAttribute();
-        std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine, const std::string& UnoformBlockName);
+        std::string CreateBlockInfo(const std::vector<UniformDefine>& uDefine, 
+            const std::vector<SamplerDefine>& sDefine, 
+            const std::string& UnoformBlockName);
         void GetSharedBlockInfo(std::vector<UniformDefine>& uDefines);
         const std::string GetFragmentShaderHead();
 
