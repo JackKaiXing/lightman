@@ -1,6 +1,7 @@
 
 #include "materials/material.h"
 #include "engine/engine.h"
+#include "managers/materialmanager.h"
 
 namespace lightman
 {
@@ -17,6 +18,8 @@ namespace lightman
             delete m_bump;
         if (m_emission)
             delete m_emission;
+        if (m_defaultMI)
+            delete m_defaultMI;
     }
     MaterialInstance* Material::createMaterialInstance(const std::string& name)
     {
@@ -46,6 +49,8 @@ namespace lightman
         {
             delete m_defaultMI;
         }
+        // m_defaultMI = MaterialManager::GetInstance()->CreateMaterialInstance(this, m_name + "_defaultMatInstance");
+        // the default material instance is managed hy itself, not MI Manager, should be release by itself. No need to increase ref.
         m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance");
     }
     void Material::InitUniformBlockInfo(const std::vector<UniformDefine> uDefines)
@@ -76,6 +81,23 @@ namespace lightman
         
         m_uniformsSize = sizeof(uint32_t) * ((offset + 3) & ~3);
     }
+    void Material::InitSamplerBlockInfo(const std::vector<SamplerDefine> sDefines)
+    {
+        int size = sDefines.size();
+
+        m_samplerInfoMap.reserve(size);
+        m_samplersInfoList.resize(size);
+
+        int i = 0;
+        for (auto iter = sDefines.begin(); iter != sDefines.end(); iter++)
+        {
+            SamplerInfo& info = m_samplersInfoList[i];
+            info = { iter->name, iter->imgName, uint8_t(i), iter->type, iter->format, iter->multiSample, iter->precision };
+            m_samplerInfoMap.insert({info.name, i});
+
+            i++;
+        }
+    }
     bool Material::HasUniform(const std::string name)
     {
         return m_uniformInfoMap.find(name) != m_uniformInfoMap.end();
@@ -96,29 +118,28 @@ namespace lightman
     void Material::PrepareForRasterGPUBase(const std::vector<const Texture*>& customTextures, const std::string& UpdateUserMaterialParameters)
     {
         std::vector<UniformDefine> uDefines;
+        std::vector<SamplerDefine> sDefines;
         // get shared uniform defines
         ShaderString::GetSharedBlockInfo(uDefines);
         // get blender workbench uniform defines
         ShaderString::GetBlenderBlockInfo(uDefines);
         // add custom uniform defines
         if (m_bump)
-            m_bump->GetBlockInfo(uDefines);
+            m_bump->GetBlockInfo(uDefines,sDefines);
         if (m_emission)
-            m_emission->GetBlockInfo(uDefines);
+            m_emission->GetBlockInfo(uDefines,sDefines);
 
         for (size_t i = 0; i < customTextures.size(); i++)
-            customTextures.at(i)->GetBlockInfo(uDefines);
+            customTextures.at(i)->GetBlockInfo(uDefines, sDefines);
         
         // Init Block Infos
         InitUniformBlockInfo(uDefines);
-
-        // update defaut materialInstance
-        UpdateDefaultMaterialInstance();
+        InitSamplerBlockInfo(sDefines);
 
         // uniform block shader
         backend::UniformBlockInfo bInfos;
         bInfos.at(0) = "targetUniform";
-        const std::string UniformShaderBlock = ShaderString::CreateBlockInfo(uDefines, bInfos.at(0));
+        const std::string UniformShaderBlock = ShaderString::CreateBlockInfo(uDefines, sDefines, bInfos.at(0));
 
         // vertex shader
         std::string vertexShaderString = ShaderString::GetVertexAttribute();
@@ -137,6 +158,9 @@ namespace lightman
         // Update Program
         m_program = Engine::GetInstance()->GetDriver()->createProgram(
             vertexShaderString, fragmentShaderString, bInfos);
+
+        // update defaut materialInstance
+        UpdateDefaultMaterialInstance();
     }
     uint8_t Material::BaseAlignmentForType(backend::UniformType type) noexcept
     {
