@@ -144,7 +144,7 @@ namespace lightman
         // vertex shader
         std::string vertexShaderString = ShaderString::GetVertexAttribute();
         vertexShaderString += UniformShaderBlock;
-        vertexShaderString += ShaderString::GetBlenderVertexShader();
+        vertexShaderString += ShaderString::GetBlenderVertexShader(sDefines.size()>0?true:false);
 
         // fragment shader
         std::string fragmentShaderString = ShaderString::GetFragmentShaderHead();
@@ -153,7 +153,8 @@ namespace lightman
             ;
         if (m_emission)
             ;
-        fragmentShaderString += ShaderString::GetBlenderFragmentShader(UpdateUserMaterialParameters);
+        fragmentShaderString += ShaderString::GetBlenderFragmentShader(UpdateUserMaterialParameters,
+            sDefines.size()>0?true:false);
 
         // Update Program
         m_program = Engine::GetInstance()->GetDriver()->createProgram(

@@ -32,8 +32,8 @@ namespace lightman
 
         // blender work bench brdf shader
         void GetBlenderBlockInfo(std::vector<UniformDefine>& uDefines);
-        const std::string GetBlenderVertexShader();
-        const std::string GetBlenderFragmentShader(const std::string& updateMaterialString);
+        const std::string GetBlenderVertexShader(bool hasTexture);
+        const std::string GetBlenderFragmentShader(const std::string& updateMaterialString, bool hasTexture);
     } // namespace ShaderString    
 } // namespace lightman
 #endif // _LIGHTMAN_SHADERMATERIAL_H

@@ -278,24 +278,26 @@ namespace lightman
             uDefines.push_back({"world_light_diffuse_color_wrap", backend::UniformType::FLOAT4, 4, backend::Precision::DEFAULT});
             uDefines.push_back({"world_light_ambient_color", backend::UniformType::FLOAT4, 1, backend::Precision::DEFAULT});
         }
-        const std::string GetBlenderVertexShader()
+        const std::string GetBlenderVertexShader(bool hasTexture)
         {
             std::string result = "out vec3 vNormal; \n \
-                out vec3 vViewDir; \n \
-                out vec2 vUV0; \n \
-                void main() \n \
+                out vec3 vViewDir; \n";
+            if (hasTexture)
+                result += "out vec2 vUV0; \n";
+            result += "void main() \n \
                 { \n \
                     vec4 transformedTangent = InverseMMatrix * vec4(tangent, 0.0); \n \
                     vNormal = normalize(transformedTangent.xyz); \n \
                     \n \
                     vViewDir = cameraPos - position; \n \
-                    vViewDir = normalize(vViewDir); \n \
-                    vUV0 = uv0; \n \
-                    gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
+                    vViewDir = normalize(vViewDir); \n";
+            if (hasTexture)
+                    result += "vUV0 = uv0;";
+            result +=  "gl_Position = PVMMatrix * vec4(position, 1.0f); \n \
                 }";
             return result;
         }
-        const std::string GetBlenderFragmentShader(const std::string& updateMaterialString)
+        const std::string GetBlenderFragmentShader(const std::string& updateMaterialString, bool hasTexture)
         {
             // This is heavily relied on blender workbench shading design
             // https://github.com/blender/blender/tree/master/source/blender/draw/engines/workbench
@@ -318,9 +320,10 @@ namespace lightman
             std::string result;
 
             result = "in vec3 vNormal; \n \
-                in vec3 vViewDir; \n \
-                in vec2 vUV0; \n \
-                struct MaterialParas \n \
+                in vec3 vViewDir; \n";
+            if (hasTexture)
+                result += "in vec2 vUV0;";
+            result += "struct MaterialParas \n \
                 { \n \
                     vec3 baseColor; \n \
                     float metallic; \n \
