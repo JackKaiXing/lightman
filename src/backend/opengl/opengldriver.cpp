@@ -548,5 +548,24 @@ namespace lightman
             GLSamplerGroup* result = new GLSamplerGroup();
             return result;
         }
+        bool OpenGLDriver::bindSamplerLocations(backend::HwProgram* program,
+            std::vector<std::string> samplerNames)
+        {
+            // https://www.khronos.org/opengl/wiki/Example/Texture_Shader_Binding
+            GLProgram* gl_program = static_cast<GLProgram*>(program);
+            
+            glUseProgram(gl_program->gl.program);
+            for (size_t i = 0; i < samplerNames.size(); i++)
+            {
+                std::string name = samplerNames.at(i);
+                GLint pos = glGetUniformLocation(gl_program->gl.program, name.c_str());
+                if (!(pos < 0))
+                    glUniform1i(pos, (GLint)i);
+                else
+                    return false;
+            }
+            glUseProgram(0);
+            return true;
+        }
     }
 }

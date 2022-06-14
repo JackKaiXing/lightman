@@ -126,6 +126,10 @@ DECL_DRIVER_API_R_N(backend::HwRenderTarget*, createRenderTarget,
         backend::MRT, color,
         backend::TargetBufferInfo, depth,
         backend::TargetBufferInfo, stencil)
+// bind to location in the order of names
+DECL_DRIVER_API_R_N(bool, bindSamplerLocations, 
+        backend::HwProgram*, program,
+        std::vector<std::string>, samplerNames)
 
 DECL_DRIVER_API_R_N(backend::HwSamplerGroup*, createSamplerGroup)
 DECL_DRIVER_API_R_0(backend::HwRenderTarget*, createDefaultRenderTarget)

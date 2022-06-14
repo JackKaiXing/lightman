@@ -160,6 +160,13 @@ namespace lightman
         m_program = Engine::GetInstance()->GetDriver()->createProgram(
             vertexShaderString, fragmentShaderString, bInfos);
 
+        // bind texture uniform location explicitly
+        std::vector<std::string> samplerNames;
+        for (size_t i = 0; i < sDefines.size(); i++)
+            samplerNames.push_back(sDefines.at(i).name);
+        if (samplerNames.size() > 0)
+            Engine::GetInstance()->GetDriver()->bindSamplerLocations(m_program,samplerNames);
+
         // update defaut materialInstance
         UpdateDefaultMaterialInstance();
     }
