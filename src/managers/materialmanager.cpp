@@ -58,7 +58,6 @@ namespace lightman
             assert(0);
         }
 
-        // TODO after import material params and texture, do seperate materials implementations
         Material* result = nullptr;
         switch (type)
         {
