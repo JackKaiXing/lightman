@@ -790,7 +790,6 @@ void Destory()
 
 int main(int argc, const char* argv[])
 {
-    lightmangui::MainWindow(argc, argv, Setup, Render, myConfig.windowWidth, myConfig.windowheight);
-    Destory(); // TODO not called for now
+    lightmangui::MainWindow(argc, argv, Setup, Render, Destory, myConfig.windowWidth, myConfig.windowheight);
     return 0;
 }

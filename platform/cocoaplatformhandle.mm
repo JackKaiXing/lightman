@@ -9,6 +9,7 @@
 
 using RenderCallback = std::function<void()>;
 using SetupCallback = std::function<void()>;
+using DestoryCallback = std::function<void()>;
 
 @interface AppView : NSOpenGLView
 {
@@ -53,6 +54,7 @@ using SetupCallback = std::function<void()>;
 @property (nonatomic, readonly) NSWindow* window;
 @property (nonatomic, readwrite) RenderCallback render;
 @property (nonatomic, readwrite) SetupCallback setup;
+@property (nonatomic, readwrite) DestoryCallback destory;
 @property (nonatomic, readwrite) NSSize windowSize;
 @end
 
@@ -61,6 +63,7 @@ using SetupCallback = std::function<void()>;
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 {
+    _destory();
     return YES;
 }
 
@@ -114,6 +117,11 @@ using SetupCallback = std::function<void()>;
     _setup = fb;
 }
 
+-(void)setDestoryCallback:(DestoryCallback)fb
+{
+    _destory = fb;
+}
+
 -(void)setWidowSize:(NSSize)size
 {
     _windowSize = size;
@@ -136,7 +144,10 @@ namespace lightmangui
         // https://developer.apple.com/documentation/appkit/nswindow/1419459-backingscalefactor
         return [[delegate.window contentView] wantsBestResolutionOpenGLSurface]? [delegate.window backingScaleFactor] : 1.0;
     }
-    int MainWindow(int argc, const char* argv[], std::function<void()> setup, std::function<void()> render,
+    int MainWindow(int argc, const char* argv[], 
+        std::function<void()> setup,
+        std::function<void()> render,
+        std::function<void()> destory,
         unsigned int w, unsigned int h)
     {
         @autoreleasepool
@@ -145,6 +156,7 @@ namespace lightmangui
             delegate = [[AppDelegate alloc] init];
             [delegate setRenderCallback:render];
             [delegate setSetupCallback:setup];
+            [delegate setDestoryCallback:destory];
             [delegate setWidowSize:NSMakeSize(w, h)];
             [[NSApplication sharedApplication] setDelegate:delegate];
             [NSApp run];
