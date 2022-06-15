@@ -32,6 +32,23 @@ namespace lightman
     
     MaterialManager::~MaterialManager()
     {
+        for (auto iter = m_materialInstances.begin(); iter != m_materialInstances.end(); iter++)
+        {
+            if (iter->second->GetRefCount() > 1)
+                std::cout << "Warning: Delete MatrialManager While MInstance Being Referenced!" << std::endl;
+            
+            delete iter->second;
+        }
+        m_materialInstances.clear();
+        
+        for (auto iter = m_materials.begin(); iter != m_materials.end(); iter++)
+        {
+            if (iter->second->GetRefCount() > 1)
+                std::cout << "Warning: Delete MatrialManager While Material Being Referenced!" << std::endl;
+            
+            delete iter->second;
+        }
+        m_materials.clear();
     }
 
     Material* MaterialManager::GetMaterial(const std::string& name)

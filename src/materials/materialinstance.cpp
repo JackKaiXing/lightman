@@ -5,7 +5,7 @@
 
 namespace lightman
 {
-    MaterialInstance::MaterialInstance(Material * material, const std::string& name)
+    MaterialInstance::MaterialInstance(Material * material, const std::string& name, bool isDefault)
     {
         m_name = name;
         m_material = material;
@@ -31,6 +31,8 @@ namespace lightman
                 m_SamplerGroup->texs.push_back(ImagemapManager::GetInstance()->GetImagemap(infos.at(i).ImgName)->GetHwTexture());
             }
         }
+
+        m_isDefault = isDefault;
     }
     MaterialInstance::~MaterialInstance()
     {
@@ -40,8 +42,11 @@ namespace lightman
         {
             std::free(m_uniforBufferCPU.data);
         }
-
-        if (m_material)
+        
+        // The Default MaterialInstance is owned by its mother material,
+        // if the deleting comes from mother material,
+        // there is no need to releaseRef or delete for mother material.
+        if (m_material && !m_isDefault)
             RELEASEORDELETE(m_material);
 
         if (m_uniformBufferHw)

@@ -16,6 +16,14 @@ namespace lightman
     {
         RELEASEANDRETURN(this);
         
+        m_uniformsInfoList.clear();
+        m_uniformInfoMap.clear();
+        m_samplersInfoList.clear();
+        m_samplerInfoMap.clear();
+
+        if (m_program)
+            Engine::GetInstance()->GetDriver()->DestroyProgram(m_program);
+
         if (m_bump)
             delete m_bump;
         if (m_emission)
@@ -25,7 +33,7 @@ namespace lightman
     }
     MaterialInstance* Material::createMaterialInstance(const std::string& name)
     {
-        IncreaseRef();
+        IncreaseRef(); // add ref for mother material here, only for non-default mi
         
         MaterialInstance* result = new MaterialInstance(this, name);
         return result;
@@ -51,8 +59,8 @@ namespace lightman
         {
             delete m_defaultMI;
         }
-        // the default material instance is managed hy itself, not MI Manager, should be release by itself.
-        m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance");
+        // the default material instance is managed by itself, not MI Manager, should be release by itself.
+        m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance", true);
     }
     void Material::InitUniformBlockInfo(const std::vector<UniformDefine> uDefines)
     {
