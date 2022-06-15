@@ -607,5 +607,13 @@ namespace lightman
                 delete glbo;
             }
         }
+        void OpenGLDriver::DestroySamplerGroup(backend::HwSamplerGroup* sg)
+        {
+            if (sg)
+            {
+                GLSamplerGroup* glsg = static_cast<GLSamplerGroup*>(sg);
+                delete glsg;
+            }
+        }
     }
 }

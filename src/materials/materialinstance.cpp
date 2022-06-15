@@ -34,10 +34,25 @@ namespace lightman
     }
     MaterialInstance::~MaterialInstance()
     {
+        if (GetRefCount() > 1)
+        {
+            ReleaseRef();
+            return;
+        }
+        
         if (m_uniforBufferCPU.data)
         {
             std::free(m_uniforBufferCPU.data);
         }
+
+        if (m_material)
+            RELEASEORDELETE(m_material);
+
+        if (m_uniformBufferHw)
+            Engine::GetInstance()->GetDriver()->DestroyBufferObject(m_uniformBufferHw);
+
+        if (m_SamplerGroup)
+            Engine::GetInstance()->GetDriver()->DestroySamplerGroup(m_SamplerGroup);
     }
     Material* MaterialInstance::GetMaterial()
     {

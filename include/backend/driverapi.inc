@@ -94,6 +94,8 @@ DECL_DRIVER_API_N(DestroyVertexBuffer,
         backend::HwVertexBuffer*, vb)
 DECL_DRIVER_API_N(DestroyBufferObject,
         backend::HwBufferObject*, bo)
+DECL_DRIVER_API_N(DestroySamplerGroup,
+        backend::HwSamplerGroup*, sg)
 
 
 DECL_DRIVER_API_0(endRenderPass)

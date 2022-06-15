@@ -95,8 +95,9 @@ namespace lightman
         virtual bool PrepareForRasterGPU() = 0;
         void PrepareForRasterGPUBase(const std::vector<const Node*>& customTextures, const std::string& UpdateUserMaterialParameters);
         backend::HwProgram* GetProgram() {return m_program;};
-        void UpdateDefaultMaterialInstance();
         MaterialInstance* GetDefaultMaterialInstance(){return m_defaultMI;};
+    private:
+        void UpdateDefaultMaterialInstance();
     friend class MaterialManager;
     protected:
         MaterialInstance* createMaterialInstance(const std::string& name);

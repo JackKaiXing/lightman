@@ -49,8 +49,7 @@ namespace lightman
         {
             delete m_defaultMI;
         }
-        // m_defaultMI = MaterialManager::GetInstance()->CreateMaterialInstance(this, m_name + "_defaultMatInstance");
-        // the default material instance is managed hy itself, not MI Manager, should be release by itself. No need to increase ref.
+        // the default material instance is managed hy itself, not MI Manager, should be release by itself.
         m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance");
     }
     void Material::InitUniformBlockInfo(const std::vector<UniformDefine> uDefines)
