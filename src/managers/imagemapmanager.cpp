@@ -47,7 +47,7 @@ namespace lightman
     Imagemap* ImagemapManager::LoadImagemap(const std::string& path, const std::string& fileName)
     {
         int x,y,n;
-        unsigned char *data = stbi_load((path+fileName).c_str(), &x, &y, &n, 0); // TODO EXTENSION for hdr
+        unsigned char *data = stbi_load((path+fileName).c_str(), &x, &y, &n, 0);
         lightman::Imagemap* result = nullptr;
         if (data)
         {
