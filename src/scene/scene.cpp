@@ -20,9 +20,8 @@ namespace lightman
             delete iter->second;
             iter->second = nullptr;
         }
-        
+
         m_iMeshes.clear();
-        m_iMaterials.clear();
     }
     std::unordered_map<string, InstancedTriangleMesh*> Scene::GetInstanceMeshes()
     {

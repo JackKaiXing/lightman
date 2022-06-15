@@ -27,7 +27,6 @@ namespace lightman
             std::unordered_map<string, InstancedTriangleMesh*> GetInstanceMeshes();
         private:
             std::unordered_map<string, InstancedTriangleMesh*> m_iMeshes;
-            std::unordered_map<string, string> m_iMaterials;
     };
 } // namespace lightman
 
