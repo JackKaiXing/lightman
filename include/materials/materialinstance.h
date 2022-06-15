@@ -27,10 +27,11 @@ namespace lightman
         void SetParameterNoType(const char* name, void* value, uint32_t count);
         void SetParameterImpl(uint32_t offset, uint32_t size, void* data);
 
+        ~MaterialInstance();
     friend class Material;
     protected:
         MaterialInstance(Material * material, const std::string& name);
-        ~MaterialInstance();
+        
     private:
         std::string m_name;
         Material * m_material = nullptr;

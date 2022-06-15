@@ -43,6 +43,7 @@ namespace lightman
         {
             return iter->second;
         }
+        // instancedTriangleMesh are not shared across scenes
         auto result = new InstancedTriangleMesh(meshName);
         m_iMeshes.insert({meshName,result});
         return result;

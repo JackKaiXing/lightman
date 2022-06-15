@@ -13,9 +13,11 @@ InstancedTriangleMesh::InstancedTriangleMesh(const std::string& name)
 InstancedTriangleMesh::~InstancedTriangleMesh()
 {
     if(m_mesh)
-        m_mesh->ReleaseRef();
+        RELEASEORDELETE(m_mesh);
     if(m_mInstance)
-        m_mInstance->ReleaseRef();
+        RELEASEORDELETE(m_mInstance);
+    if(m_material)
+        RELEASEORDELETE(m_material);
 }
 
 void InstancedTriangleMesh::SetTransform(const Matrix4X4& m)
@@ -38,32 +40,29 @@ void InstancedTriangleMesh::setPVTransform(const Matrix4X4& pvmatrix, const Vect
 void InstancedTriangleMesh::SetMaterial(Material* mat)
 {
     if (m_mInstance)
-    {
-        m_mInstance->ReleaseRef();
-        m_mInstance = nullptr;
-    }
+        RELEASEORDELETE(m_mInstance);
 
     if (m_material)
-        m_material->ReleaseRef();
+        RELEASEORDELETE(m_material);
     
     m_material = mat;
-    m_material->IncreaseRef();
+    if (m_material)
+         m_material->IncreaseRef();
+    m_mInstance = nullptr;
 }
 
 void InstancedTriangleMesh::SetMaterialInstance(MaterialInstance * mi)
 {
     if (m_material)
-    {
-        m_material->ReleaseRef();
-        m_material = nullptr;
-    }
+        RELEASEORDELETE(m_material);
         
     if (m_mInstance)
-        m_mInstance->ReleaseRef();
+        RELEASEORDELETE(m_mInstance);
     
     m_mInstance = mi;
     if(m_mInstance)
         m_mInstance->IncreaseRef();
+    m_material = nullptr;
 }
 
 void InstancedTriangleMesh::SetMesh(std::string name, Mesh* mesh)

@@ -14,6 +14,7 @@ using namespace lightman::geometry;
 namespace lightman
 {
     // ----------------------------------------------------------------------------
+    // InstancedTriangleMesh are not shared across scenes, not need to inherited from ref
     class GPURenderer;
     class InstancedTriangleMesh : public InstancedObject
     {
