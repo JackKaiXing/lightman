@@ -65,12 +65,6 @@ namespace lightman
                 printf("%s\n", &ProgramErrorMessage[0]);
             }
             CHECK_GL_ERROR();
-            
-            // glDetachShader(gl.program, VertexShaderID);
-            // glDetachShader(gl.program, FragmentShaderID);
-            
-            // glDeleteShader(VertexShaderID);
-            // glDeleteShader(FragmentShaderID);
         }
         // ----------------------------------------------------------------------------
         backend::Driver* OpenGLDriver::create(backend::OpenGLPlatform* platform, void* sharedGLContext) noexcept
@@ -568,6 +562,7 @@ namespace lightman
                     return false;
             }
             glUseProgram(0);
+            CHECK_GL_ERROR();
             return true;
         }
         // ------------------------------------Destroy APIS----------------------------------------
@@ -577,6 +572,7 @@ namespace lightman
             {
                 GLRenderPrimitive* glrp = static_cast<GLRenderPrimitive*>(rp);
                 glDeleteVertexArrays(1, &(glrp->gl.vao));
+                CHECK_GL_ERROR();
                 delete glrp;
             }
         }
@@ -586,6 +582,7 @@ namespace lightman
             {
                 GLIndexBuffer* glib = static_cast<GLIndexBuffer*>(ib);
                 glDeleteBuffers(1, &(glib->gl.buffer));
+                CHECK_GL_ERROR();
                 delete glib;
             }
         }
@@ -604,6 +601,7 @@ namespace lightman
             {
                 GLBufferObject* glbo = static_cast<GLBufferObject*>(bo);
                 glDeleteBuffers(1, &(glbo->gl.id));
+                CHECK_GL_ERROR();
                 delete glbo;
             }
         }
@@ -614,6 +612,24 @@ namespace lightman
                 GLSamplerGroup* glsg = static_cast<GLSamplerGroup*>(sg);
                 delete glsg;
             }
+        }
+        void OpenGLDriver::DestroyProgram(backend::HwProgram* pm)
+        {
+            if (pm)
+            {
+                GLProgram * glpm = static_cast<GLProgram *>(pm);
+
+                glDetachShader(glpm->gl.program, glpm->gl.shaders[(uint32_t)backend::Shader::VERTEX]);
+                glDetachShader(glpm->gl.program, glpm->gl.shaders[(uint32_t)backend::Shader::FRAGMENT]);
+            
+                glDeleteShader(glpm->gl.shaders[(uint32_t)backend::Shader::VERTEX]);
+                glDeleteShader(glpm->gl.shaders[(uint32_t)backend::Shader::FRAGMENT]);
+                glDeleteProgram(glpm->gl.program);
+                CHECK_GL_ERROR();
+
+                delete glpm;
+            }
+            
         }
     }
 }

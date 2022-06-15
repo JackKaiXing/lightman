@@ -96,6 +96,8 @@ DECL_DRIVER_API_N(DestroyBufferObject,
         backend::HwBufferObject*, bo)
 DECL_DRIVER_API_N(DestroySamplerGroup,
         backend::HwSamplerGroup*, sg)
+DECL_DRIVER_API_N(DestroyProgram,
+        backend::HwProgram*, pm)
 
 
 DECL_DRIVER_API_0(endRenderPass)
