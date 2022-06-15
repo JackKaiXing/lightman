@@ -11,9 +11,6 @@ namespace lightman
         
         im->IncreaseRef();
         m_imagemap = im;
-
-        // create default tex
-        ImagemapManager::GetInstance()->GetHwTexture(m_imagemap->GetName());
     }
     backend::UniformType ImagemapNode::GetShaderString(std::string& result) const
     {
@@ -26,11 +23,10 @@ namespace lightman
     }
     void ImagemapNode::GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const
     {
-        // TODO Do we create this texture based customed parameters?
         sDefines.push_back({"texture_"+ GetName(), 
-        m_imagemap->GetName(),
-        m_imagemap->GetSamplerType(), 
-        m_imagemap->GetSamplerFormat(), 
-        false, backend::Precision::DEFAULT});
+            m_imagemap->GetName(),
+            m_imagemap->GetSamplerType(), 
+            m_imagemap->GetSamplerFormat(), 
+            false, backend::Precision::DEFAULT});
     };
 } // namespace lightman

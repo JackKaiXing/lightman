@@ -28,7 +28,7 @@ namespace lightman
             m_SamplerGroup = Engine::GetInstance()->GetDriver()->createSamplerGroup();
             for (int i = 0; i < size; i++)
             {
-                m_SamplerGroup->texs.push_back(ImagemapManager::GetInstance()->GetHwTexture(infos.at(i).ImgName));
+                m_SamplerGroup->texs.push_back(ImagemapManager::GetInstance()->GetImagemap(infos.at(i).ImgName)->GetHwTexture());
             }
         }
     }

@@ -3,6 +3,8 @@
 #include  <cstring>
 #include  <stdlib.h>
 
+#include "engine/engine.h"
+
 namespace lightman
 {
     uint32_t Imagemap::GetComponentSize(backend::TextureFormat type)
@@ -43,6 +45,26 @@ namespace lightman
         m_pixelFormat = pixelFormat;
         m_pixelType = pixelType;
     }
+    backend::HwTexture* Imagemap::GetHwTexture()
+    {
+        if (!m_hwTexture)
+        {
+            backend::HwTexture* m_hwTexture = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 
+                    1, 
+                    m_TextureFormatType, 1, 
+                    m_width, 
+                    m_height, 
+                    1, 
+                    backend::TextureUsage::SAMPLEABLE);
+            Engine::GetInstance()->GetDriver()->update2DImage(m_hwTexture, 0,
+                0, 0,
+                m_width, m_height,
+                m_data, GetDataSize(), 
+                m_pixelFormat, m_pixelType);
+        }
+        
+        return m_hwTexture;
+    }
     uint32_t Imagemap::GetDataSize()
     {
         return m_width * m_height * GetComponentSize(m_TextureFormatType);
@@ -51,5 +73,7 @@ namespace lightman
     {
         if (m_data)
             free(m_data);
+        if (m_hwTexture)
+            delete m_hwTexture; // TODO
     }
 }

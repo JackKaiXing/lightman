@@ -35,6 +35,7 @@ namespace lightman
         uint32_t GetDataSize();
         backend::PixelDataType GetPixelType() {return m_pixelType;};
         backend::PixelDataFormat GetPixelFormat() {return m_pixelFormat;};
+        backend::HwTexture* GetHwTexture();
         
     private:
         std::string m_name;
@@ -44,6 +45,7 @@ namespace lightman
         backend::PixelDataFormat m_pixelFormat;
         backend::PixelDataType m_pixelType;
         backend::SamplerType m_samplerType;
+        backend::HwTexture* m_hwTexture = nullptr;
     };
 } // namespace lightman
 
