@@ -30,6 +30,14 @@ namespace lightman
     
     MeshManager::~MeshManager()
     {
+        for (auto iter = m_meshes.begin(); iter != m_meshes.end(); iter++)
+        {
+            if (iter->second->GetRefCount() > 1)
+                std::cout << "Warning: Delete MeshManager While Mesh Being Referenced!" << std::endl;
+            
+            delete iter->second;
+        }
+        m_meshes.clear();
     }
 
     bool MeshManager::HasMesh(std::string name)

@@ -794,7 +794,8 @@ void Destory()
 
     // Destory SwapChain
     // Destory Renderers
-    // Destory Managers
+    // 
+    lightman::MeshManager::DetoryInstance();
     lightman::Engine::DestroyInstance();
 }
 
