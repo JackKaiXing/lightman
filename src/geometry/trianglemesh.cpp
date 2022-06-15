@@ -12,6 +12,12 @@ namespace geometry
 // ----------------------------------------------------------------------------
  TriangleMesh::~TriangleMesh()
 {
+    if (GetRefCount() > 1)
+    {
+        ReleaseRef();
+        return;
+    }
+    
     m_triIndexs.clear();
     m_points.clear();
     m_normals.clear();
