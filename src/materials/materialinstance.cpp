@@ -34,11 +34,7 @@ namespace lightman
     }
     MaterialInstance::~MaterialInstance()
     {
-        if (GetRefCount() > 1)
-        {
-            ReleaseRef();
-            return;
-        }
+        RELEASEANDRETURN(this);
         
         if (m_uniforBufferCPU.data)
         {
