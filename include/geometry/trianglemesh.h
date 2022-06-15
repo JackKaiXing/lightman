@@ -29,13 +29,7 @@ namespace lightman
             void InitNormals(std::vector<float>& normals);
             void GenerateVertexNormals();
             void InitUVs(std::vector<float>& uvs);
-            virtual ~TriangleMesh()
-            {
-                m_triIndexs.clear();
-                m_points.clear();
-                m_normals.clear();
-                m_uvs.clear();
-            }
+            virtual ~TriangleMesh();
             bool HasNormal() {return m_normals.size()>0;};
             bool HasUV() {return m_uvs.size()>0;};
             MeshType GetMeshType() override {return MeshType::Triangle;};

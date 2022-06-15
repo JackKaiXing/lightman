@@ -10,6 +10,33 @@ namespace lightman
 namespace geometry
 {
 // ----------------------------------------------------------------------------
+ TriangleMesh::~TriangleMesh()
+{
+    m_triIndexs.clear();
+    m_points.clear();
+    m_normals.clear();
+    m_uvs.clear();
+
+    backend::Driver* driver = Engine::GetInstance()->GetDriver();
+    if (m_renderPrimitive)
+        driver->DestroyRenderPrimitive(m_renderPrimitive);
+    
+    if (m_indexBuffer)
+        driver->DestroyIndexBuffer(m_indexBuffer);
+    
+    if (m_vertexBuffer)
+        driver->DestroyVertexBuffer(m_vertexBuffer);
+    
+    if (m_posBuffetObject)
+        driver->DestroyBufferObject(m_posBuffetObject);
+    
+    if (m_normalBuffetObject)
+        driver->DestroyBufferObject(m_normalBuffetObject);
+
+    if (m_uvBuffetObject)
+        driver->DestroyBufferObject(m_uvBuffetObject);
+    
+}
 TriangleMesh::TriangleMesh(std::vector<unsigned int>& triIndexs, std::vector<float>& points)
 {
     assert(points.size() > 9 && triIndexs.size() > 3);

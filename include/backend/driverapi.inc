@@ -82,6 +82,20 @@ DECL_DRIVER_API_N(update2DImage,
         backend::PixelDataFormat, format,
         backend::PixelDataType, type)
 
+// ----------------------------------------------------------------------------
+// Currently No references between HwObject are holded.
+// Please Destroy EveryThing that you created.
+// ----------------------------------------------------------------------------
+DECL_DRIVER_API_N(DestroyRenderPrimitive,
+        backend::HwRenderPrimitive*, rp)
+DECL_DRIVER_API_N(DestroyIndexBuffer,
+        backend::HwIndexBuffer*, ib)
+DECL_DRIVER_API_N(DestroyVertexBuffer,
+        backend::HwVertexBuffer*, vb)
+DECL_DRIVER_API_N(DestroyBufferObject,
+        backend::HwBufferObject*, bo)
+
+
 DECL_DRIVER_API_0(endRenderPass)
 
 // ----------------------------------------------------------------------------

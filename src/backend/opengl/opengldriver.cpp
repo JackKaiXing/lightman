@@ -258,6 +258,9 @@ namespace lightman
                 // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml
                 // this records the index buffer into the currently bound VAO
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib->gl.buffer);
+
+                // unbind vertex array
+                glBindVertexArray(0);
             }
             CHECK_GL_ERROR();
         }
@@ -566,6 +569,43 @@ namespace lightman
             }
             glUseProgram(0);
             return true;
+        }
+        // ------------------------------------Destroy APIS----------------------------------------
+        void OpenGLDriver::DestroyRenderPrimitive(backend::HwRenderPrimitive* rp)
+        {
+            if (rp)
+            {
+                GLRenderPrimitive* glrp = static_cast<GLRenderPrimitive*>(rp);
+                glDeleteVertexArrays(1, &(glrp->gl.vao));
+                delete glrp;
+            }
+        }
+        void OpenGLDriver::DestroyIndexBuffer(backend::HwIndexBuffer* ib)
+        {
+            if (ib)
+            {
+                GLIndexBuffer* glib = static_cast<GLIndexBuffer*>(ib);
+                glDeleteBuffers(1, &(glib->gl.buffer));
+                delete glib;
+            }
+        }
+        void OpenGLDriver::DestroyVertexBuffer(backend::HwVertexBuffer* vb)
+        {
+            if (vb)
+            {
+                GLVertexBuffer* glvb = static_cast<GLVertexBuffer*>(vb);
+                // hold only reference to glbufferobject, no gl stuff created
+                delete glvb;
+            }
+        }
+        void OpenGLDriver::DestroyBufferObject(backend::HwBufferObject* bo)
+        {
+            if (bo)
+            {
+                GLBufferObject* glbo = static_cast<GLBufferObject*>(bo);
+                glDeleteBuffers(1, &(glbo->gl.id));
+                delete glbo;
+            }
         }
     }
 }
