@@ -49,7 +49,7 @@ namespace lightman
     {
         if (!m_hwTexture)
         {
-            backend::HwTexture* m_hwTexture = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 
+            m_hwTexture = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 
                     1, 
                     m_TextureFormatType, 1, 
                     m_width, 
