@@ -9,11 +9,7 @@ namespace lightman
     }
     Scene::~Scene()
     {
-        if (GetRefCount() > 1)
-        {
-            ReleaseRef();
-            return;
-        }
+        RELEASEANDRETURN(this);
         
         for (auto iter = m_iMeshes.begin(); iter != m_iMeshes.end(); iter++)
         {

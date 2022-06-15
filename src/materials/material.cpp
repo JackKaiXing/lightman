@@ -14,6 +14,8 @@ namespace lightman
     }
     Material::~Material()
     {
+        RELEASEANDRETURN(this);
+        
         if (m_bump)
             delete m_bump;
         if (m_emission)

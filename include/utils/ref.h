@@ -15,6 +15,15 @@ namespace lightman
                 target->ReleaseRef(); \
         }
 
+        #define RELEASEANDRETURN(target) \
+        { \
+            if (target->GetRefCount() > 1) \
+            { \
+                target->ReleaseRef(); \
+                return; \
+            } \
+        } \
+
         class Ref
         {
         public:
