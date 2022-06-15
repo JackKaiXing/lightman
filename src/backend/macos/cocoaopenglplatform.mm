@@ -35,7 +35,6 @@ namespace lightman
         // https://stackoverflow.com/questions/4714698/mixing-objective-c-m-mm-c-cpp-files
         struct CocoaOpenGLPlatformImpl
         {
-            // TODO: METAL, OpenGL is deprecatingn
             NSOpenGLContext* m_openGLContext = nullptr;
             CocoaGLSwapChain* mCurrentSwapChain = nullptr;
         };   
