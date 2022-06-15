@@ -7,6 +7,14 @@ namespace lightman
 {
     namespace utils
     {
+        #define RELEASEORDELETE(target) \
+        { \
+            if(target->GetRefCount() == 1) \
+                delete target; \
+            else \
+                target->ReleaseRef(); \
+        }
+
         class Ref
         {
         public:

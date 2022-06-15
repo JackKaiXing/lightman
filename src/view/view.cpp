@@ -10,16 +10,14 @@ namespace lightman
     View::~View()
     {
         if(m_scene)
-            m_scene->ReleaseRef();
+            RELEASEORDELETE(m_scene);
         if(m_camera)
-            m_camera->ReleaseRef();
+            RELEASEORDELETE(m_camera);
     }
     void View::SetScene(Scene * targetScene)
     {
         if (m_scene)
-        {
-            m_scene->ReleaseRef();
-        }
+            RELEASEORDELETE(m_scene);
         if (targetScene)
         {
             targetScene->IncreaseRef();
@@ -29,7 +27,7 @@ namespace lightman
     void View::SetCamera(Camera * camera)
     {
         if(m_camera)
-            m_camera->ReleaseRef();
+            RELEASEORDELETE(m_camera);
         if(camera)
             camera->IncreaseRef();
         m_camera = camera;    

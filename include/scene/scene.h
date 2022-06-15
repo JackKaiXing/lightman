@@ -18,6 +18,8 @@ namespace lightman
     class Scene : public Ref
     {
         public:
+            Scene();
+            ~Scene();
             InstancedTriangleMesh* GetMesh(const std::string& meshName);
             InstancedTriangleMesh* AddGetMesh(const std::string& meshName);
         friend class GPURenderer;

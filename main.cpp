@@ -736,23 +736,30 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
 
 void Setup()
 {
+    // Engine
     myConfig.myEngine = lightman::Engine::Create(lightman::backend::BackendType::OPENGL);
     myConfig.contentScaleFactor = lightmangui::GetBackScaleFactor();
-    myConfig.myScene = new lightman::Scene();
 
+    // Scene
+    myConfig.myScene = new lightman::Scene();
     myConfig.ParseLuxCoreScene("/Users/XK/Downloads/LuxCore2.1Benchmark/LuxCoreScene/scene-src.scn");
 
-    myConfig.myView = new lightman::View();
-    myConfig.myView->SetScene(myConfig.myScene);
-
+    // Camera
     myConfig.myCamera = new lightman::PerspectiveCamera();
     myConfig.myCamera->LookAt(myConfig.myeye, myConfig.mytarget, myConfig.myup);
     myConfig.myCamera->setProjection(myConfig.myfov, myConfig.mynear, myConfig.myfar, 
         (float)myConfig.windowWidth / (float)myConfig.windowheight,lightman::Camera::FovDirection::VERTICAL);
+
+    // View
+    myConfig.myView = new lightman::View();
+    myConfig.myView->SetScene(myConfig.myScene);
     myConfig.myView->SetCamera(myConfig.myCamera);
     
+    // SwapChain
     void* nativeWindow = lightmangui::GetNativeWindow();
     myConfig.mySwapChain = myConfig.myEngine->CreateSwapChain(nativeWindow);
+
+    // Renderer
     myConfig.myRenderer = myConfig.myEngine->CreateRender(uint32_t(myConfig.windowWidth*myConfig.contentScaleFactor), 
         uint32_t(myConfig.windowheight*myConfig.contentScaleFactor), lightman::RenderType::RASTER_GPU);
 }
@@ -785,6 +792,9 @@ void Destory()
 
     myConfig.ClearTextures();
 
+    // Destory SwapChain
+    // Destory Renderers
+    // Destory Managers
     lightman::Engine::DestroyInstance();
 }
 

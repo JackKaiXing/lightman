@@ -3,6 +3,27 @@
 
 namespace lightman
 {
+    Scene::Scene()
+    {
+
+    }
+    Scene::~Scene()
+    {
+        if (GetRefCount() > 1)
+        {
+            ReleaseRef();
+            return;
+        }
+        
+        for (auto iter = m_iMeshes.begin(); iter != m_iMeshes.end(); iter++)
+        {
+            delete iter->second;
+            iter->second = nullptr;
+        }
+        
+        m_iMeshes.clear();
+        m_iMaterials.clear();
+    }
     std::unordered_map<string, InstancedTriangleMesh*> Scene::GetInstanceMeshes()
     {
         return m_iMeshes;
