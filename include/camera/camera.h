@@ -63,7 +63,7 @@ namespace lightman
     public:
         CameraType GetCameraType() override {return Camera::CameraType::ORTHO;};
         OrthogrpicCamera(/* args */);
-        ~OrthogrpicCamera();
+        ~OrthogrpicCamera() = default;
     };    
 }
 #endif // _LIGHTMAN_CAMERA_H
