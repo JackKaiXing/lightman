@@ -3,6 +3,15 @@
 
 namespace lightman
 {
+    MixNode::~MixNode()
+    {
+        if(m_amount)
+            delete m_amount;
+        if(m_tex1)
+            delete m_tex1;
+        if(m_tex2)
+            delete m_tex2;
+    }
     void MixNode::SetAmount(const Node * amount)
     {
         m_amount = amount;

@@ -4,13 +4,18 @@
 
 namespace lightman
 {
+    ImagemapNode::~ImagemapNode()
+    {
+        if (m_imagemap)
+            RELEASEORDELETE(m_imagemap);
+    }
     void ImagemapNode::SetImageMap(Imagemap* im)
     {
         if(m_imagemap)
-            m_imagemap->ReleaseRef();
+            RELEASEORDELETE(m_imagemap);
         
-        im->IncreaseRef();
         m_imagemap = im;
+        m_imagemap->IncreaseRef();
     }
     backend::UniformType ImagemapNode::GetShaderString(std::string& result) const
     {

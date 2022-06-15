@@ -12,7 +12,7 @@ namespace lightman
     public:
         ImagemapNode(){};
         ImagemapNode(const std::string& name) : Node(name){};
-        ~ImagemapNode(){};
+        ~ImagemapNode();
 
         NodeType GetType() const override {return NodeType::IMAGEMAP_TEX;};
         void GetBlockInfo(std::vector<UniformDefine>& uDefines, std::vector<SamplerDefine>& sDefines) const override;

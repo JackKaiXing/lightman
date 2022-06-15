@@ -3,6 +3,11 @@
 
 namespace lightman
 {
+    FresnelColorNode::~FresnelColorNode()
+    {
+        if(m_Kr)
+            delete m_Kr;
+    }
     void FresnelColorNode::SetKr(const Node* kr)
     {
         m_Kr = kr;

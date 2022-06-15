@@ -11,7 +11,7 @@ namespace lightman
     public:
         BandNode() = delete;
         BandNode(const std::string& name) : Node(name){};
-        ~BandNode(){};
+        ~BandNode();
         void SetAmount(const Node* amount);
         void AddOffset(float offset);
         void AddValue(Color value);

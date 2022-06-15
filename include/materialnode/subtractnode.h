@@ -10,7 +10,7 @@ namespace lightman
     public:
         SubtractNode() = delete;
         SubtractNode(const std::string& name) : Node(name){};
-        ~SubtractNode(){};
+        ~SubtractNode();
 
         void SetTex1(const Node * tex1);
         void SetTex2(const Node * tex2);

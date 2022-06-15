@@ -3,6 +3,13 @@
 
 namespace lightman
 {
+    SubtractNode::~SubtractNode()
+    {
+        if(m_tex1)
+            delete m_tex1;
+        if(m_tex2)
+            delete m_tex2;
+    }
     void SubtractNode::SetTex1(const Node * tex1)
     {
         m_tex1 = tex1;

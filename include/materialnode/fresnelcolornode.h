@@ -10,7 +10,7 @@ namespace lightman
     public:
         FresnelColorNode() = delete;
         FresnelColorNode(const std::string& name) : Node(name){};
-        ~FresnelColorNode(){};
+        ~FresnelColorNode();
 
         void SetKr(const Node* kr);
 

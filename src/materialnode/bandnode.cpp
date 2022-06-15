@@ -3,6 +3,13 @@
 
 namespace lightman
 {
+    BandNode::~BandNode()
+    {
+        if(m_amount)
+            delete m_amount;
+        m_offsets.clear();
+        m_values.clear();
+    }
     void BandNode::SetAmount(const Node* amount)
     {
         m_amount = amount;

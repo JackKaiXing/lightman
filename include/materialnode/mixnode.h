@@ -10,7 +10,7 @@ namespace lightman
     public:
         MixNode() = delete;
         MixNode(const std::string& name) : Node(name){};
-        ~MixNode(){};
+        ~MixNode();
         void SetAmount(const Node * amount);
         void SetTex1(const Node * tex1);
         void SetTex2(const Node * tex2);

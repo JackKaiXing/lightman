@@ -10,7 +10,7 @@ namespace lightman
     public:
         ScaleNode() = delete;
         ScaleNode(const std::string& name) : Node(name){};
-        ~ScaleNode(){};
+        ~ScaleNode();
 
         void SetTex1(const Node * tex1);
         void SetTex2(const Node * tex2);

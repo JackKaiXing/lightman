@@ -21,7 +21,9 @@ namespace lightman
         FRESNELCOLOR_TEX,
     }NodeType;
 
-    class Node : public utils::Ref
+    // There is no need for node to be referenced, since it is hold purely by its mother material
+    // and woudl be multi-reference inside of a material.
+    class Node
     {
     public:
         Node(){};
