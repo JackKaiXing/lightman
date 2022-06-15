@@ -14,6 +14,10 @@ namespace lightman
     }
     GlassMaterial::~GlassMaterial()
     {
+        if(m_kr)
+            delete m_kr;
+        if(m_kt)
+            delete m_kt;
     }
     bool GlassMaterial::PrepareForRasterGPU()
     {

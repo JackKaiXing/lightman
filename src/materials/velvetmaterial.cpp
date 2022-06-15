@@ -14,6 +14,8 @@ namespace lightman
     }
     VelvetMaterial::~VelvetMaterial()
     {
+        if(m_kd)
+            delete m_kd;
     }
     bool VelvetMaterial::PrepareForRasterGPU()
     {

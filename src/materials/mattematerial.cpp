@@ -14,6 +14,8 @@ namespace lightman
     }
     MatteMaterial::~MatteMaterial()
     {
+        if(m_kd)
+            delete m_kd;
     }
     bool MatteMaterial::PrepareForRasterGPU()
     {

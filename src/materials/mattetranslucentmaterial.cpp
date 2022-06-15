@@ -14,6 +14,10 @@ namespace lightman
     }
     MatteTranslucentMaterial::~MatteTranslucentMaterial()
     {
+        if(m_kr)
+            delete m_kr;
+        if(m_kt)
+            delete m_kt;
     }
     bool MatteTranslucentMaterial::PrepareForRasterGPU()
     {

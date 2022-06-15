@@ -14,6 +14,8 @@ namespace lightman
     }
     GlossyMaterial::~GlossyMaterial()
     {
+        if(m_kd)
+            delete m_kd;
     }
     bool GlossyMaterial::PrepareForRasterGPU()
     {

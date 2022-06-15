@@ -54,10 +54,13 @@ public:
     lightman::Node* GetOrCreateTextureFromAttributeValue(const std::string& attributeValue);
     void ClearTextures()
     {
+        /*
+        // No need to clear since those temporary texture are holded by typed materials and 
+        // will be deleted internally
         for (auto iter = mytexturesOfLucScene.begin(); iter != mytexturesOfLucScene.end(); iter++)
         {
             delete iter->second;
-        }
+        }*/
         mytexturesOfLucScene.clear();
         
     }

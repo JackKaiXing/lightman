@@ -14,6 +14,8 @@ namespace lightman
     }
     MetalMaterial::~MetalMaterial()
     {
+        if(m_fresnel)
+            delete m_fresnel;
     }
     bool MetalMaterial::PrepareForRasterGPU()
     {
