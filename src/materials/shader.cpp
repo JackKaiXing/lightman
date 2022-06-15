@@ -15,8 +15,6 @@ namespace lightman
                 layout(location = 1) in vec3 tangent; \n \
                 layout(location = 2) in vec2 uv0; \n \
                 layout(location = 3) in vec2 uv1; \n";
-
-            // TODO metal, vulkan, opengl es
             
             return result;
         }

@@ -19,7 +19,7 @@ namespace lightman
     {
     public:
         // for convenient usage of enum, https://riptutorial.com/c/example/6564/typedef-enum
-        // TODO change from luxcore materials to real-world materials
+        
         typedef enum : uint32_t
         {
             // do not change this, since MaterialDefines need to load from 0 to MAX_MATERIALTYPE_COUNT
