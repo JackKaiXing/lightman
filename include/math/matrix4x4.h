@@ -230,7 +230,7 @@ namespace lightman
                     }
                 }
             }
-            // TODO better Matrix Multiply Performance
+            // FIXME better Matrix Multiply Performance
             // https://github.com/rangelak/Strassen-Matrix-Multiplication/blob/master/strassen.cpp
 
             return result;

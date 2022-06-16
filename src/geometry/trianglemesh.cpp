@@ -120,7 +120,7 @@ void TriangleMesh::InitNormals(std::vector<float>& normals)
     m_normals = std::move(normals);
     normals.clear();
 
-    // TODO Quaterion FLOAT4
+    // FIXME Quaterion FLOAT4
     SetAttribute(backend::VertexAttribute::TANGENTS, backend::ElementType::FLOAT3, 
         backend::Attribute::FLAG_NORMALIZED, 0, 0); 
 }
