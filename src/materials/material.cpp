@@ -174,7 +174,7 @@ namespace lightman
             sDefines.size()>0?true:false);
 
         // Update Program
-        m_program = Engine::GetInstance()->GetDriver()->createProgram(
+        m_program = Engine::GetInstance()->GetDriver()->CreateProgram(
             vertexShaderString, fragmentShaderString, bInfos);
 
         // bind texture uniform location explicitly
@@ -182,7 +182,7 @@ namespace lightman
         for (size_t i = 0; i < sDefines.size(); i++)
             samplerNames.push_back(sDefines.at(i).name);
         if (samplerNames.size() > 0)
-            Engine::GetInstance()->GetDriver()->bindSamplerLocations(m_program,samplerNames);
+            Engine::GetInstance()->GetDriver()->BindSamplerLocations(m_program,samplerNames);
 
         // update defaut materialInstance
         UpdateDefaultMaterialInstance();

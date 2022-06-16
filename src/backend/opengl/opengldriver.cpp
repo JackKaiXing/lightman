@@ -86,7 +86,7 @@ namespace lightman
             swapchain->swapchain = m_platfrom->CreateSwainChain(nativeWindow);
             return swapchain;
         }
-        void OpenGLDriver::makeCurrent(backend::HwSwapChain* swapchain)
+        void OpenGLDriver::MakeCurrent(backend::HwSwapChain* swapchain)
         {
             m_platfrom->MakeCurrent(swapchain->swapchain);
         }
@@ -94,14 +94,14 @@ namespace lightman
         {
             m_platfrom->Commit(swapchain->swapchain);
         }
-        HwRenderPrimitive* OpenGLDriver::createRenderPrimitive()
+        HwRenderPrimitive* OpenGLDriver::CreateRenderPrimitive()
         {
             GLRenderPrimitive* result = new GLRenderPrimitive();
             glGenVertexArrays(1, &result->gl.vao);
             CHECK_GL_ERROR();
             return result;
         }
-        HwVertexBuffer* OpenGLDriver::createVertexBuffer(
+        HwVertexBuffer* OpenGLDriver::CreateVertexBuffer(
             uint8_t bufferCount,
             uint8_t attributeCount,
             uint32_t vertexCount,
@@ -115,7 +115,7 @@ namespace lightman
             
             return result;
         }
-        HwBufferObject* OpenGLDriver::createBufferObject(
+        HwBufferObject* OpenGLDriver::CreateBufferObject(
             uint32_t byteCount, 
             backend::BufferObjectBinding bindingType,
             backend::BufferUsage usage)
@@ -133,7 +133,7 @@ namespace lightman
 
             return result;
         }
-        void OpenGLDriver::updateBufferObject(backend::HwBufferObject* boh, void* data, size_t dataSize, uint32_t byteOffset)
+        void OpenGLDriver::UpdateBufferObject(backend::HwBufferObject* boh, void* data, size_t dataSize, uint32_t byteOffset)
         {
             GLBufferObject* bo = static_cast<GLBufferObject*>(boh);
 
@@ -160,7 +160,7 @@ namespace lightman
             }
             CHECK_GL_ERROR();
         }
-        void OpenGLDriver::setVertexBufferObject(backend::HwVertexBuffer* vbh,
+        void OpenGLDriver::SetVertexBufferObject(backend::HwVertexBuffer* vbh,
             uint32_t index, backend::HwBufferObject* bufferObject)
         {
             GLVertexBuffer* vb = static_cast<GLVertexBuffer *>(vbh);
@@ -174,7 +174,7 @@ namespace lightman
             CHECK_GL_ERROR();
 
         }
-        HwIndexBuffer* OpenGLDriver::createIndexBuffer(backend::ElementType elementType,
+        HwIndexBuffer* OpenGLDriver::CreateIndexBuffer(backend::ElementType elementType,
             uint32_t indexCount, backend::BufferUsage usage)
         {
             GLIndexBuffer* result = new GLIndexBuffer();
@@ -190,7 +190,7 @@ namespace lightman
 
             return result;
         }
-        void OpenGLDriver::updateIndexBuffer(backend::HwIndexBuffer* ibh,
+        void OpenGLDriver::UpdateIndexBuffer(backend::HwIndexBuffer* ibh,
             void* data, size_t dataSize, uint32_t byteOffset)
         {   
             if(ibh)
@@ -203,7 +203,7 @@ namespace lightman
                 CHECK_GL_ERROR();
             }
         }
-        void OpenGLDriver::setRenderPrimitiveBuffer(backend::HwRenderPrimitive* rph,
+        void OpenGLDriver::SetRenderPrimitiveBuffer(backend::HwRenderPrimitive* rph,
             backend::HwVertexBuffer* vbh, backend::HwIndexBuffer* ibh)
         {
             if(rph && vbh && ibh)
@@ -278,7 +278,7 @@ namespace lightman
             CHECK_GL_ERROR();
         }
 
-        backend::HwProgram* OpenGLDriver::createProgram(const std::string& vertexShader, const std::string& fragShader,
+        backend::HwProgram* OpenGLDriver::CreateProgram(const std::string& vertexShader, const std::string& fragShader,
             UniformBlockInfo ubInfo)
         {
             GLProgram* result = new GLProgram();
@@ -299,14 +299,14 @@ namespace lightman
             
             return result;
         }
-        void OpenGLDriver::bindUniformBuffer(uint32_t index, backend::HwBufferObject* ubh)
+        void OpenGLDriver::BindUniformBuffer(uint32_t index, backend::HwBufferObject* ubh)
         {
             GLBufferObject* ub = static_cast<GLBufferObject *>(ubh);
             assert(ub->gl.binding == GL_UNIFORM_BUFFER);
             glBindBufferRange(ub->gl.binding, GLuint(index), ub->gl.id, 0, ub->byteCount);
             CHECK_GL_ERROR();
         }
-        backend::HwTexture* OpenGLDriver::createTexture(
+        backend::HwTexture* OpenGLDriver::CreateTexture(
             backend::SamplerType target,
             uint8_t levels,
             backend::TextureFormat format,
@@ -415,7 +415,7 @@ namespace lightman
             
             CHECK_GL_ERROR();
         }
-        backend::HwRenderTarget* OpenGLDriver::createDefaultRenderTarget(int)
+        backend::HwRenderTarget* OpenGLDriver::CreateDefaultRenderTarget(int)
         {
             GLRenderTarget * result = new GLRenderTarget();
             result->height = 0; // TODO
@@ -427,7 +427,7 @@ namespace lightman
             
             return result;
         }
-        backend::HwRenderTarget* OpenGLDriver::createRenderTarget(
+        backend::HwRenderTarget* OpenGLDriver::CreateRenderTarget(
             backend::TargetBufferFlags targetsFlags,
             uint32_t width,
             uint32_t height,
@@ -490,7 +490,7 @@ namespace lightman
             }
             CHECK_GL_ERROR();
         }
-        void OpenGLDriver::beginRenderPass(backend::HwRenderTarget* rth, const backend::RenderPassParams& params)
+        void OpenGLDriver::BeginRenderPass(backend::HwRenderTarget* rth, const backend::RenderPassParams& params)
         {
             GLRenderTarget* rt = static_cast<GLRenderTarget*>(rth);
             
@@ -511,7 +511,7 @@ namespace lightman
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             CHECK_GL_ERROR();
         }
-        void OpenGLDriver::update2DImage(
+        void OpenGLDriver::Update2DImage(
             backend::HwTexture* th,
             uint32_t level,
             uint32_t xoffset,
@@ -538,19 +538,19 @@ namespace lightman
                     break;
             }
         }
-        void OpenGLDriver::bindSamplers(uint32_t index, const backend::HwTexture* th)
+        void OpenGLDriver::BindSamplers(uint32_t index, const backend::HwTexture* th)
         {
             const GLTexture* tex = static_cast<const GLTexture*>(th);
             glActiveTexture(GL_TEXTURE0 + index);
             glBindTexture(tex->gl.target, tex->gl.id);
             CHECK_GL_ERROR();
         }
-        backend::HwSamplerGroup* OpenGLDriver::createSamplerGroup()
+        backend::HwSamplerGroup* OpenGLDriver::CreateSamplerGroup()
         {
             GLSamplerGroup* result = new GLSamplerGroup();
             return result;
         }
-        bool OpenGLDriver::bindSamplerLocations(backend::HwProgram* program,
+        bool OpenGLDriver::BindSamplerLocations(backend::HwProgram* program,
             std::vector<std::string> samplerNames)
         {
             // https://www.khronos.org/opengl/wiki/Example/Texture_Shader_Binding

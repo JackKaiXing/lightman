@@ -10,22 +10,24 @@ namespace lightman
         m_name = name;
         m_material = material;
 
+        Driver* targetDriver = Engine::GetInstance()->GetDriver();
+        
         if(! m_material->IsUniformEmpty())
         {
             m_uniforBufferCPU.dataSize = m_material->GetUniformBlockSize();
             m_uniforBufferCPU.data = std::malloc(m_uniforBufferCPU.dataSize);
 
-            m_uniformBufferHw = Engine::GetInstance()->GetDriver()->createBufferObject(
+            m_uniformBufferHw = targetDriver->CreateBufferObject(
                 m_uniforBufferCPU.dataSize, backend::BufferObjectBinding::UNIFORM, backend::BufferUsage::DYNAMIC);
         }
         // currently we have only one uniformblock so default == 0
-        Engine::GetInstance()->GetDriver()->bindUniformBuffer(0, m_uniformBufferHw);
+        targetDriver->BindUniformBuffer(0, m_uniformBufferHw);
 
         if (! m_material->IsSamplerEmpty())
         {
             auto infos = m_material->GetSamplerInfoList();
             uint32_t size = m_material->GetSamplerBlockSize();
-            m_SamplerGroup = Engine::GetInstance()->GetDriver()->createSamplerGroup();
+            m_SamplerGroup = targetDriver->CreateSamplerGroup();
             for (int i = 0; i < size; i++)
             {
                 m_SamplerGroup->texs.push_back(ImagemapManager::GetInstance()->GetImagemap(infos.at(i).ImgName)->GetHwTexture());
@@ -63,7 +65,7 @@ namespace lightman
     {
         if (m_needToUpdateUniformBuffer)
         {
-            Engine::GetInstance()->GetDriver()->updateBufferObject(m_uniformBufferHw, 
+            Engine::GetInstance()->GetDriver()->UpdateBufferObject(m_uniformBufferHw,
                 m_uniforBufferCPU.data, m_uniforBufferCPU.dataSize, 0);
             m_needToUpdateUniformBuffer = false;
         }
@@ -72,7 +74,7 @@ namespace lightman
             auto infos = m_material->GetSamplerInfoList();
             for (int i = 0; i < infos.size(); i++)
             {
-                Engine::GetInstance()->GetDriver()->bindSamplers(infos.at(i).offset, m_SamplerGroup->texs.at(i));
+                Engine::GetInstance()->GetDriver()->BindSamplers(infos.at(i).offset, m_SamplerGroup->texs.at(i));
             }
         }
     }

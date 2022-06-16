@@ -50,7 +50,7 @@ namespace lightman
             assert(0);
         m_driver = m_platform->CreateDriver();
 
-        m_defaultRT = m_driver->createDefaultRenderTarget();
+        m_defaultRT = m_driver->CreateDefaultRenderTarget();
     }
     Engine::~Engine()
     {

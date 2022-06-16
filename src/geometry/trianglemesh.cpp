@@ -139,12 +139,13 @@ void TriangleMesh::PrepareForRasterGPU()
         return;
     
     // vao
-    m_renderPrimitive = Engine::GetInstance()->GetDriver()->createRenderPrimitive();
+    m_renderPrimitive = Engine::GetInstance()->GetDriver()->CreateRenderPrimitive();
     m_renderPrimitive->offset = 0;
     m_renderPrimitive->minIndex = 0;
     m_renderPrimitive->maxIndex = m_triIndexs.size();
     m_renderPrimitive->count = m_triIndexs.size();
 
+    Driver* targetDriver = Engine::GetInstance()->GetDriver();
     // vertex buffer
     uint8_t attributeCount = 0;
     for (size_t i = 0; i < backend::MAX_VERTEX_ATTRIBUTE_COUNT; i++)
@@ -154,7 +155,7 @@ void TriangleMesh::PrepareForRasterGPU()
             attributeCount++;
         }
     }
-    m_vertexBuffer = Engine::GetInstance()->GetDriver()->createVertexBuffer(
+    m_vertexBuffer = targetDriver->CreateVertexBuffer(
         0,attributeCount,m_points.size()/3,m_attributeArray);
     for (size_t i = 0; i < backend::MAX_VERTEX_ATTRIBUTE_COUNT; i++)
     {
@@ -169,7 +170,7 @@ void TriangleMesh::PrepareForRasterGPU()
                 {
                     size *= m_points.size();
                     data = (void*)m_points.data();
-                    m_posBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+                    m_posBuffetObject = targetDriver->CreateBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
                     bo = m_posBuffetObject;
                 }
                 break;
@@ -177,7 +178,7 @@ void TriangleMesh::PrepareForRasterGPU()
                 {
                     size *= m_normals.size();
                     data = (void*)m_normals.data();
-                    m_normalBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+                    m_normalBuffetObject = targetDriver->CreateBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
                     bo = m_normalBuffetObject;
                 }
                 break;
@@ -185,7 +186,7 @@ void TriangleMesh::PrepareForRasterGPU()
                 {
                     size *= m_uvs.size();
                     data = (void*)m_uvs.data();
-                    m_uvBuffetObject = Engine::GetInstance()->GetDriver()->createBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
+                    m_uvBuffetObject = targetDriver->CreateBufferObject(size, backend::BufferObjectBinding::VERTEX, backend::BufferUsage::STATIC);
                     bo = m_uvBuffetObject;
                 }
                 break;
@@ -193,19 +194,19 @@ void TriangleMesh::PrepareForRasterGPU()
                 break;
             }
             
-            Engine::GetInstance()->GetDriver()->updateBufferObject(bo, data, size, 0);
+            targetDriver->UpdateBufferObject(bo, data, size, 0);
             // NOTE: i is in the order of VertexAttribute
-            Engine::GetInstance()->GetDriver()->setVertexBufferObject(m_vertexBuffer,i,bo);
+            targetDriver->SetVertexBufferObject(m_vertexBuffer,i,bo);
         }
     }
 
     // index buffer
-    m_indexBuffer = Engine::GetInstance()->GetDriver()->createIndexBuffer(backend::ElementType::UINT, 
+    m_indexBuffer = targetDriver->CreateIndexBuffer(backend::ElementType::UINT,
         m_triIndexs.size(), backend::BufferUsage::STATIC);
-    Engine::GetInstance()->GetDriver()->updateIndexBuffer(m_indexBuffer,m_triIndexs.data(), m_triIndexs.size() * sizeof(uint32_t), 0);
+    targetDriver->UpdateIndexBuffer(m_indexBuffer,m_triIndexs.data(), m_triIndexs.size() * sizeof(uint32_t), 0);
     
     // set renderprimitive
-    Engine::GetInstance()->GetDriver()->setRenderPrimitiveBuffer(m_renderPrimitive, m_vertexBuffer, m_indexBuffer);
+    targetDriver->SetRenderPrimitiveBuffer(m_renderPrimitive, m_vertexBuffer, m_indexBuffer);
 
     m_isRasterGPUInitialized = true;
 }
@@ -238,7 +239,7 @@ void TriangleMesh::SetAppliedTransform(const Matrix4X4& mat)
             uint32_t size = m_normals.size() * sizeof(float);
             void* data = (void*)m_normals.data();
 
-            Engine::GetInstance()->GetDriver()->updateBufferObject(m_normalBuffetObject, data, size, 0);
+            Engine::GetInstance()->GetDriver()->UpdateBufferObject(m_normalBuffetObject, data, size, 0);
         }
     }
 }

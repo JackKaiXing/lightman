@@ -39,38 +39,38 @@
 
 #define DECL_DRIVER_API_0(N)      DECL_DRIVER_API(N, int dummy=0, dummy)
 
-DECL_DRIVER_API_N(makeCurrent, backend::HwSwapChain*, schDraw)
+DECL_DRIVER_API_N(MakeCurrent, backend::HwSwapChain*, schDraw)
 
 DECL_DRIVER_API_N(Commit, backend::HwSwapChain*, sch)
 
-DECL_DRIVER_API_N(setVertexBufferObject,
+DECL_DRIVER_API_N(SetVertexBufferObject,
         backend::HwVertexBuffer*, vbh,
         uint32_t, index,
         backend::HwBufferObject*, bufferObject)
-DECL_DRIVER_API_N(updateBufferObject,
+DECL_DRIVER_API_N(UpdateBufferObject,
         backend::HwBufferObject*, boh,
         void*, data,
         size_t, dataSize,
         uint32_t, byteOffset)
-DECL_DRIVER_API_N(updateIndexBuffer,
+DECL_DRIVER_API_N(UpdateIndexBuffer,
         backend::HwIndexBuffer*, ibh,
         void*, data,
         size_t, dataSize,
         uint32_t, byteOffset)
-DECL_DRIVER_API_N(setRenderPrimitiveBuffer,
+DECL_DRIVER_API_N(SetRenderPrimitiveBuffer,
         backend::HwRenderPrimitive*, rph,
         backend::HwVertexBuffer*, vbh,
         backend::HwIndexBuffer*, ibh)
 DECL_DRIVER_API_N(draw, backend::HwProgram*, program, backend::HwRenderPrimitive*, rph)
-DECL_DRIVER_API_N(bindUniformBuffer,
+DECL_DRIVER_API_N(BindUniformBuffer,
         uint32_t, index,
         backend::HwBufferObject*, ubh)
-DECL_DRIVER_API_N(beginRenderPass,
+DECL_DRIVER_API_N(BeginRenderPass,
         backend::HwRenderTarget*, rth,
         const backend::RenderPassParams&, params)
-DECL_DRIVER_API_N(bindSamplers, uint32_t, index,
+DECL_DRIVER_API_N(BindSamplers, uint32_t, index,
         const backend::HwTexture*, th)
-DECL_DRIVER_API_N(update2DImage,
+DECL_DRIVER_API_N(Update2DImage,
         backend::HwTexture*, th,
         uint32_t, level,
         uint32_t, xoffset,
@@ -114,25 +114,25 @@ DECL_DRIVER_API_0(endRenderPass)
 #define DECL_DRIVER_API_R_0(R,N)      DECL_DRIVER_API_RETURN(R, N, int dummy=0, dummy)
 
 DECL_DRIVER_API_R_N(backend::HwSwapChain*, CreateSwapChain, void*, nativeWindow)
-DECL_DRIVER_API_R_N(backend::HwRenderPrimitive*, createRenderPrimitive)
-DECL_DRIVER_API_R_N(backend::HwVertexBuffer*, createVertexBuffer,
+DECL_DRIVER_API_R_N(backend::HwRenderPrimitive*, CreateRenderPrimitive)
+DECL_DRIVER_API_R_N(backend::HwVertexBuffer*, CreateVertexBuffer,
         uint8_t, bufferCount,
         uint8_t, attributeCount,
         uint32_t, vertexCount,
         const backend::AttributeArray&, attributes)
-DECL_DRIVER_API_R_N(backend::HwBufferObject*, createBufferObject,
+DECL_DRIVER_API_R_N(backend::HwBufferObject*, CreateBufferObject,
         uint32_t, byteCount,
         backend::BufferObjectBinding, bindingType,
         backend::BufferUsage, usage)
-DECL_DRIVER_API_R_N(backend::HwIndexBuffer*, createIndexBuffer,
+DECL_DRIVER_API_R_N(backend::HwIndexBuffer*, CreateIndexBuffer,
         backend::ElementType, elementType,
         uint32_t, indexCount,
         backend::BufferUsage, usage)
-DECL_DRIVER_API_R_N(backend::HwProgram*, createProgram,
+DECL_DRIVER_API_R_N(backend::HwProgram*, CreateProgram,
         const std::string&, vertexShader,
         const std::string&, fragShader,
         UniformBlockInfo, ubInfo)
-DECL_DRIVER_API_R_N(backend::HwTexture*, createTexture,
+DECL_DRIVER_API_R_N(backend::HwTexture*, CreateTexture,
         backend::SamplerType, target,
         uint8_t, levels,
         backend::TextureFormat, format,
@@ -141,7 +141,7 @@ DECL_DRIVER_API_R_N(backend::HwTexture*, createTexture,
         uint32_t, height,
         uint32_t, depth,
         backend::TextureUsage, usage)
-DECL_DRIVER_API_R_N(backend::HwRenderTarget*, createRenderTarget,
+DECL_DRIVER_API_R_N(backend::HwRenderTarget*, CreateRenderTarget,
         backend::TargetBufferFlags, targetsFlags,
         uint32_t, width,
         uint32_t, height,
@@ -150,12 +150,12 @@ DECL_DRIVER_API_R_N(backend::HwRenderTarget*, createRenderTarget,
         backend::TargetBufferInfo, depth,
         backend::TargetBufferInfo, stencil)
 // bind to location in the order of names
-DECL_DRIVER_API_R_N(bool, bindSamplerLocations, 
+DECL_DRIVER_API_R_N(bool, BindSamplerLocations, 
         backend::HwProgram*, program,
         std::vector<std::string>, samplerNames)
 
-DECL_DRIVER_API_R_N(backend::HwSamplerGroup*, createSamplerGroup)
-DECL_DRIVER_API_R_0(backend::HwRenderTarget*, createDefaultRenderTarget)
+DECL_DRIVER_API_R_N(backend::HwSamplerGroup*, CreateSamplerGroup)
+DECL_DRIVER_API_R_0(backend::HwRenderTarget*, CreateDefaultRenderTarget)
 // ----------------------------------------------------------------------------
 
 

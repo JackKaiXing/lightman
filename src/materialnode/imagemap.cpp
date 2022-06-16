@@ -49,14 +49,14 @@ namespace lightman
     {
         if (!m_hwTexture)
         {
-            m_hwTexture = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 
+            m_hwTexture = Engine::GetInstance()->GetDriver()->CreateTexture(backend::SamplerType::SAMPLER_2D,
                     1, 
                     m_TextureFormatType, 1, 
                     m_width, 
                     m_height, 
                     1, 
                     backend::TextureUsage::SAMPLEABLE);
-            Engine::GetInstance()->GetDriver()->update2DImage(m_hwTexture, 0,
+            Engine::GetInstance()->GetDriver()->Update2DImage(m_hwTexture, 0,
                 0, 0,
                 m_width, m_height,
                 m_data, GetDataSize(), 

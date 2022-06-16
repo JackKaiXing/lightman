@@ -16,7 +16,7 @@ namespace lightman
     }
     void SwapChain::makeCurrent()
     {
-        Engine::GetInstance()->GetDriver()->makeCurrent(m_swapchain);
+        Engine::GetInstance()->GetDriver()->MakeCurrent(m_swapchain);
     }
     void SwapChain::Commit()
     {

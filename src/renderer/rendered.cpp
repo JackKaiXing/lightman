@@ -17,15 +17,17 @@ namespace lightman
     //----------------------------------------------------------------------------
     GPURenderer::GPURenderer(uint32_t width, uint32_t height)
     {
-        m_colorTex = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 1,
+        Driver* targetDriver = Engine::GetInstance()->GetDriver();
+        
+        m_colorTex = targetDriver->CreateTexture(backend::SamplerType::SAMPLER_2D, 1,
             backend::TextureFormat::RGBA8,1,width,height,1,backend::TextureUsage::SAMPLEABLE);
         backend::MRT colorMRT({m_colorTex,0});
         
-        m_depthTex = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 1,
+        m_depthTex = targetDriver->CreateTexture(backend::SamplerType::SAMPLER_2D, 1,
             backend::TextureFormat::DEPTH32F,1,width,height,1,backend::TextureUsage::DEPTH_ATTACHMENT);
         backend::TargetBufferInfo depthInfo(m_depthTex,0);
 
-        m_mrt = Engine::GetInstance()->GetDriver()->createRenderTarget(
+        m_mrt = targetDriver->CreateRenderTarget(
             (backend::TargetBufferFlags)((uint32_t)backend::TargetBufferFlags::COLOR0 | (uint32_t)backend::TargetBufferFlags::DEPTH),
             width,height,1,colorMRT,depthInfo,NULL);
         
@@ -84,7 +86,7 @@ namespace lightman
                 color.a = 1.0; \n \
             }";
         UniformBlockInfo ubInfo;
-        m_postprocessing_fxaa = Engine::GetInstance()->GetDriver()->createProgram(vertexShaderString, fragmentShaderString, ubInfo);
+        m_postprocessing_fxaa = targetDriver->CreateProgram(vertexShaderString, fragmentShaderString, ubInfo);
         std::vector<unsigned int> triIndexs = {0, 1, 2, 0, 2, 3};
         std::vector<float> points = 
             {-1.0, -1.0, 0.0,
@@ -130,7 +132,8 @@ namespace lightman
     void GPURenderer::RenderFrame(View* view)
     {
         // ---------------------------------------------Draw Into Custom FBO-----------------------------------------
-        Engine::GetInstance()->GetDriver()->beginRenderPass(m_mrt, m_mrtPP);
+        Driver* targetDriver = Engine::GetInstance()->GetDriver();
+        targetDriver->BeginRenderPass(m_mrt, m_mrtPP);
         
         // processing camera moving
         Matrix4X4 pvMatrix;
@@ -176,8 +179,8 @@ namespace lightman
         // ---------------------------------------------End Draw Into Custom FBO-----------------------------------------
 
         // ---------------------------------------------Post Processing, Start Default FBO-------------------------------
-        Engine::GetInstance()->GetDriver()->beginRenderPass(Engine::GetInstance()->GetDefaultRenderTarget(), m_mrtPP);
-        Engine::GetInstance()->GetDriver()->bindSamplers(0, m_colorTex);
+        targetDriver->BeginRenderPass(Engine::GetInstance()->GetDefaultRenderTarget(), m_mrtPP);
+        targetDriver->BindSamplers(0, m_colorTex);
         m_quad->Draw(m_postprocessing_fxaa);
         Engine::GetInstance()->GetDriver()->endRenderPass();
         // ---------------------------------------------Post Processing, End Default FBO---------------------------------
