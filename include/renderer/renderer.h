@@ -28,6 +28,7 @@ namespace lightman
         virtual bool BeginFrame(SwapChain *SwapChain) = 0;
         virtual void EndFrame() = 0;
         virtual void RenderFrame(View* view) = 0;
+    friend class Engine; 
     protected:
         Renderer() = default;
         virtual ~Renderer();
@@ -37,15 +38,18 @@ namespace lightman
     class GPURenderer : public Renderer
     {
     public:
-        GPURenderer(uint32_t width, uint32_t height);
-        ~GPURenderer();
         RenderType GetType() override {return RenderType::RASTER_GPU;};
         bool BeginFrame(SwapChain *swapChain) override;
         void EndFrame() override;
         void RenderFrame(View* view) override;
+    friend class Engine; 
+    protected:
+        GPURenderer(uint32_t width, uint32_t height);
+        ~GPURenderer();
     private:
         backend::HwRenderTarget* m_mrt = nullptr; // geometry off-screen rendering
         backend::HwTexture* m_colorTex = nullptr;
+        backend::HwTexture* m_depthTex = nullptr;
         backend::RenderPassParams m_mrtPP;
         backend::HwProgram* m_postprocessing_fxaa = nullptr;
         geometry::TriangleMesh * m_quad = nullptr;

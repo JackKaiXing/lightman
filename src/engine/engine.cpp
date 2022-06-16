@@ -67,4 +67,8 @@ namespace lightman
             break;
         }
     }
+    void Engine::DestroyRender(Renderer* render)
+    {
+        delete render;
+    }
 }

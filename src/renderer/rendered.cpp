@@ -21,9 +21,9 @@ namespace lightman
             backend::TextureFormat::RGBA8,1,width,height,1,backend::TextureUsage::SAMPLEABLE);
         backend::MRT colorMRT({m_colorTex,0});
         
-        HwTexture* depthTex = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 1,
+        m_depthTex = Engine::GetInstance()->GetDriver()->createTexture(backend::SamplerType::SAMPLER_2D, 1,
             backend::TextureFormat::DEPTH32F,1,width,height,1,backend::TextureUsage::DEPTH_ATTACHMENT);
-        backend::TargetBufferInfo depthInfo(depthTex,0);
+        backend::TargetBufferInfo depthInfo(m_depthTex,0);
 
         m_mrt = Engine::GetInstance()->GetDriver()->createRenderTarget(
             (backend::TargetBufferFlags)((uint32_t)backend::TargetBufferFlags::COLOR0 | (uint32_t)backend::TargetBufferFlags::DEPTH),
@@ -97,7 +97,17 @@ namespace lightman
     }
     GPURenderer::~GPURenderer()
     {
-        // TODO DESTORY Resources
+        lightman::backend::Driver * driver = Engine::GetInstance()->GetDriver();
+        if (m_colorTex)
+            driver->DestroyTexture(m_colorTex);
+        if (m_depthTex)
+            driver->DestroyTexture(m_depthTex);
+        if (m_postprocessing_fxaa)
+            driver->DestroyProgram(m_postprocessing_fxaa);
+        if (m_quad)
+            delete m_quad;
+        if (m_mrt)
+            driver->DestroyRenderTarget(m_mrt);
     }
     bool GPURenderer::BeginFrame(SwapChain *swapChain)
     {

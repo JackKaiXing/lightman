@@ -802,13 +802,13 @@ void Destory()
     delete myConfig.myView;
     delete myConfig.myScene;
     delete myConfig.myCamera;
-
-    // Destory SwapChain
-    // Destory Renderers
     
     lightman::MaterialManager::DetoryInstance();
     lightman::MeshManager::DetoryInstance();
     lightman::ImagemapManager::DetoryInstance();
+
+    // Destory SwapChain
+    lightman::Engine::GetInstance()->DestroyRender(myConfig.myRenderer);
     
     lightman::Engine::DestroyInstance();
 }
