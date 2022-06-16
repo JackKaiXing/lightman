@@ -71,9 +71,11 @@ namespace lightman
     }
     Imagemap::~Imagemap()
     {
+        RELEASEANDRETURN(this);
+
         if (m_data)
             free(m_data);
         if (m_hwTexture)
-            delete m_hwTexture; // TODO
+            delete m_hwTexture;
     }
 }
