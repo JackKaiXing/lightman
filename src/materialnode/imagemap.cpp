@@ -76,6 +76,6 @@ namespace lightman
         if (m_data)
             free(m_data);
         if (m_hwTexture)
-            delete m_hwTexture;
+            Engine::GetInstance()->GetDriver()->DestroyTexture(m_hwTexture);
     }
 }

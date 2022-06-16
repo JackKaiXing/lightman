@@ -609,6 +609,7 @@ namespace lightman
         {
             if (sg)
             {
+                // the HwTexture it referenced does not need to be delete. the called would be responsible to release
                 GLSamplerGroup* glsg = static_cast<GLSamplerGroup*>(sg);
                 delete glsg;
             }
@@ -630,6 +631,17 @@ namespace lightman
                 delete glpm;
             }
             
+        }
+        void OpenGLDriver::DestroyTexture(backend::HwTexture* tex)
+        {
+            if (tex)
+            {
+                GLTexture* gltex = static_cast<GLTexture*>(tex);
+                glDeleteTextures(1, &(gltex->gl.id));
+                CHECK_GL_ERROR();
+
+                delete gltex;
+            }
         }
     }
 }

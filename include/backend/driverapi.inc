@@ -98,6 +98,8 @@ DECL_DRIVER_API_N(DestroySamplerGroup,
         backend::HwSamplerGroup*, sg)
 DECL_DRIVER_API_N(DestroyProgram,
         backend::HwProgram*, pm)
+DECL_DRIVER_API_N(DestroyTexture,
+        backend::HwTexture*, tex)
 
 
 DECL_DRIVER_API_0(endRenderPass)
