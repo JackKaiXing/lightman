@@ -58,7 +58,8 @@ namespace lightman
             m_driver->DestroyRenderTarget(m_defaultRT);
         
         m_platform->DestroyDriver(m_driver);
-        
+
+        delete m_platform;
     }
     SwapChain* Engine::CreateSwapChain(void* nativeWindow)
     {

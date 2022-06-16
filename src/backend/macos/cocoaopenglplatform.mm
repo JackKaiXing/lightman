@@ -35,8 +35,15 @@ namespace lightman
         // https://stackoverflow.com/questions/4714698/mixing-objective-c-m-mm-c-cpp-files
         struct CocoaOpenGLPlatformImpl
         {
+            ~CocoaOpenGLPlatformImpl()
+            {
+                // weak reference, just delete
+                m_currentSwapChain = nullptr;
+                
+                [m_openGLContext dealloc];
+            };
             NSOpenGLContext* m_openGLContext = nullptr;
-            CocoaGLSwapChain* mCurrentSwapChain = nullptr;
+            CocoaGLSwapChain* m_currentSwapChain = nullptr;
         };   
         // ----------------------------------------------------------------------------
         CocoaOpenGLPlatform::CocoaOpenGLPlatform() : m_cocoaImpl(new CocoaOpenGLPlatformImpl())
@@ -108,9 +115,9 @@ namespace lightman
             CocoaGLSwapChain* swapchain = (CocoaGLSwapChain*)drawswapchain;
 
             // TODO SWAPCHAIN CHANGE FOR BOUND SIZE
-            if(m_cocoaImpl->mCurrentSwapChain != swapchain)
+            if(m_cocoaImpl->m_currentSwapChain != swapchain)
             {
-                m_cocoaImpl->mCurrentSwapChain = swapchain;
+                m_cocoaImpl->m_currentSwapChain = swapchain;
                 [m_cocoaImpl->m_openGLContext setView:swapchain->view];
                 [m_cocoaImpl->m_openGLContext update];
             }
