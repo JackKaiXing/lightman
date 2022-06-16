@@ -46,6 +46,7 @@ public:
         Texture node between is not shared, no meanings to share.
     */
     std::unordered_map<std::string, lightman::Node*> mytexturesOfLucScene;
+    std::unordered_map<std::string, uint32_t> mytextureUsageCount;
 private:
     uint32_t myDefaultTextureCount = 0;
 
@@ -62,6 +63,7 @@ public:
             delete iter->second;
         }*/
         mytexturesOfLucScene.clear();
+        mytextureUsageCount.clear();
         
     }
 }myConfig;
@@ -118,8 +120,13 @@ lightman::Node* AppConfig::GetOrCreateTextureFromAttributeValue(const std::strin
     {
         auto iter = mytexturesOfLucScene.find(value);
         if( iter != mytexturesOfLucScene.end())
+        {
             // it is the name of the texture created previously
             result = iter->second;
+
+            // add count: this would not be needed later, just count if the parsed textures has been used or not.
+            mytextureUsageCount.find(value)->second++;
+        }
         else
         {
             // it is a const float texture
@@ -586,6 +593,7 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                 }
                 texture = static_cast<lightman::Node*>(typedTexture);
                 mytexturesOfLucScene.insert({texturelName, texture});
+                mytextureUsageCount.insert({texturelName, 0});
             }
             else
             {
@@ -789,17 +797,18 @@ void Render()
 
 void Destory()
 {
+    myConfig.ClearTextures();
+
     delete myConfig.myView;
     delete myConfig.myScene;
     delete myConfig.myCamera;
-
-    myConfig.ClearTextures();
 
     // Destory SwapChain
     // Destory Renderers
     
     lightman::MaterialManager::DetoryInstance();
     lightman::MeshManager::DetoryInstance();
+    lightman::ImagemapManager::DetoryInstance();
     
     lightman::Engine::DestroyInstance();
 }
