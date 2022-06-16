@@ -81,6 +81,7 @@ namespace lightman
             
             NSOpenGLPixelFormat* pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
             NSOpenGLContext* nsOpenGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nullptr];
+            [pixelFormat dealloc];
             
             // https://developer.apple.com/documentation/appkit/nsopenglcpswapinterval
             GLint interval = 0;
