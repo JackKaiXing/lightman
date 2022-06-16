@@ -609,7 +609,7 @@ namespace lightman
         {
             if (sg)
             {
-                // the HwTexture it referenced does not need to be delete. the called would be responsible to release
+                // the GLTexture it referenced does not need to be delete. the called would be responsible to release
                 GLSamplerGroup* glsg = static_cast<GLSamplerGroup*>(sg);
                 delete glsg;
             }
@@ -642,6 +642,19 @@ namespace lightman
 
                 delete gltex;
             }
+        }
+        void OpenGLDriver::DestroyRenderTarget(backend::HwRenderTarget* mrt)
+        {
+            if (mrt)
+            {
+                // the GLTexture it referenced does not need to be delete. the called would be responsible to release
+                GLRenderTarget* glmrt = static_cast<GLRenderTarget*>(mrt);
+                glDeleteFramebuffers(1, &(glmrt->gl.fbo));
+                CHECK_GL_ERROR();
+
+                delete glmrt;
+            }
+            
         }
     }
 }
