@@ -309,8 +309,17 @@ void AppConfig::ParseLuxCoreScene(const std::string& file)
                                     triangles.push_back(f.verts[2]);
                                     triangles.push_back(f.verts[3]);
                                 }
+                                delete f.verts;
                             }
                         }
+
+                        delete elem_name;
+                        
+                        for (int j = 0; j < nprops; j++)
+                        {
+                            delete plist[j];
+                        }
+                        delete plist;
                     }
                     
                     /* close the PLY file */
