@@ -9,10 +9,12 @@ namespace lightman
     class SwapChain
     {
     public:
-        SwapChain(backend::HwSwapChain* swapchain);
-        ~SwapChain();
         void makeCurrent();
         void Commit();
+    friend class Engine;
+    protected:
+        SwapChain(void* nativeWindow);
+        ~SwapChain();
     private:
         backend::HwSwapChain* m_swapchain;
     };

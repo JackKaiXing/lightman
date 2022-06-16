@@ -4,12 +4,14 @@
 
 namespace lightman
 {
-    SwapChain::SwapChain(backend::HwSwapChain* swapchain)
+    SwapChain::SwapChain(void* nativeWindow)
     {
-        m_swapchain = swapchain;
+        m_swapchain =  Engine::GetInstance()->GetDriver()->CreateSwapChain(nativeWindow);
     }
     SwapChain::~SwapChain()
     {
+        if (m_swapchain)
+            Engine::GetInstance()->GetDriver()->DestroySwapChain(m_swapchain);
         m_swapchain = nullptr;
     }
     void SwapChain::makeCurrent()

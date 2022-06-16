@@ -806,9 +806,9 @@ void Destory()
     lightman::MaterialManager::DetoryInstance();
     lightman::MeshManager::DetoryInstance();
     lightman::ImagemapManager::DetoryInstance();
-
-    // Destory SwapChain
+    
     lightman::Engine::GetInstance()->DestroyRender(myConfig.myRenderer);
+    lightman::Engine::GetInstance()->DestroySwapChain(myConfig.mySwapChain);
     
     lightman::Engine::DestroyInstance();
 }

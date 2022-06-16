@@ -48,7 +48,7 @@ namespace lightman
     }
     SwapChain* Engine::CreateSwapChain(void* nativeWindow)
     {
-        return new SwapChain(m_driver->CreateSwapChain(nativeWindow));
+        return new SwapChain(nativeWindow);
     }
     Renderer* Engine::CreateRender(uint32_t width, uint32_t height, RenderType type)
     {
@@ -70,5 +70,9 @@ namespace lightman
     void Engine::DestroyRender(Renderer* render)
     {
         delete render;
+    }
+    void Engine::DestroySwapChain(SwapChain* swapchain)
+    {
+        delete swapchain;
     }
 }
