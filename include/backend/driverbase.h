@@ -101,6 +101,7 @@ namespace lightman
         // ----------------------------------------------------------------------------
         struct HwSwapChain : public HwBase
         {
+            ~HwSwapChain(){swapchain = nullptr;}
             Platform::SwapChain * swapchain = nullptr;
         };
         // ----------------------------------------------------------------------------

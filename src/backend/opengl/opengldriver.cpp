@@ -654,7 +654,14 @@ namespace lightman
 
                 delete glmrt;
             }
-            
+        }
+        void OpenGLDriver::DestroySwapChain(backend::HwSwapChain* sc)
+        {
+            if (sc)
+            {
+                m_platfrom->DestroySwapChain(sc->swapchain);
+                delete sc;
+            }
         }
     }
 }
