@@ -14,7 +14,17 @@ namespace lightman
     }
     Material::~Material()
     {
-        RELEASEANDRETURN(this);
+        if (m_defaultMI)
+        {
+            if (GetRefCount() > 2)
+            {
+                // someone are still referencing it
+                ReleaseRef();
+                return;
+            }
+        }
+        else
+            RELEASEANDRETURN(this);
         
         m_uniformsInfoList.clear();
         m_uniformInfoMap.clear();
@@ -32,9 +42,7 @@ namespace lightman
             delete m_defaultMI;
     }
     MaterialInstance* Material::createMaterialInstance(const std::string& name)
-    {
-        IncreaseRef(); // add ref for mother material here, only for non-default mi
-        
+    {        
         MaterialInstance* result = new MaterialInstance(this, name);
         return result;
     }
@@ -60,7 +68,7 @@ namespace lightman
             delete m_defaultMI;
         }
         // the default material instance is managed by itself, not MI Manager, should be release by itself.
-        m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance", true);
+        m_defaultMI = new MaterialInstance(this, m_name + "_defaultMatInstance");
     }
     void Material::InitUniformBlockInfo(const std::vector<UniformDefine> uDefines)
     {

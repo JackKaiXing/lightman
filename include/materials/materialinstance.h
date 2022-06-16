@@ -30,7 +30,7 @@ namespace lightman
         ~MaterialInstance();
     friend class Material;
     protected:
-        MaterialInstance(Material * material, const std::string& name, bool isDefault = false);
+        MaterialInstance(Material * material, const std::string& name);
         
     private:
         std::string m_name;
@@ -39,7 +39,6 @@ namespace lightman
         Blob m_uniforBufferCPU;
         bool m_needToUpdateUniformBuffer = true;
         backend::HwSamplerGroup* m_SamplerGroup = nullptr;
-        bool m_isDefault = false;
     };
     
     template<> void MaterialInstance::SetParameter<float> (const char* name, float const& value, uint32_t count);

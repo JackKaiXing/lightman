@@ -5,7 +5,7 @@
 
 namespace lightman
 {
-    MaterialInstance::MaterialInstance(Material * material, const std::string& name, bool isDefault)
+    MaterialInstance::MaterialInstance(Material * material, const std::string& name)
     {
         m_name = name;
         m_material = material;
@@ -32,7 +32,7 @@ namespace lightman
             }
         }
 
-        m_isDefault = isDefault;
+        m_material->IncreaseRef();
     }
     MaterialInstance::~MaterialInstance()
     {
@@ -46,7 +46,7 @@ namespace lightman
         // The Default MaterialInstance is owned by its mother material,
         // if the deleting comes from mother material,
         // there is no need to releaseRef or delete for mother material.
-        if (m_material && !m_isDefault)
+        if (m_material)
             RELEASEORDELETE(m_material);
 
         if (m_uniformBufferHw)
