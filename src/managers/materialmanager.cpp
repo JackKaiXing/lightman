@@ -43,7 +43,7 @@ namespace lightman
         
         for (auto iter = m_materials.begin(); iter != m_materials.end(); iter++)
         {
-            if (iter->second->GetRefCount() > 1)
+            if (iter->second->GetRefCount() > 2)
                 std::cout << "Warning: Delete MatrialManager While Material Being Referenced!" << std::endl;
             
             delete iter->second;
