@@ -11,6 +11,7 @@ namespace lightman
     {
     public:
         ImagemapNode(){};
+        ImagemapNode(ImagemapNode* target);
         ImagemapNode(const std::string& name) : Node(name){};
         ~ImagemapNode();
 

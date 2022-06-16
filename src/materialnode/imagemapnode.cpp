@@ -9,6 +9,16 @@ namespace lightman
         if (m_imagemap)
             RELEASEORDELETE(m_imagemap);
     }
+    ImagemapNode::ImagemapNode(ImagemapNode* target)
+        : Node(target->GetName())
+    {
+        m_imagemap = target->m_imagemap;
+        if(m_imagemap)
+            m_imagemap->IncreaseRef();
+
+        m_enableExpose = target->m_enableExpose;
+
+    }
     void ImagemapNode::SetImageMap(Imagemap* im)
     {
         if(m_imagemap)
