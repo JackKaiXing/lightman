@@ -32,6 +32,9 @@ namespace lightman
     {
         for (auto iter = m_imagemaps.begin() ; iter != m_imagemaps.end(); iter++)
         {
+            if (iter->second->GetRefCount() > 1)
+                std::cout << "Warning: Delete ImagemapManager While Imagemap Being Referenced!" << std::endl;
+
             delete iter->second;
         }
         m_imagemaps.clear();
