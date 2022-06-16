@@ -13,6 +13,7 @@ namespace lightman
         {
         public:
             backend::Driver* CreateDriver() noexcept override;
+            void DestroyDriver(backend::Driver* targetDriver) noexcept override;
             CocoaOpenGLPlatform();
             ~CocoaOpenGLPlatform();
             Platform::SwapChain* CreateSwainChain(void* nativeWindow) override;

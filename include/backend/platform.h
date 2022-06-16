@@ -14,6 +14,7 @@ namespace lightman
             struct SwapChain {};
             static Platform* Create(backend::BackendType backend);
             virtual backend::Driver* CreateDriver() noexcept = 0;
+            virtual void DestroyDriver(backend::Driver* targetDriver) noexcept = 0;
             virtual Platform::SwapChain* CreateSwainChain(void* nativeWindow) = 0;
             virtual void DestroySwapChain(Platform::SwapChain* sc) = 0;
             virtual ~Platform() noexcept{};

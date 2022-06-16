@@ -46,6 +46,16 @@ namespace lightman
         {
             delete m_cocoaImpl;
         }
+        void CocoaOpenGLPlatform::DestroyDriver(backend::Driver* targetDriver) noexcept
+        {
+            if (targetDriver)
+            {
+                OpenGLDriver* gldriver = static_cast<OpenGLDriver*>(targetDriver);
+                delete gldriver;
+
+                bluegl::unbind();
+            }
+        }
         backend::Driver* CocoaOpenGLPlatform::CreateDriver() noexcept
         {
             // https://developer.apple.com/documentation/appkit/nsopenglpixelformat/1436219-initwithattributes?language=objc
