@@ -143,7 +143,7 @@ void InstancedTriangleMesh::Draw()
             mi->SetParameter(ShaderString::SharedUniformName_HasUV0.c_str(),m_mesh->HasUV()? 1 : 0);
             mi->SetParameter(ShaderString::SharedUniformName_HasUV1.c_str(),false? 1 : 0);
             {
-                // TO DO remove into a unique block for all raster objects
+                // TODO remove into a unique block for all raster objects
                 mi->SetParameter(ShaderString::SharedUniformName_CameraPos.c_str(), m_cameraPos);
 
                 Vector4 ambientColor = Vector4(0.1, 0.1, 0.1, 1.0);
