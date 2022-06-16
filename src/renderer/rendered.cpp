@@ -35,7 +35,6 @@ namespace lightman
         m_mrtPP.flags.clear = (backend::TargetBufferFlags)((uint32_t)backend::TargetBufferFlags::COLOR0 | (uint32_t)backend::TargetBufferFlags::DEPTH);
         m_mrtPP.viewport = lightman::Viewport(0,0,width,height);
 
-        // TODO Remove to config
         std::string vertexShaderString = "#version 330 core \n \
             layout(location = 0) in vec3 position; \n \
             out vec2 uv; \n \
@@ -58,7 +57,7 @@ namespace lightman
                 highp vec2 fboSize = vec2(textureSize(geometryTex, 0)); \n \
                 highp vec2 invSize = 1.0 / fboSize;  \n \
                 highp vec2 halfTexel = 0.5 * invSize;  \n \
-                highp vec2 viewportSize = fboSize; // TODO get viewport size \n \
+                highp vec2 viewportSize = fboSize;\n \
                 // The clamp needs to be over-aggressive by a half-texel due to bilinear sampling. \n \
                 highp vec2 excessSize = 0.5 + fboSize - viewportSize; \n \
                 highp vec2 upperBound = 1.0 - excessSize * invSize; \n \
