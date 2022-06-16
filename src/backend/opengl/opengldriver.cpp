@@ -141,7 +141,7 @@ namespace lightman
 
             if (bo->gl.binding == GL_UNIFORM_BUFFER)
             {
-                // TODO check byteoffset and aligment
+                // check byteoffset and aligment
                 glBufferData(bo->gl.binding, dataSize, data, OpenGLUtils::getBufferUsage(bo->usage));
             }
             else{
@@ -152,7 +152,7 @@ namespace lightman
                 glBindBuffer(bo->gl.binding, bo->gl.id);
                 // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml
                 if (byteOffset == 0 && dataSize == bo->byteCount) {
-                    // TODO Performance test 
+                    // FIXME Performance test 
                     glBufferData(bo->gl.binding, dataSize, data, OpenGLUtils::getBufferUsage(bo->usage));
                 } else {
                     glBufferSubData(bo->gl.binding, byteOffset, dataSize, data);
@@ -339,12 +339,12 @@ namespace lightman
                     break;
                 
                 default:
-                    assert(0); // TODO other types
+                    assert(0);
                 }
 
                 if (result->samples > 1)
                 {
-                    // TODO MulitSamples
+                    // FIXME MulitSamples
                 }
 
                 glBindTexture(result->gl.target, result->gl.id);
@@ -358,7 +358,7 @@ namespace lightman
                     break;
                 
                 default:
-                    assert(0); // TODO other types
+                    assert(0);
                 }
                 glBindTexture(result->gl.target, 0);
             }
@@ -375,7 +375,7 @@ namespace lightman
                 glBindRenderbuffer(GL_RENDERBUFFER, result->gl.id);
                 if (result->samples > 1)
                 {
-                    // TODO MulitSamples
+                    // FIXME MulitSamples
                 }
                 else
                 {
@@ -418,7 +418,7 @@ namespace lightman
         backend::HwRenderTarget* OpenGLDriver::CreateDefaultRenderTarget(int)
         {
             GLRenderTarget * result = new GLRenderTarget();
-            result->height = 0; // TODO
+            result->height = 0; // FIXME
             result->width = 0;
             result->gl.samples = 1; // NO MULTIPLE SAMPLING
             result->targets = TargetBufferFlags((uint32_t)TargetBufferFlags::COLOR0 | (uint32_t)TargetBufferFlags::DEPTH_AND_STENCIL);
