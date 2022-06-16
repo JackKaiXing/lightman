@@ -17,6 +17,7 @@ namespace lightman
     public:
         SwapChain* CreateSwapChain(void* nativeWindow);
         Renderer* CreateRender(uint32_t width, uint32_t height, RenderType type = RenderType::RASTER_GPU);
+        void DestroyRender(Renderer* render);
     public:
         static Engine* Create(backend::BackendType backend = backend::BackendType::OPENGL); //  TODO: be removed out of this file
         static Engine* GetInstance();
