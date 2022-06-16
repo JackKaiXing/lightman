@@ -649,9 +649,12 @@ namespace lightman
             {
                 // the GLTexture it referenced does not need to be delete. the called would be responsible to release
                 GLRenderTarget* glmrt = static_cast<GLRenderTarget*>(mrt);
-                glDeleteFramebuffers(1, &(glmrt->gl.fbo));
-                CHECK_GL_ERROR();
-
+                // pass default frame buffer
+                if (glmrt->gl.fbo != 0)
+                {
+                    glDeleteFramebuffers(1, &(glmrt->gl.fbo));
+                    CHECK_GL_ERROR();
+                }
                 delete glmrt;
             }
         }

@@ -22,6 +22,12 @@ namespace lightman
         MaterialManager::DetoryInstance();
         MeshManager::DetoryInstance();
         ImagemapManager::DetoryInstance();
+
+        if (g_engine)
+        {
+            delete g_engine;
+        }
+        g_engine = nullptr;
     }
     
     Engine* Engine::GetInstance()
@@ -48,7 +54,9 @@ namespace lightman
     }
     Engine::~Engine()
     {
-        // TODO other destory
+        if (m_defaultRT)
+            m_driver->DestroyRenderTarget(m_defaultRT);
+        
     }
     SwapChain* Engine::CreateSwapChain(void* nativeWindow)
     {
