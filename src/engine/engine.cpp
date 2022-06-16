@@ -1,6 +1,8 @@
 
 #include "engine/engine.h"
 #include "managers/meshmanager.h"
+#include "managers/materialmanager.h"
+#include "managers/imagemapmanager.h"
 
 namespace lightman
 {
@@ -17,7 +19,9 @@ namespace lightman
 
     void Engine::DestroyInstance()
     {
+        MaterialManager::DetoryInstance();
         MeshManager::DetoryInstance();
+        ImagemapManager::DetoryInstance();
     }
     
     Engine* Engine::GetInstance()
