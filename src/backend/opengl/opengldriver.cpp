@@ -75,6 +75,11 @@ namespace lightman
         {
             m_platfrom = platform;
         }
+        OpenGLDriver::~OpenGLDriver()
+        {
+            // hold nothing but a reference, no need to delete platfom
+            m_platfrom = nullptr;
+        }
         backend::HwSwapChain* OpenGLDriver::CreateSwapChain(void* nativeWindow)
         {
             backend::HwSwapChain* swapchain = new backend::HwSwapChain();
