@@ -42,6 +42,7 @@ Macos_GLUpdate: https://developer.apple.com/documentation/appkit/nsopenglcontext
 Macos_Context: https://developer.apple.com/documentation/appkit/nsopenglcontext
 Macos_Thread(with update): https://developer.apple.com/documentation/dispatch/1452870-dispatch_sync
 Macos_NTThread: https://blog.actorsfit.com/a?ID=01350-0c68a681-1abd-4d9d-adda-38872bee9dac
+[Memory Leaks](https://help.apple.com/instruments/mac/current/#/dev022f987b)
 
 
 >>**Win OPENGL**
@@ -126,3 +127,11 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [GLSL UNIFORM Block](https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL)
 [GLSL Fast Approximation Math](https://github.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h)
 [GLSL Reinterprecast](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/floatBitsToInt.xhtml)
+
+>>**Virtual Camera**
+[virtual production1](https://www.premiumbeat.com/blog/virtual-production-for-filmmakers/)
+[stage craft](https://www.ilm.com/stagecraft/)
+[arri](https://www.arri.com/cn?eid=registration&file_uid=12886)
+[unreal composure](https://docs.unrealengine.com/4.27/en-US/WorkingWithMedia/IntegratingMedia/Composure/QuickStart/)
+[unreal hand-held device for fore ground masking1](https://www.youtube.com/watch?v=had9wSFcoBI)
+[unreal hand-held device for fore ground masking plugin](https://github.com/dpredie/OneEuroBlueprint)
