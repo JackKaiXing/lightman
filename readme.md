@@ -195,4 +195,4 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [github reyes1](https://github.com/dpasca/RibTools)
 [github reyes2](https://github.com/abstractalgo/reyes)
 [renderman interface specification](https://en.wikipedia.org/wiki/RenderMan_Interface_Specification)
-Note:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing]
+Note:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing. It is required less memory and render fast than tracing, expecially for massvie scene with files, fogs, explosion....VFX.
