@@ -147,3 +147,52 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [company](https://xitelabs.com/portfolio/grimesshinigamieyes/)
 [example unreal engine, simulate a singer](https://www.youtube.com/watch?v=-4ZXuaHRx30)
 [example virtual concert](https://www.youtube.com/watch?v=sjgs95eevgE)
+
+>>**Modelling Software**
+[a list](https://en.wikipedia.org/wiki/List_of_3D_modeling_software)
+[List of 3D computer graphics software](https://en.wikipedia.org/wiki/List_of_3D_computer_graphics_software)
+[VFX software list1](https://filmora.wondershare.com/video-editing-tips/best-special-effects-software.html)
+[VFX software list2](https://www.videoconverterfactory.com/tips/best-vfx-software.html)
+[3d coat](https://3dcoat.com/)
+[cheetah for animals](https://www.cheetah3d.com/)
+[metaseq](https://metaseq.net/en/index.html)
+[modo](https://www.foundry.com/products/modo)
+[siemens NX](https://www.plm.automation.siemens.com/global/en/products/nx/)
+[adobe medium, vr modelling](https://www.adobe.com/products/medium.html)
+[autodesk Alias, product modeling](https://www.autodesk.com/products/alias-products/overview?term=1-YEAR&tab=subscription)
+[promine, mine solution modeling](https://promine.com/)
+[realsoft, abstract art modeling](http://www.realsoft.fi/)
+[shade 3d, very complex, more pattern, bezier/nurbs ](https://shade3d.jp/en/)
+[silo](https://www.nevercenter.com/silo/)
+[wings 3d](http://www.wings3d.com/)
+[speed tree](https://store.speedtree.com/)
+[houdini](https://www.sidefx.com/)
+[elixxier, virtual photo studio](https://www.elixxier.com/en/products/setalight3d.php)
+[3lateral, digitization of human appearance and motion](https://www.3lateral.com/about-us.html)
+
+>>**Model Resources**
+[clara](https://clara.io/)
+
+>>**Advertising**
+[adobe dimension, product package visualization fast](https://www.youtube.com/watch?v=bM-3PydkMBg)
+
+>>**Render/Simulation software**
+[lightwave](https://www.lightwave3d.com/products/)
+[massive for crowds, simulation more](https://www.massivesoftware.com/massiveprime.html)
+[dial, lighting simulation](https://www.dialux.com/en-GB/about-dial)
+[lighting manufactures](https://www.lightingdirect.com/lighting-manufacturers/c3)
+
+>>**Reyes**
+[JRMAN, a reyes example source code](http://www.jrman.org/)
+[aqsis, blog](http://www.aqsis.org/2015/08/15/Point_Based_Global_Illumination.html)
+[renderman](https://renderman.pixar.com/)
+[reyes, wiki](https://en.wikipedia.org/wiki/Reyes_rendering)
+[reyes, original paper](https://graphics.pixar.com/library/Reyes/paper.pdf)
+[micropolygon](https://en.wikipedia.org/wiki/Micropolygon)
+[why reyes](https://3dcoat.com/forum/index.php?/topic/24557-micropolygon-vs-physically-renderer-houdini/)
+[why reyes2](https://www.sidefx.com/forum/topic/19861/?page=1#post-93274)
+[reyes houdini](https://www.sidefx.com/docs/houdini/render/understanding.html#mantra-s-rendering-pipeline)
+[github reyes1](https://github.com/dpasca/RibTools)
+[github reyes2](https://github.com/abstractalgo/reyes)
+[renderman interface specification](https://en.wikipedia.org/wiki/RenderMan_Interface_Specification)
+Note:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing]
