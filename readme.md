@@ -128,10 +128,22 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [GLSL Fast Approximation Math](https://github.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h)
 [GLSL Reinterprecast](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/floatBitsToInt.xhtml)
 
->>**Virtual Camera**
+>>**Virtual Stage**
+[enscape visualize as you design](https://enscape3d.com/)
+
+>>**Virtual Stage/Concert/Character**
 [virtual production1](https://www.premiumbeat.com/blog/virtual-production-for-filmmakers/)
 [stage craft](https://www.ilm.com/stagecraft/)
 [arri](https://www.arri.com/cn?eid=registration&file_uid=12886)
 [unreal composure](https://docs.unrealengine.com/4.27/en-US/WorkingWithMedia/IntegratingMedia/Composure/QuickStart/)
 [unreal hand-held device for fore ground masking1](https://www.youtube.com/watch?v=had9wSFcoBI)
 [unreal hand-held device for fore ground masking plugin](https://github.com/dpredie/OneEuroBlueprint)
+[virtual stage example](https://vimeo.com/671300793?embedded=true&source=vimeo_logo&owner=5231721)
+[example crest ship](https://www.youtube.com/watch?v=8YuaIwVbEZo)
+[example unreal engine compositin](https://www.youtube.com/watch?v=Kd6Bx74LMSM)
+[example virtual stage](https://www.youtube.com/watch?v=TWIKJuxa9zI)
+[virtual stage](https://www.youtube.com/watch?v=24hUVZ9v_7o)
+[company](https://x1-digital.com/)
+[company](https://xitelabs.com/portfolio/grimesshinigamieyes/)
+[example unreal engine, simulate a singer](https://www.youtube.com/watch?v=-4ZXuaHRx30)
+[example virtual concert](https://www.youtube.com/watch?v=sjgs95eevgE)
