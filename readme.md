@@ -166,7 +166,6 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [silo](https://www.nevercenter.com/silo/)
 [wings 3d](http://www.wings3d.com/)
 [speed tree](https://store.speedtree.com/)
-[houdini](https://www.sidefx.com/)
 [elixxier, virtual photo studio](https://www.elixxier.com/en/products/setalight3d.php)
 [3lateral, digitization of human appearance and motion](https://www.3lateral.com/about-us.html)
 
@@ -195,4 +194,13 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [github reyes1](https://github.com/dpasca/RibTools)
 [github reyes2](https://github.com/abstractalgo/reyes)
 [renderman interface specification](https://en.wikipedia.org/wiki/RenderMan_Interface_Specification)
-Note:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing. It is required less memory and render fast than tracing, expecially for massvie scene with files, fogs, explosion....VFX.
+[fractals, geometric shapes containing detailed structure at arbitrarily small scales](https://en.wikipedia.org/wiki/Fractal)
+[graftals, disappeared in houdini](https://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/npr/sld046.htm)
+
+Note_01:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing. It is required less memory and render fast than tracing, expecially for massvie scene with files, fogs, explosion....VFX.
+
+
+>>**Animation Software**
+The Past and Future of Animation Software: Fast(Rendering/Modeling), Complex(Model/Physical Simulaton/Physical materials/), High-Quality, Diversity(Procedural/fractals/particle system/graftals).
+[houdini](https://www.sidefx.com/)
+Note_01:Complexity of models and abundance of textures are more impoartant than ray tracing effect, since non-local lighting could be approximated with texture maps. “Raytrace rendering in Mantra(Houdini) is used for calculating reflections and refratctions.”
