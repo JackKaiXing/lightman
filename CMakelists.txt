@@ -1,6 +1,13 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.19)
 
 project(LightMan)
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(IS_64_BIT TRUE)
+else()
+    set(IS_64_BIT FALSE)
+endif()
+
 
 # include
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
@@ -30,7 +37,6 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer SRC_RENDERER)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/managers SRC_MANAGER)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/materials SRC_MATERIALS)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/materialnode SRC_MNODES)
-
 
 # Cross-Platform:: Platform
 set(SRC_PLATFORM "")
@@ -70,11 +76,20 @@ endif()
 # set(CMAKE_CXX_STANDARD 11)
 # set(CMAKE_CXX_STANDARD 14)
 # magic_enum need to be C++17
+if (WIN32 AND IS_64_BIT)
+    enable_language(ASM_MASM)
+    set_property(SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLCoreWindowsImpl.S PROPERTY LANGUAGE ASM_MASM)
+else()
+    enable_language(ASM)
+endif()
 set(CMAKE_CXX_STANDARD 17)
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-enable_language(ASM)
+set(CXX_STANDARD "/std:c++latest")
+if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W0 /Zc:__cplusplus")
+endif()
+
+
 
 # target
 # add_library(${PROJECT_NAME} ${Src})
@@ -100,6 +115,9 @@ add_executable(${PROJECT_NAME}
     ${SRC_MNODES}
 )
 
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE opengl32 gdi32)
+endif()
 if(APPLE)
     # add platform dependency
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")

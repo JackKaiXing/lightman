@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cmath>
 #include <iostream>
+#include <assert.h>
 
 #include "math/mathutils.h"
 #include "math/vector.h"

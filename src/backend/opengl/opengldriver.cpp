@@ -94,7 +94,7 @@ namespace lightman
         {
             m_platfrom->Commit(swapchain->swapchain);
         }
-        HwRenderPrimitive* OpenGLDriver::CreateRenderPrimitive()
+        HwRenderPrimitive* OpenGLDriver::CreateRenderPrimitive(int dummy)
         {
             GLRenderPrimitive* result = new GLRenderPrimitive();
             glGenVertexArrays(1, &result->gl.vao);
@@ -545,7 +545,7 @@ namespace lightman
             glBindTexture(tex->gl.target, tex->gl.id);
             CHECK_GL_ERROR();
         }
-        backend::HwSamplerGroup* OpenGLDriver::CreateSamplerGroup()
+        backend::HwSamplerGroup* OpenGLDriver::CreateSamplerGroup(int dummy)
         {
             GLSamplerGroup* result = new GLSamplerGroup();
             return result;

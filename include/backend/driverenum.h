@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <array>
+#include <string>
 
 namespace lightman
 {

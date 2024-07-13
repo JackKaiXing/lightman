@@ -26,7 +26,7 @@
  // https://stackoverflow.com/questions/18419662/undefined-reference-to-gl-functions-when-using-qglwidget/18420279#18420279
  // https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
 #if defined(WIN32)
-    
+    #define GL_GLEXT_PROTOTYPES 1
 #else
     #define GL_GLEXT_PROTOTYPES 1
 #endif

@@ -22,5 +22,7 @@ namespace lightman
 
         result += ShaderString::UniformTypeToShaderString(target) + " " + GetName() + 
                 " = " + m_Kr->GetName() + ";\n";
+
+        return target;
     }
 } // namespace lightman

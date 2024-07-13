@@ -2,7 +2,7 @@
 #define _LIGHTMAN_OPENGLHEADERS_H
 
 #if defined(WIN32)
-    
+    #define GL_GLEXT_PROTOTYPES 1
 #else
     #define GL_GLEXT_PROTOTYPES 1
 #endif

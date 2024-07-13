@@ -168,6 +168,7 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [speed tree](https://store.speedtree.com/)
 [elixxier, virtual photo studio](https://www.elixxier.com/en/products/setalight3d.php)
 [3lateral, digitization of human appearance and motion](https://www.3lateral.com/about-us.html)
+Note: SpeedTree(tree), PlantFactory(plants), DazStudio(Human&Clothes), VUE(LandScape)
 
 >>**Model Resources**
 [clara](https://clara.io/)
@@ -196,6 +197,9 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [renderman interface specification](https://en.wikipedia.org/wiki/RenderMan_Interface_Specification)
 [fractals, geometric shapes containing detailed structure at arbitrarily small scales](https://en.wikipedia.org/wiki/Fractal)
 [graftals, disappeared in houdini](https://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/npr/sld046.htm)
+[Reyes Theory](http://www.steckles.com/reyes2.html)
+[Reyes Resource](https://www.realtimerendering.com/blog/tag/reyes/)
+[Reyes JRMan](https://www.jrman.org/)
 
 Note_01:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing. It is required less memory and render fast than tracing, expecially for massvie scene with files, fogs, explosion....VFX.
 

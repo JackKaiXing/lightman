@@ -218,9 +218,9 @@ namespace lightman
         };
 
         #ifdef DEBUG
-        #   define CHECK_GL_ERROR()
+            #define CHECK_GL_ERROR()
         #else
-        #   define CHECK_GL_ERROR() { OpenGLUtils::AssertGLError(__PRETTY_FUNCTION__, __LINE__); }
+            #define CHECK_GL_ERROR() { OpenGLUtils::AssertGLError(__FUNCTION__, __LINE__); }
         #endif
         
         
