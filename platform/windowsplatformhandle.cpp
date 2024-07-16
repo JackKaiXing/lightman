@@ -1,166 +1,128 @@
 
+#include <windows.h>
+
 #include "platformhandle.h"
 
-#import <Cocoa/Cocoa.h>
-
-// ----------------------------------------------------------------------------
-// VIEW AND CONTEXT
-// ----------------------------------------------------------------------------
-
-using RenderCallback = std::function<void()>;
-using SetupCallback = std::function<void()>;
-using DestoryCallback = std::function<void()>;
-
-@interface AppView : NSOpenGLView
-{
-    NSTimer* animationTimer;
-    RenderCallback render;
-}
-@end
-
-@implementation AppView
-
--(void)prepareOpenGL
-{
-    [super prepareOpenGL];
-    //https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/EnablingOpenGLforHighResolution/EnablingOpenGLforHighResolution.html
-    [self setWantsBestResolutionOpenGLSurface:YES];
-}
-
--(void)updateView
-{
-    if (!animationTimer)
-        animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.017 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES];
-}
-
--(void)setRenderCallback:(RenderCallback)fb
-{
-    render = fb;
-}
-
-// https://developer.apple.com/documentation/appkit/nsopenglview/1414948-reshape
--(void)reshape                              { [super reshape]; [self updateView]; }
-// https://developer.apple.com/documentation/uikit/uiview/1622529-drawrect
--(void)drawRect:(NSRect)bounds              { [self updateView]; render(); }
--(void)animationTimerFired:(NSTimer*)timer  { [self setNeedsDisplay:YES]; }
--(void)dealloc                              { [super dealloc]; animationTimer = nil; }
-
-@end
-
-// ----------------------------------------------------------------------------
-// WINDOW
-// ----------------------------------------------------------------------------
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-@property (nonatomic, readonly) NSWindow* window;
-@property (nonatomic, readwrite) RenderCallback render;
-@property (nonatomic, readwrite) SetupCallback setup;
-@property (nonatomic, readwrite) DestoryCallback destory;
-@property (nonatomic, readwrite) NSSize windowSize;
-@end
-
-@implementation AppDelegate
-@synthesize window = _window;
-
--(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
-{
-    _destory();
-    return YES;
-}
-
--(NSWindow*)window
-{
-    if (_window != nil)
-        return (_window);
-
-    NSRect viewRect = NSMakeRect(100.0, 100.0, _windowSize.width, _windowSize.height);
-
-    _window = [[NSWindow alloc] initWithContentRect:viewRect styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskResizable|NSWindowStyleMaskClosable backing:NSBackingStoreBuffered defer:YES];
-    [_window setTitle:@"LightMan MacOs"];
-    [_window setAcceptsMouseMovedEvents:YES];
-    [_window setOpaque:YES];
-    [_window makeKeyAndOrderFront:NSApp];
-
-    return (_window);
-}
-
--(void)dealloc
-{
-    _window = nil;
-}
-
--(void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Make the application a foreground application (else it won't receive keyboard events)
-    ProcessSerialNumber psn = {0, kCurrentProcess};
-    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-    
-    AppView* view = [[AppView alloc] initWithFrame:self.window.frame];
-    [view setRenderCallback:_render];
-
-    #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-        if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_6)
-            [view setWantsBestResolutionOpenGLSurface:YES];
-    #endif // MAC_OS_X_VERSION_MAX_ALLOWED >= 1070
-
-    [self.window setContentView:view];
-    
-    _setup();
-}
-
--(void)setRenderCallback:(RenderCallback)fb
-{
-    _render = fb;
-}
-
--(void)setSetupCallback:(SetupCallback)fb
-{
-    _setup = fb;
-}
-
--(void)setDestoryCallback:(DestoryCallback)fb
-{
-    _destory = fb;
-}
-
--(void)setWidowSize:(NSSize)size
-{
-    _windowSize = size;
-}
-
-@end
-
-// ----------------------------------------------------------------------------
-// RETRY INTERFACE
-// ----------------------------------------------------------------------------
 namespace lightmangui
 {
-    AppDelegate* delegate = nullptr;
+    using Callback = std::function<void()>;
+
+    class WinSystemClass
+    {
+    public:
+        HINSTANCE m_hinstance;
+        HWND m_hwnd;
+
+        Callback _setup;
+        Callback _render;
+        Callback _destroy;
+    };
+    WinSystemClass* GDelegate = nullptr;
+
+    LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+    LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+    {
+        switch (message)
+        {
+        // Check if the window is being closed.
+        case WM_CLOSE:
+        {
+            PostQuitMessage(0);
+            return 0;
+        }
+
+        case WM_CREATE:
+        {
+           
+        }
+        break;
+        default:
+            return DefWindowProc(hWnd, message, wParam, lParam);
+        }
+
+        return 0;
+
+    }
+
     void* GetNativeWindow()
     {
-        return [delegate.window contentView];
+        return GDelegate->m_hwnd;
     }
+
     float GetBackScaleFactor()
     {
-        // https://developer.apple.com/documentation/appkit/nswindow/1419459-backingscalefactor
-        return [[delegate.window contentView] wantsBestResolutionOpenGLSurface]? [delegate.window backingScaleFactor] : 1.0;
+        return 1.0;
     }
-    int MainWindow(int argc, const char* argv[], 
+
+    int MainWindow(int argc, const char* argv[],
         std::function<void()> setup,
         std::function<void()> render,
         std::function<void()> destory,
         unsigned int w, unsigned int h)
     {
-        @autoreleasepool
+        GDelegate = new WinSystemClass();
+        GDelegate->m_hinstance = GetModuleHandle(NULL);
+        GDelegate->_setup = setup;
+        GDelegate->_render = render;
+        GDelegate->_destroy = destory;
+
+        MSG msg = { 0 };
+        WNDCLASS wc = { 0 };
+        wc.lpfnWndProc = WndProc;
+        wc.hInstance = GDelegate->m_hinstance;
+        wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
+        wc.lpszClassName = TEXT("LightMan");
+        wc.style = CS_OWNDC;
+        if (!RegisterClass(&wc))
+            return 1;
+
+        GDelegate->m_hwnd =
+            CreateWindowW(TEXT(L"LightMan")/*wc.lpszClassName*/, TEXT(L"openglversioncheck"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, w, h, 0, 0, wc.hInstance, 0);
+
+        PIXELFORMATDESCRIPTOR pfd =
         {
-            NSApp = [NSApplication sharedApplication];
-            delegate = [[AppDelegate alloc] init];
-            [delegate setRenderCallback:render];
-            [delegate setSetupCallback:setup];
-            [delegate setDestoryCallback:destory];
-            [delegate setWidowSize:NSMakeSize(w, h)];
-            [[NSApplication sharedApplication] setDelegate:delegate];
-            [NSApp run];
+            sizeof(PIXELFORMATDESCRIPTOR),
+            1,
+            PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    //Flags
+            PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
+            32,                   // Colordepth of the framebuffer.
+            0, 0, 0, 0, 0, 0,
+            0,
+            0,
+            0,
+            0, 0, 0, 0,
+            24,                   // Number of bits for the depthbuffer
+            8,                    // Number of bits for the stencilbuffer
+            0,                    // Number of Aux buffers in the framebuffer.
+            PFD_MAIN_PLANE,
+            0,
+            0, 0, 0
+        };
+
+        HDC ourWindowHandleToDeviceContext = GetDC(GDelegate->m_hwnd);
+
+        int letWindowsChooseThisPixelFormat;
+        letWindowsChooseThisPixelFormat = ChoosePixelFormat(ourWindowHandleToDeviceContext, &pfd);
+        SetPixelFormat(ourWindowHandleToDeviceContext, letWindowsChooseThisPixelFormat, &pfd);
+
+        HGLRC ourOpenGLRenderingContext = wglCreateContext(ourWindowHandleToDeviceContext);
+        wglMakeCurrent(ourWindowHandleToDeviceContext, ourOpenGLRenderingContext);
+
+        if (GDelegate->m_hwnd == nullptr)
+        {
+            return 1;
         }
-        return NSApplicationMain(argc, argv);
+
+        GDelegate->_setup();
+
+        while (GetMessage(&msg, NULL, 0, 0) > 0)
+        {
+            DispatchMessage(&msg);
+            GDelegate->_render();
+            SwapBuffers(ourWindowHandleToDeviceContext);
+        }
+
+        return 0;
     }
 }

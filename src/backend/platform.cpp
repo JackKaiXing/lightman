@@ -2,7 +2,13 @@
 #include <assert.h>
 
 #include "backend/platform.h"
-#include "backend/macos/cocoaopenglplatform.h"
+
+#if defined(WIN32)
+    #include "backend/windows/windowsopenglplatform.h"
+#elif defined(__APPLE__)
+    #include "backend/macos/cocoaopenglplatform.h"
+#endif
+
 
 namespace lightman
 {
@@ -18,7 +24,7 @@ namespace lightman
                 #endif
                 
                 #if defined(WIN32)
-                    return nullptr;
+                    return new WindowsOpenGLPlatform();
                 #elif defined(__APPLE__)
                     return new CocoaOpenGLPlatform();
                 #endif
