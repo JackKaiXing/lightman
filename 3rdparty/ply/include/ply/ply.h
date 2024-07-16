@@ -40,6 +40,7 @@ extern "C" {
 #include <stdio.h>
 #include <stddef.h>
 
+// Note: as tested, only ASCII file is supported
 #define PLY_ASCII      1        /* ascii PLY file */
 #define PLY_BINARY_BE  2        /* binary PLY file, big endian */
 #define PLY_BINARY_LE  3        /* binary PLY file, little endian */
