@@ -38,8 +38,6 @@ namespace lightman
 
         backend::Driver* WindowsOpenGLPlatform::CreateDriver() noexcept
         {
-
-
             PIXELFORMATDESCRIPTOR pfd =
             {
                 sizeof(PIXELFORMATDESCRIPTOR),
@@ -67,6 +65,9 @@ namespace lightman
             letWindowsChooseThisPixelFormat = ChoosePixelFormat(ourWindowHandleToDeviceContext, &pfd);
             SetPixelFormat(ourWindowHandleToDeviceContext, letWindowsChooseThisPixelFormat, &pfd);
 
+            // https://www.rastertek.com/gl40tut03.html
+            // https://www.khronos.org/opengl/wiki/Creating_an_OpenGL_Context_(WGL)
+            // https://learnopengl.com/Getting-started/Creating-a-window
             HGLRC ourOpenGLRenderingContext = wglCreateContext(ourWindowHandleToDeviceContext);
             wglMakeCurrent(ourWindowHandleToDeviceContext, ourOpenGLRenderingContext);
 

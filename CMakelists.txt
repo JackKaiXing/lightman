@@ -79,6 +79,7 @@ endif()
 # set(CMAKE_CXX_STANDARD 14)
 # magic_enum need to be C++17
 if (WIN32 AND IS_64_BIT)
+    # https://www.youtube.com/watch?v=zbOuzJkk4Fs
     enable_language(ASM_MASM)
     set_property(SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bluegl/src/BlueGLCoreWindowsImpl.S PROPERTY LANGUAGE ASM_MASM)
 else()
@@ -95,6 +96,7 @@ endif()
 
 # target
 # add_library(${PROJECT_NAME} ${Src})
+# https://stackoverflow.com/questions/33400777/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-int-cde
 add_executable(${PROJECT_NAME} WIN32
     ${SRC_TEST} 
     ${SRC_PLY}

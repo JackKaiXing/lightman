@@ -59,7 +59,8 @@ namespace lightmangui
         unsigned int w, unsigned int h)
     {
         WinSystemClass::GetWinSystemClass()->m_hinstance = GetModuleHandle(NULL);
-
+        
+        // https://learn.microsoft.com/en-us/windows/win32/learnwin32/creating-a-window
         MSG msg = { 0 };
         WNDCLASS wc = { 0 };
         wc.lpfnWndProc = WndProc;

@@ -829,6 +829,7 @@ void Destory()
 }
 
 #if defined(WIN32)
+    // https://learn.microsoft.com/en-us/windows/win32/learnwin32/winmain--the-application-entry-point 
     int WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
     {
         lightmangui::MainWindow(0, (const char**)nullptr, Setup, Render, Destory, myConfig.windowWidth, myConfig.windowheight);

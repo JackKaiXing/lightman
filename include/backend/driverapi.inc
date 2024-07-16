@@ -16,6 +16,8 @@
 
 // ----------------------------------------------------------------------------
 // https://stackoverflow.com/questions/5134523/msvc-doesnt-expand-va-args-correctly
+// https://learn.microsoft.com/en-us/cpp/preprocessor/preprocessor-experimental-overview?view=msvc-160
+// https://learn.microsoft.com/en-us/cpp/build/reference/zc-conformance?view=msvc-170
 #define EXPAND(x) x
 
 #define ARG(T, P) T P
