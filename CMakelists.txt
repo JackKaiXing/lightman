@@ -42,8 +42,9 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/materialnode SRC_MNODES)
 set(SRC_PLATFORM "")
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend SRC_PLATFORM)
 if(APPLE AND NOT IOS)
-    # add platform files
     aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/macos SRC_PLATFORM)
+elseif(WIN32 AND IS_64_BIT)
+    aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/backend/windows SRC_PLATFORM)
 endif()
 
 # Cross-Platform::OpenGL APIs
@@ -68,8 +69,9 @@ endif()
 
 # Cross-Platform::PlatformHandle
 if(APPLE AND NOT IOS)
-    # add platform files
     set(SRC_PLATFORMHANDLE ${CMAKE_CURRENT_SOURCE_DIR}/platform/cocoaplatformhandle.mm)
+elseif(WIN32 AND IS_64_BIT)
+    set(SRC_PLATFORMHANDLE ${CMAKE_CURRENT_SOURCE_DIR}/platform/windowsplatformhandle.cpp)
 endif()
 
 # flags
@@ -93,7 +95,7 @@ endif()
 
 # target
 # add_library(${PROJECT_NAME} ${Src})
-add_executable(${PROJECT_NAME}
+add_executable(${PROJECT_NAME} WIN32
     ${SRC_TEST} 
     ${SRC_PLY}
     ${SRC_STB}

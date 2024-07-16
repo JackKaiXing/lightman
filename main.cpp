@@ -1,4 +1,9 @@
 
+#if defined(WIN32)
+    #include <windows.h>
+#elif defined(__APPLE__)
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <assert.h>
@@ -762,8 +767,13 @@ void Setup()
 
     // Scene
     myConfig.myScene = new lightman::Scene();
+#if defined(WIN32)
+    myConfig.ParseLuxCoreScene("C:/dev/luxcorerender/LuxCoreTestScenes/scenes/LuxCore2.1Benchmark/LuxCoreScene/scene.scn");
+    // myConfig.ParseLuxCoreScene("C:/dev/luxcorerender/LuxCoreTestScenes/scenes/3-spheres/scene.scn");
+#elif defined(__APPLE__)
     myConfig.ParseLuxCoreScene("/Users/XK/Downloads/LuxCore2.1Benchmark/LuxCoreScene/scene-src.scn");
-
+#endif
+    
     // Camera
     myConfig.myCamera = new lightman::PerspectiveCamera();
     myConfig.myCamera->LookAt(myConfig.myeye, myConfig.mytarget, myConfig.myup);
@@ -818,8 +828,18 @@ void Destory()
     lightman::Engine::DestroyInstance();
 }
 
-int main(int argc, const char* argv[])
-{
-    lightmangui::MainWindow(argc, argv, Setup, Render, Destory, myConfig.windowWidth, myConfig.windowheight);
-    return 0;
-}
+#if defined(WIN32)
+    int WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
+    {
+        lightmangui::MainWindow(0, (const char**)nullptr, Setup, Render, Destory, myConfig.windowWidth, myConfig.windowheight);
+        return 0;
+    }
+#elif defined(__APPLE__)
+    int main(int argc, const char* argv[])
+    {
+        lightmangui::MainWindow(argc, argv, Setup, Render, Destory, myConfig.windowWidth, myConfig.windowheight);
+        return 0;
+    }
+#endif
+
+
