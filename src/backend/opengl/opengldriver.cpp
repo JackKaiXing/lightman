@@ -33,6 +33,7 @@ namespace lightman
                 std::vector<char> VertexShaderErrorMessage(InfoLogLength+1);
                 glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
                 printf("%s\n", &VertexShaderErrorMessage[0]);
+                assert(0);
             }
             
             // Compile Fragment Shader
@@ -47,6 +48,7 @@ namespace lightman
                 std::vector<char> FragmentShaderErrorMessage(InfoLogLength+1);
                 glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
                 printf("%s\n", &FragmentShaderErrorMessage[0]);
+                assert(0);
             }
             
             // Link the program
@@ -112,6 +114,8 @@ namespace lightman
             GLVertexBuffer* result = new GLVertexBuffer();
             std::copy(attributes.begin(), attributes.end(), result->attributes.begin());
             result->vertexCount = vertexCount;
+
+            CHECK_GL_ERROR();
             
             return result;
         }
@@ -296,6 +300,7 @@ namespace lightman
                     CHECK_GL_ERROR();
                 }
             }
+            CHECK_GL_ERROR();
             
             return result;
         }
@@ -409,6 +414,9 @@ namespace lightman
                     break;
                     
                 default:
+                    {
+                        assert(0);
+                    }
                     break;
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -425,6 +433,7 @@ namespace lightman
             
             result->gl.fbo = 0;
             
+            CHECK_GL_ERROR();
             return result;
         }
         backend::HwRenderTarget* OpenGLDriver::CreateRenderTarget(
@@ -474,6 +483,7 @@ namespace lightman
                 result->gl.stencil = static_cast<GLTexture*>(stencil.m_tex);
                 framebufferTexture(stencil, result, GL_STENCIL_ATTACHMENT);
             }
+            CHECK_GL_ERROR();
             
             return result;
         }
@@ -504,6 +514,7 @@ namespace lightman
                 glViewport(params.viewport.getLeft(),params.viewport.getBottom(),
                     params.viewport.getWidth(),params.viewport.getHeight());
             }
+            CHECK_GL_ERROR();
         }
 
         void OpenGLDriver::endRenderPass(int)
@@ -536,7 +547,10 @@ namespace lightman
                         GLint(xoffset), GLint(yoffset),
                         width, height, glformat, gltype, data);
                     break;
+                default:
+                    assert(0);
             }
+            CHECK_GL_ERROR();
         }
         void OpenGLDriver::BindSamplers(uint32_t index, const backend::HwTexture* th)
         {
@@ -548,6 +562,7 @@ namespace lightman
         backend::HwSamplerGroup* OpenGLDriver::CreateSamplerGroup(int dummy)
         {
             GLSamplerGroup* result = new GLSamplerGroup();
+            CHECK_GL_ERROR();
             return result;
         }
         bool OpenGLDriver::BindSamplerLocations(backend::HwProgram* program,
@@ -557,14 +572,20 @@ namespace lightman
             GLProgram* gl_program = static_cast<GLProgram*>(program);
             
             glUseProgram(gl_program->gl.program);
+            CHECK_GL_ERROR();
             for (size_t i = 0; i < samplerNames.size(); i++)
             {
                 std::string name = samplerNames.at(i);
                 GLint pos = glGetUniformLocation(gl_program->gl.program, name.c_str());
                 if (!(pos < 0))
+                {
                     glUniform1i(pos, (GLint)i);
+                }
                 else
-                    return false;
+                {
+                    CHECK_GL_ERROR();
+                    assert(0);
+                }
             }
             glUseProgram(0);
             CHECK_GL_ERROR();
@@ -597,6 +618,7 @@ namespace lightman
             {
                 GLVertexBuffer* glvb = static_cast<GLVertexBuffer*>(vb);
                 // hold only reference to glbufferobject, no gl stuff created
+                CHECK_GL_ERROR();
                 delete glvb;
             }
         }
@@ -616,6 +638,7 @@ namespace lightman
             {
                 // the GLTexture it referenced does not need to be delete. the called would be responsible to release
                 GLSamplerGroup* glsg = static_cast<GLSamplerGroup*>(sg);
+                CHECK_GL_ERROR();
                 delete glsg;
             }
         }
@@ -661,6 +684,7 @@ namespace lightman
                     CHECK_GL_ERROR();
                 }
                 delete glmrt;
+                CHECK_GL_ERROR();
             }
         }
         void OpenGLDriver::DestroySwapChain(backend::HwSwapChain* sc)
@@ -668,6 +692,7 @@ namespace lightman
             if (sc)
             {
                 m_platfrom->DestroySwapChain(sc->swapchain);
+                CHECK_GL_ERROR();
                 delete sc;
             }
         }
