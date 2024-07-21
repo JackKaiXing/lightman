@@ -104,7 +104,7 @@ namespace lightman
 
             case backend::UniformType::MAT3:
             case backend::UniformType::MAT4:
-                return 4;
+                return isTypeCompatible;
         }
 
         return isTypeCompatible;

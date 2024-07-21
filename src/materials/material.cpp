@@ -77,7 +77,7 @@ namespace lightman
         m_uniformsInfoList.resize(uDefines.size());
         uint16_t offset = 0;
         int count = uDefines.size();
-        for (size_t i = 0; i < count; i++)
+        for (uint32_t i = 0; i < count; i++)
         {
             // unit : sizeof(uint32_t)
             size_t alignment = Material::BaseAlignmentForType(uDefines[i].type);
@@ -212,6 +212,9 @@ namespace lightman
             case backend::UniformType::MAT3:
             case backend::UniformType::MAT4:
                 return 4;
+            default:
+                assert(0);
+                return 0;
         }
     }
     uint8_t Material::StrideForType(backend::UniformType type) noexcept
@@ -242,6 +245,9 @@ namespace lightman
                 return 12;
             case backend::UniformType::MAT4:
                 return 16;
+            default:
+                assert(0);
+                return 0;
         }
     }
 }

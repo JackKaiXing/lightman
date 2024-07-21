@@ -1,6 +1,8 @@
 #ifndef _LIGHTMAN_OPENGLUTILS_H
 #define _LIGHTMAN_OPENGLUTILS_H
 
+#include "assert.h"
+
 #include "backend/opengl/openglheaders.h"
 #include "backend/driverenum.h"
 
@@ -25,6 +27,8 @@ namespace lightman
                 case backend::BufferUsage::DYNAMIC:
                 case backend::BufferUsage::STREAM:
                     return GL_DYNAMIC_DRAW;
+                default:
+                    assert(0); return 0;
                 }
             }
 
@@ -36,6 +40,8 @@ namespace lightman
                         return GL_ARRAY_BUFFER;
                     case backend::BufferObjectBinding::UNIFORM:
                         return GL_UNIFORM_BUFFER;
+                    default:
+                        assert(0); return 0;
                 }
             }
 
@@ -68,6 +74,8 @@ namespace lightman
                     case ElementType::SHORT4:
                     case ElementType::USHORT4:
                         return 4;
+                    default:
+                        assert(0); return 0;
                 }
             }
 
@@ -103,6 +111,8 @@ namespace lightman
                     case ElementType::FLOAT3:
                     case ElementType::FLOAT4:
                         return GL_FLOAT;
+                    default:
+                        assert(0); return 0;
                 }
             }
 
@@ -186,6 +196,7 @@ namespace lightman
 
                     case TextureFormat::UNUSED:
                         return 0;
+                    default:                    assert(0); return 0;
                 }
             }
 
@@ -198,6 +209,7 @@ namespace lightman
                     case PixelDataFormat::RG:               return GL_RG;
                     case PixelDataFormat::RGB:              return GL_RGB;
                     case PixelDataFormat::RGBA:             return GL_RGBA;
+                    default:                                assert(0); return 0;
                 }
             }
 
@@ -213,6 +225,7 @@ namespace lightman
                     case PixelDataType::UINT:                 return GL_UNSIGNED_INT;
                     case PixelDataType::INT:                  return GL_INT;
                     case PixelDataType::FLOAT:                return GL_FLOAT;
+                    default:                                  assert(0); return 0;
                 }
             }
         };

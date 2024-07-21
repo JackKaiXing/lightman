@@ -69,7 +69,9 @@ void TriangleMesh::GenerateVertexNormals()
     std::vector<uint32_t> vCount(m_points.size()/3, 0);
     m_normals.clear();
     m_normals.resize(m_points.size());
-    std::fill(m_normals.begin(), m_normals.end(), 0.0);
+    // https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-levels-3-and-4-c4244?view=msvc-170
+    // must be 0.0f to fit m_normal defination, as is float
+    std::fill<>(m_normals.begin(), m_normals.end(), 0.0f);
 
     uint32_t v0, v1, v2;
     Vector3 p0, p1, p2;

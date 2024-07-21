@@ -22,6 +22,8 @@ namespace lightman
             break;
         
         default:
+            assert(0);
+            return 0;
             break;
         }
     }

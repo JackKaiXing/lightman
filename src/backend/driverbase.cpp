@@ -29,6 +29,7 @@ namespace lightman
                 case ElementType::FLOAT2:   return sizeof(float)*2;
                 case ElementType::FLOAT3:   return sizeof(float)*3;
                 case ElementType::FLOAT4:   return sizeof(float)*4;
+                default:                    assert(0); return 0;
             }
         }
     }
