@@ -75,6 +75,9 @@ namespace lightman
             int result = bluegl::bind();
             assert(!result);
 
+            // const GLubyte* renderer = glGetString(GL_RENDERER);
+            // const GLubyte* version = glGetString(GL_VERSION);
+
             return OpenGLDriver::create(this, nullptr);
         }
 
