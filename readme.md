@@ -4,18 +4,18 @@ code and notes for personal practice
 
 ## Resources
 
->>**OpenSourceProjects**
+### OpenSourceProjects
 https://www.opencascade.com/products/cad-rays/
 https://git.dev.opencascade.org/gitweb/
 
->>**GLFW/GL3W**
+### GLFW/GL3W
 https://www.glfw.org/download.html
 https://github.com/skaslev/gl3w/tree/master/src
 
->>**JSON**
+###  JSON
 [Json Header Only](https://github.com/nlohmann/json)
 
->>**GUI**
+### GUI
 https://github.com/juliettef/IconFontCppHeaders
 https://github.com/CedricGuillemet/ImGuizmo
 https://github.com/ocornut/imgui/wiki/Useful-Extensions
@@ -24,11 +24,11 @@ https://github.com/tashaxing/imgui_cmake_starter
 https://github.com/ocornut/imgui/issues/984
 https://github.com/morizotter/imgui-practice/blob/master/ImguiPractice/ImguiPractice/main.cpp
 
->>**MacOS**
+### MacOS
 https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaFundamentals/WhatIsCocoa/WhatIsCocoa.html
 https://en.wikipedia.org/wiki/Cocoa_(API)
 
->>**MacOS OPENGL**
+### MacOS OPENGL
 https://developer.apple.com/documentation/appkit/nsopenglcontext
 https://developer.apple.com/documentation/appkit/nsopenglcontext/1436212-makecurrentcontext
 https://developer.apple.com/documentation/appkit/nsopenglcpswapinterval
@@ -45,7 +45,7 @@ Macos_NTThread: https://blog.actorsfit.com/a?ID=01350-0c68a681-1abd-4d9d-adda-38
 [Memory Leaks](https://help.apple.com/instruments/mac/current/#/dev022f987b)
 
 
->>**Win OPENGL**
+### Win OPENGL
 https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
 https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-wglgetprocaddress
 https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress
@@ -60,11 +60,11 @@ FrameBuffers: https://learnopengl.com/Advanced-OpenGL/Framebuffers
 Deferred Shading: https://learnopengl.com/Advanced-Lighting/Deferred-Shading
 Uniform Block: https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL, https://learnopengl.com/code_viewer_gh.php?code=src/4.advanced_opengl/8.advanced_glsl_ubo/advanced_glsl_ubo.cpp
 
->>**Android OPENGL ES**
+### Android OPENGL ES
 External_Texture: https://source.android.google.cn/devices/graphics/arch-st?hl=zh-cn
 Fence: https://juejin.cn/post/6844903893965651981
 
->>**C++**
+### C++
 Memorry Fragment:https://stackoverflow.com/questions/3770457/what-is-memory-fragmentation
 Placement New:https://en.cppreference.com/w/cpp/language/new#Placement_new, https://stackoverflow.com/questions/1554774/create-new-c-object-at-specific-memory-address
 Right Value:https://juejin.cn/post/6844903497075294216
@@ -73,32 +73,32 @@ Mutable: https://en.cppreference.com/w/cpp/language/cv
 Enum: https://belaycpp.com/2021/08/24/best-ways-to-convert-an-enum-to-a-string/
 Magic_Enum: https://github.com/Neargye/magic_enum
 
->>**ASM**
+### ASM
 Introduction:http://c.biancheng.net/asm/
 
->>**3rdLib**
+### 3rdLib
 [TinyFileDialog](https://github.com/native-toolkit/tinyfiledialogs)
 [RPly](https://w3.impa.br/~diego/software/rply/)
 
->>**WebGL**
+### WebGL
 WebGL Spector: http://www.realtimerendering.com/blog/debugging-webgl-with-spectorjs/
 ThreeJS: https://threejs.org/examples/#webgl_geometry_teapot
 
->>**Matrixs**
+### Matrixs
 Online Calculator: https://www.symbolab.com/solver/matrix-calculator
 
->>**Graphics Debug Tool**
+### Graphics Debug Tool
 Tools: https://www.khronos.org/opengl/wiki/Debugging_Tools
 General Macos Graphics Tool: https://developer.apple.com/library/archive/technotes/tn2178/_index.html,
 https://www.reddit.com/r/opengl/comments/o7tj13/opengl_profiler_for_macos/
 Summary: https://apitrace.github.io/#download
 
->>**Anti-Aliasing**
+### Anti-Aliasing
 Summary: https://www.techspot.com/article/2219-how-to-3d-rendering-anti-aliasing/
 FXAA: https://developer.download.nvidia.cn/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf, https://en.wikipedia.org/wiki/Fast_approximate_anti-aliasing
 MSAA: https://learnopengl.com/Advanced-OpenGL/Anti-Aliasing, https://en.wikipedia.org/wiki/Multisample_anti-aliasing, (hardware supported)
 
->>**BRDF**
+### BRDF
 [Retro Reflection](https://www.roadvista.com/retroreflection/)
 [What is BRDF?](http://wiki.nuaj.net/index.php?title=BRDF)
 [Disney BRDF Explorer](https://github.com/wdas/brdf)
@@ -122,16 +122,16 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [Blender WorkBench BRDF](https://github.com/blender/blender/blob/master/source/blender/draw/engines/workbench/shaders/workbench_world_light_lib.glsl)
 
 
->>**GLSL**
+### GLSL
 [GLSL INCLUDE](https://github.com/knightcrawler25/GLSL-PathTracer/blob/master/src/core/ShaderIncludes.h)
 [GLSL UNIFORM Block](https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL)
 [GLSL Fast Approximation Math](https://github.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h)
 [GLSL Reinterprecast](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/floatBitsToInt.xhtml)
 
->>**Virtual Stage**
+### Virtual Stage
 [enscape visualize as you design](https://enscape3d.com/)
 
->>**Virtual Stage/Concert/Character**
+### Virtual Stage/Concert/Character
 [virtual production1](https://www.premiumbeat.com/blog/virtual-production-for-filmmakers/)
 [stage craft](https://www.ilm.com/stagecraft/)
 [arri](https://www.arri.com/cn?eid=registration&file_uid=12886)
@@ -148,7 +148,7 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [example unreal engine, simulate a singer](https://www.youtube.com/watch?v=-4ZXuaHRx30)
 [example virtual concert](https://www.youtube.com/watch?v=sjgs95eevgE)
 
->>**Modelling Software**
+### Modelling Software
 [a list](https://en.wikipedia.org/wiki/List_of_3D_modeling_software)
 [List of 3D computer graphics software](https://en.wikipedia.org/wiki/List_of_3D_computer_graphics_software)
 [VFX software list1](https://filmora.wondershare.com/video-editing-tips/best-special-effects-software.html)
@@ -170,19 +170,19 @@ How to capture BRDF? [A Data-Driven Reflectance Model](http://www.csbio.unc.edu/
 [3lateral, digitization of human appearance and motion](https://www.3lateral.com/about-us.html)
 Note: SpeedTree(tree), PlantFactory(plants), DazStudio(Human&Clothes), VUE(LandScape)
 
->>**Model Resources**
+### Model Resources
 [clara](https://clara.io/)
 
->>**Advertising**
+### Advertising
 [adobe dimension, product package visualization fast](https://www.youtube.com/watch?v=bM-3PydkMBg)
 
->>**Render/Simulation software**
+### Render/Simulation software
 [lightwave](https://www.lightwave3d.com/products/)
 [massive for crowds, simulation more](https://www.massivesoftware.com/massiveprime.html)
 [dial, lighting simulation](https://www.dialux.com/en-GB/about-dial)
 [lighting manufactures](https://www.lightingdirect.com/lighting-manufacturers/c3)
 
->>**Reyes**
+### Reyes
 [JRMAN, a reyes example source code](http://www.jrman.org/)
 [aqsis, blog](http://www.aqsis.org/2015/08/15/Point_Based_Global_Illumination.html)
 [renderman](https://renderman.pixar.com/)
@@ -204,7 +204,7 @@ Note: SpeedTree(tree), PlantFactory(plants), DazStudio(Human&Clothes), VUE(LandS
 Note_01:Reyes, individual developer has given up for years as github implies and no new coming siggraph papers any more rencently, but houdini is using it. So it is a valuable sowrd that only few company are playing. It is required less memory and render fast than tracing, expecially for massvie scene with files, fogs, explosion....VFX.
 
 
->>**Animation Software**
+### Animation Software
 The Past and Future of Animation Software: Fast(Rendering/Modeling), Complex(Model/Physical Simulaton/Physical materials/), High-Quality, Diversity(Procedural/fractals/particle system/graftals).
 [houdini](https://www.sidefx.com/)
 Note_01:Complexity of models and abundance of textures are more impoartant than ray tracing effect, since non-local lighting could be approximated with texture maps. “Raytrace rendering in Mantra(Houdini) is used for calculating reflections and refratctions.”
