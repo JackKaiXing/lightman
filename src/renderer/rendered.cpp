@@ -44,7 +44,7 @@ namespace lightman
                 uv = position.xy / 2.0 + 0.5; \n \
             }";
         std::string fragmentShaderString = "#version 330 core \n";
-        std::string fxaaShader = FileOperator::GetFileAsString("/Users/XK/Desktop/Projects/lightman/shaders.h/fxaa.fs");
+        std::string fxaaShader = FileOperator::GetFileAsString("./../shaders.h/fxaa.fs");
         fragmentShaderString += fxaaShader;
         fragmentShaderString += "uniform sampler2D geometryTex; \n \
         out vec4 color; \n \
