@@ -1,6 +1,6 @@
 # LightMan
 
-code and notes for personal practice 
+code and notes for personal practice of cross-platform using opengl
 
 ## Resources
 
