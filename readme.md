@@ -1,6 +1,6 @@
 # LightMan
 
-To name it LightMan, to be as a service.
+code and notes for personal practice 
 
 ## Resources
 
